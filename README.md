@@ -1,2 +1,2 @@
-# Przychodnia
-Przychodnia lekarska - projekt.
+# Clinic
+Medical clinic - university project.
