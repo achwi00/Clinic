@@ -1,15 +1,15 @@
 package com.project.clinic;
 
+import java.time.LocalDate;
+
 public class Prescription
 {
     private int prescriptionId;
-    private int accessCode; //or String? or int[] of length 4
-    private String phoneNr;
+    private String accessCode;
     private String description;
     private int refund;
-    //issueDate --DateTime? class sth like that
-    //expiryDate
-
+    private LocalDate issueDate;
+    private LocalDate expiryDate;
     public int getPrescriptionId()
     {
         return prescriptionId;
@@ -20,24 +20,14 @@ public class Prescription
         this.prescriptionId = prescriptionId;
     }
 
-    public int getAccessCode()
+    public String getAccessCode()
     {
         return accessCode;
     }
 
-    public void setAccessCode(int accessCode)
+    public void setAccessCode(String accessCode)
     {
         this.accessCode = accessCode;
-    }
-
-    public String getPhoneNr()
-    {
-        return phoneNr;
-    }
-
-    public void setPhoneNr(String phoneNr)
-    {
-        this.phoneNr = phoneNr;
     }
 
     public String getDescription()
@@ -58,5 +48,30 @@ public class Prescription
     public void setRefund(int refund)
     {
         this.refund = refund;
+    }
+
+    public LocalDate getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(LocalDate issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public Prescription(int prescriptionId, String accessCode, String description, int refund, LocalDate issueDate, LocalDate expiryDate) {
+        this.prescriptionId = prescriptionId;
+        this.accessCode = accessCode;
+        this.description = description;
+        this.refund = refund;
+        this.issueDate = issueDate;
+        this.expiryDate = expiryDate;
     }
 }
