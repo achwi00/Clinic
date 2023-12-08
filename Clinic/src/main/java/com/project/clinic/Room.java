@@ -3,7 +3,7 @@ package com.project.clinic;
 public class Room
 {
     private int roomId;
-    private int clinicId;//czy napewno clinicId??
+    private Clinic clinic;
     private String type;
     private enum status
     {
@@ -20,14 +20,12 @@ public class Room
         this.roomId = roomId;
     }
 
-    public int getClinicId()
-    {
-        return clinicId;
+    public Clinic getClinic() {
+        return clinic;
     }
 
-    public void setClinicId(int clinicId)
-    {
-        this.clinicId = clinicId;
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
     public String getType()

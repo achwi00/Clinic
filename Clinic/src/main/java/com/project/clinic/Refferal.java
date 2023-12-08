@@ -3,8 +3,9 @@ package com.project.clinic;
 public class Refferal
 {
     private int reffId;
-    private int patientId;
-    private int doctorId;
+    private Patient patient;
+    private String doctorName;
+    private String doctorSurname;
     private String description;
     private String type;
 
@@ -16,26 +17,6 @@ public class Refferal
     public void setReffId(int reffId)
     {
         this.reffId = reffId;
-    }
-
-    public int getPatientId()
-    {
-        return patientId;
-    }
-
-    public void setPatientId(int patientId)
-    {
-        this.patientId = patientId;
-    }
-
-    public int getDoctorId()
-    {
-        return doctorId;
-    }
-
-    public void setDoctorId(int doctorId)
-    {
-        this.doctorId = doctorId;
     }
 
     public String getDescription()
@@ -55,6 +36,39 @@ public class Refferal
 
     public void setType(String type)
     {
+        this.type = type;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDoctorSurname() {
+        return doctorSurname;
+    }
+
+    public void setDoctorSurname(String doctorSurname) {
+        this.doctorSurname = doctorSurname;
+    }
+
+    public Refferal(int reffId, Patient patient, String doctorName, String doctorSurname, String description, String type) {
+        this.reffId = reffId;
+        this.patient = patient;
+        this.doctorName = doctorName;
+        this.doctorSurname = doctorSurname;
+        this.description = description;
         this.type = type;
     }
 }

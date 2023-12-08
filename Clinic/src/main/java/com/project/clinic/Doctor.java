@@ -1,5 +1,7 @@
 package com.project.clinic;
 
+import java.time.LocalDate;
+
 public class Doctor extends User
 {
     private String specialisation;
@@ -29,5 +31,13 @@ public class Doctor extends User
         super(id, password, name, surname);
         this.specialisation = specialisation;
         this.PWZnr = PWZnr;
+    }
+    public Refferal writeRefferal(int reffId, Patient patient, String description, String type){
+        Refferal refferal = new Refferal(reffId, patient, getName(), getSurname(), description,type);
+        return refferal;
+    }
+    public Prescription writePrescription(int prescriptionId, String accessCode, String description, int refund, LocalDate issueDate, LocalDate expiryDate){
+        Prescription prescription = new Prescription(prescriptionId, accessCode, description, refund, issueDate, expiryDate);
+        return prescription;
     }
 }
