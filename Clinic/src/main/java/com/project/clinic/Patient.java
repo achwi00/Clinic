@@ -5,9 +5,21 @@ public class Patient extends User
     private String pesel;
     private String phoneNr;
     private String address;
-    private enum sex{
+    private enum Sex{
         MALE, FEMALE
     };
+    private Sex sex;
+    public void setSex(String s)
+    {
+        if(s.equalsIgnoreCase("MALE"))
+        {
+            this.sex = Sex.MALE;
+        }
+        else if(s.equalsIgnoreCase("FEMALE"))
+        {
+            this.sex = Sex.FEMALE;
+        }
+    }
 
     //refferalHistory list
     //prescriptionHistory list

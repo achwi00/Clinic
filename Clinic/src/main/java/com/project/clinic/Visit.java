@@ -11,10 +11,38 @@ public class Visit
     private Doctor doctor;
     private Patient patient;
     private String visitDescription;
-    private enum status{
-        cancelled, pending, completed, inprogress;
-    }
     //roomId??
     //prescriptionId??
     //clinicId??
+    private enum Status{
+        CANCELLED, PENDING, COMPLETED, INPROGRESS;
+    }
+    private Status status;
+
+    public Status getStatus()
+    {
+        return status;
+    }
+    public void setStatus(String s)
+    {
+        if(s.equalsIgnoreCase("CANCELLED"))
+        {
+            this.status = Status.CANCELLED;
+        }
+        else if(s.equalsIgnoreCase("PENDING"))
+        {
+            this.status = Status.PENDING;
+        }
+        else if(s.equalsIgnoreCase("COMPLETED"))
+        {
+            this.status = Status.COMPLETED;
+        }
+        else if(s.equalsIgnoreCase("INPROGRESS"))
+        {
+            this.status = Status.INPROGRESS;
+        }
+
+    }
+
+
 }
