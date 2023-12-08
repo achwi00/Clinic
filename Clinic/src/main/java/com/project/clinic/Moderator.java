@@ -23,7 +23,7 @@ public class Moderator extends User
     public void deleteDoctor(Doctor doctor){
         clinic.fireDoctor(doctor);
     }
-    public void resetUserPassword(Patient patient,String password){
-        patient.setPassword(password);
+    public void resetUDoctorPassword(Doctor doctor,String password){
+        doctor.setPassword(password);
     } //nie wiem czy wystarczy w taki sposób?
 }
