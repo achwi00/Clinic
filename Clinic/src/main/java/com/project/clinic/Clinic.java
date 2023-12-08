@@ -1,13 +1,15 @@
 package com.project.clinic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Clinic
 {
     private int clinicId;
     private String departmentName;
     private String location;
-    //listOfDoctors
-    //listOfRooms
-
+    private ArrayList<Doctor> listOfDoctors = new ArrayList<>();
+    private List<Room> listOfRooms = new ArrayList<>();
     public int getClinicId()
     {
         return clinicId;
@@ -36,5 +38,24 @@ public class Clinic
     public void setLocation(String location)
     {
         this.location = location;
+    }
+
+    public Clinic(int clinicId, String departmentName, String location) {
+        this.clinicId = clinicId;
+        this.departmentName = departmentName;
+        this.location = location;
+    }
+    public void hireDoctor(Doctor doctor){
+        listOfDoctors.add(doctor);
+    }
+    public void fireDoctor(Doctor doctor)
+    {
+        listOfDoctors.remove(doctor);
+    }
+    public void addRoom(Room room){
+        listOfRooms.add(room);
+    }
+    public void deleteRoom(Room room){
+        listOfRooms.remove(room);
     }
 }

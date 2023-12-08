@@ -3,7 +3,7 @@ package com.project.clinic;
 public class Room
 {
     private int roomId;
-    private int clinicId;
+    private int clinicId;//czy napewno clinicId??
     private String type;
     private enum status
     {
@@ -39,4 +39,5 @@ public class Room
     {
         this.type = type;
     }
+
 }

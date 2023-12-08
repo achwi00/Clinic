@@ -1,6 +1,6 @@
 package com.project.clinic;
 
-public class Doctor
+public class Doctor extends User
 {
     private String specialisation;
     private String PWZnr;
@@ -22,6 +22,12 @@ public class Doctor
 
     public void setPWZnr(String PWZnr)
     {
+        this.PWZnr = PWZnr;
+    }
+
+    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr) {
+        super(id, password, name, surname);
+        this.specialisation = specialisation;
         this.PWZnr = PWZnr;
     }
 }

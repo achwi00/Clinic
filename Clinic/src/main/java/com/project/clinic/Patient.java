@@ -1,11 +1,10 @@
 package com.project.clinic;
 
-public class Patient
+public class Patient extends User
 {
     private String pesel;
     private String phoneNr;
     private String email;
-    private String passportNr;
     private String address;
     private enum sex{
         MALE, FEMALE
@@ -45,16 +44,6 @@ public class Patient
         this.email = email;
     }
 
-    public String getPassportNr()
-    {
-        return passportNr;
-    }
-
-    public void setPassportNr(String passportNr)
-    {
-        this.passportNr = passportNr;
-    }
-
     public String getAddress()
     {
         return address;
@@ -65,4 +54,18 @@ public class Patient
         this.address = address;
     }
 
+    public Patient(int id, String password, String name, String surname, String pesel, String phoneNr, String email, String address) {
+        super(id, password, name, surname);
+        this.pesel = pesel;
+        this.phoneNr = phoneNr;
+        this.email = email;
+        this.address = address;
+    }
+
+    public Patient(int id, String password, String name, String surname, String pesel, String email, String address) {
+        super(id, password, name, surname);
+        this.pesel = pesel;
+        this.email = email;
+        this.address = address;
+    }
 }
