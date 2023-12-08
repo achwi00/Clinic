@@ -13,8 +13,8 @@ public class Moderator extends User
         this.clinic = clinic;
     }
 
-    public Moderator(int id, String password, String name, String surname, Clinic clinic) {
-        super(id, password, name, surname);
+    public Moderator(int id, String password, String name, String surname, Clinic clinic,String email) {
+        super(id, password, name, surname, email);
         this.clinic = clinic;
     }
     public void addDoctor(Doctor doctor){
@@ -25,5 +25,5 @@ public class Moderator extends User
     }
     public void resetUDoctorPassword(Doctor doctor,String password){
         doctor.setPassword(password);
-    } //nie wiem czy wystarczy w taki sposób?
+    }
 }

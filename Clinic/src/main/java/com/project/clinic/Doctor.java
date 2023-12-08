@@ -25,8 +25,8 @@ public class Doctor extends User
         this.PWZnr = PWZnr;
     }
 
-    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr) {
-        super(id, password, name, surname);
+    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr,String email) {
+        super(id, password, name, surname,email);
         this.specialisation = specialisation;
         this.PWZnr = PWZnr;
     }

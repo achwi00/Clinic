@@ -7,9 +7,19 @@ public class Prescription
     private int prescriptionId;
     private String accessCode;
     private String description;
+    private String pesel;
     private int refund;
     private LocalDate issueDate;
     private LocalDate expiryDate;
+    public String getPesel()
+    {
+        return pesel;
+    }
+
+    public void setPesel(String pesel)
+    {
+        this.pesel = pesel;
+    }
     public int getPrescriptionId()
     {
         return prescriptionId;
@@ -66,12 +76,13 @@ public class Prescription
         this.expiryDate = expiryDate;
     }
 
-    public Prescription(int prescriptionId, String accessCode, String description, int refund, LocalDate issueDate, LocalDate expiryDate) {
+    public Prescription(int prescriptionId, String accessCode, String description, int refund, LocalDate issueDate, LocalDate expiryDate, String pesel) {
         this.prescriptionId = prescriptionId;
         this.accessCode = accessCode;
         this.description = description;
         this.refund = refund;
         this.issueDate = issueDate;
         this.expiryDate = expiryDate;
+        this.pesel = pesel;
     }
 }

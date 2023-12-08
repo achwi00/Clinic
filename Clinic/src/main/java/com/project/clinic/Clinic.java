@@ -54,7 +54,8 @@ public class Clinic
     }
     public void addRoom(Room room){
         listOfRooms.add(room);
-    }
+    }//czy nie powinnysmy gdzies wywolywac konstruktora
+    //w sensie zeby podac parametry tego gabinetu: tylko gdzie. Docelowo takie rzeczy powinien robic admin/moderator?
     public void deleteRoom(Room room){
         listOfRooms.remove(room);
     }
