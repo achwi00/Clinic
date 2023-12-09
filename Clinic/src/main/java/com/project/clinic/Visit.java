@@ -14,6 +14,7 @@ public class Visit
     private enum status{
         cancelled, pending, completed, inprogress;
     }
+
     private Room room;
 
     public int getVisitId() {
@@ -79,3 +80,5 @@ public class Visit
         doctor.writeRefferal(reffId, getPatient(), description, type);
     }
 }
+
+=======
