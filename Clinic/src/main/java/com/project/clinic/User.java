@@ -1,22 +1,17 @@
 package com.project.clinic;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-@Entity
+
 public abstract class User
 {
-    @Id
+
     private int id;
 
-    @Column
     private String password;
 
-    @Column
     private String name;
 
-    @Column
     private String surname;
 
     public User(int id, String password, String name, String surname)

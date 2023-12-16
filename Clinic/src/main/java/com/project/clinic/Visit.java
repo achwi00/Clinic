@@ -80,5 +80,3 @@ public class Visit
         doctor.writeRefferal(reffId, getPatient(), description, type);
     }
 }
-
-=======
