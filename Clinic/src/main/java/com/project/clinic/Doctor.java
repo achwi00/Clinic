@@ -1,10 +1,20 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
 public class Doctor extends User
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int doctorId;
+
+    @Column
     private String specialisation;
+
+    @Column
     private String PWZnr;
 
     public String getSpecialisation()
@@ -39,5 +49,6 @@ public class Doctor extends User
     public Prescription writePrescription(int prescriptionId, String accessCode, String description, int refund, LocalDate issueDate, LocalDate expiryDate){
         Prescription prescription = new Prescription(prescriptionId, accessCode, description, refund, issueDate, expiryDate);
         return prescription;
+
     }
 }
