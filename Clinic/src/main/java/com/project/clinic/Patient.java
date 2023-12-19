@@ -62,9 +62,10 @@ public class Patient extends User
         this.address = address;
     }
 
-    public Patient(int id, String password, String name, String surname, String pesel, String email, String address) {
+    public Patient(int id, String password, String name, String surname, String pesel, String email, String address, String sex) {
         super(id, password, name, surname,email);
         this.pesel = pesel;
         this.address = address;
+        setSex(sex);
     }
 }
