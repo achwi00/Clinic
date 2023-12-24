@@ -2,6 +2,8 @@ package com.project.clinic;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Random;
+import java.util.UUID;
 
 public class Visit
 {
@@ -15,9 +17,11 @@ public class Visit
     //prescriptionId??
     //clinicId??
 
-    public Visit(int visitId, LocalDate date, LocalTime time, Doctor doctor, Patient patient)
+    public Visit( LocalDate date, LocalTime time, Doctor doctor, Patient patient)
     {
-        this.visitId = visitId;
+        //we need to solve the ID issue: we should have the latest ID pulled out from the database
+        //and then add the latestId+1 as a new Visit's id.
+        this.visitId = new Random().nextInt(100) + 1;
         this.date = date;
         this.time = time;
         this.doctor = doctor;

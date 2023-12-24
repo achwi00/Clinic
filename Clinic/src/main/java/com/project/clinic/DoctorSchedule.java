@@ -20,10 +20,10 @@ public class DoctorSchedule
         visits = new ArrayList<Visit>();
     }
 
-    public void addVisit(LocalTime time, int visitId)
+    public void addVisit(LocalTime time)
     {
         //right now patient is null because the status of the visit is FREE
-        Visit visit = new Visit(visitId, getDate(), time, getDoctor(), null );
+        Visit visit = new Visit(getDate(), time, getDoctor(), null );
         visits.add(visit);
     }
     public ArrayList<Visit> searchForVisit(LocalDate date)
@@ -38,6 +38,29 @@ public class DoctorSchedule
 //            System.out.println(v.toString());
 //        }
         return availableVisits;//return the list of available visits
+    }
+    public void fillWithVisits(LocalTime start, LocalTime stop, int minutes)
+    {
+        //start from the start time, add a new visit to the list (visits) every x minutes
+        while(!start.equals(stop))
+        {
+            addVisit(start);
+            start = start.plusMinutes(minutes*2);
+        }
+    }
+    public void followRecurringSchedule()
+    {
+
+        RecurringSchedule sch = this.doctor.searchForSchedule(date.getDayOfWeek());
+        // System.out.println(sch);
+        //System.out.println(sch.getDayOfWeek());
+        if(sch == null)
+        {
+            System.out.println("impossible");
+        }
+        else{
+            fillWithVisits(sch.getShiftStart(),sch.getShiftEnd(), sch.getVisitTimeMinutes());
+        }
     }
 
     public Doctor getDoctor()
