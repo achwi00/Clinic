@@ -6,7 +6,8 @@ public class Admin extends User
     }
 
     public void addClinic(int clinicId, String departmentName, String location) {
-       Clinic clinic = new Clinic(clinicId,departmentName,location);
+       //Clinic clinic = new Clinic(clinicId,departmentName,location);
+        Clinic clinic = new Clinic(departmentName,location);
     }
     public void deleteClinic(){
 
