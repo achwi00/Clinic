@@ -1,27 +1,36 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Random;
-import java.util.UUID;
 
+//@Entity
 public class Visit
 {
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int visitId;
     private LocalDate date;
     private LocalTime time;
+    //@ManyToOne
+    //@JoinColumn(name = "patientId")
     private Doctor doctor;
+    //@ManyToOne
+    //@JoinColumn(name = "patientId")
     private Patient patient;
     private String visitDescription;
     //roomId??
     //prescriptionId??
     //clinicId??
 
-    public Visit( LocalDate date, LocalTime time, Doctor doctor, Patient patient)
+    public Visit(){};
+    public Visit(LocalDate date, LocalTime time, Doctor doctor, Patient patient)
     {
         //we need to solve the ID issue: we should have the latest ID pulled out from the database
         //and then add the latestId+1 as a new Visit's id.
-        this.visitId = new Random().nextInt(100) + 1;
+        //this.visitId = new Random().nextInt(100) + 1;
         this.date = date;
         this.time = time;
         this.doctor = doctor;
@@ -32,6 +41,9 @@ public class Visit
     private enum Status{
         CANCELLED, PENDING, COMPLETED, INPROGRESS, FREE, BOOKED;
     }
+
+    //@Column(name = "status")
+    //@Enumerated(EnumType.STRING)
     private Status status;
     public void setStatus(String s)
     {

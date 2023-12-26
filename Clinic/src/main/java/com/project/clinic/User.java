@@ -17,9 +17,9 @@ public abstract class User
     private String email;
     public User(){};
 
-    public User(int id, String password, String name, String surname,String email)
+    public User(String password, String name, String surname,String email)
     {
-        this.id = id;
+        //this.id = id;
         this.password = password;
         this.name = name;
         this.surname = surname;

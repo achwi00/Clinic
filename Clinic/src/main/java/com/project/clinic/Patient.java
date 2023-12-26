@@ -60,16 +60,23 @@ public class Patient extends User
         this.address = address;
     }
     public Patient(){};
-    public Patient(int id, String password, String name, String surname, String pesel, String phoneNr, String email, String address) {
-        super(id, password, name, surname,email);
+//    public Patient(int id, String password, String name, String surname, String pesel, String phoneNr, String email, String address) {
+//        super(id, password, name, surname,email);
+//        this.pesel = pesel;
+//        this.phoneNr = phoneNr;
+//        this.address = address;
+//    }
+//
+//    public Patient(int id, String password, String name, String surname, String pesel, String email, String address) {
+//        super(id, password, name, surname,email);
+//        this.pesel = pesel;
+//        this.address = address;
+//    }
+    public Patient(String password, String name, String surname, String pesel, String email, String address, String phoneNr, String sex) {
+        super(password, name, surname,email);
         this.pesel = pesel;
+        this.address = address;
         this.phoneNr = phoneNr;
-        this.address = address;
-    }
-
-    public Patient(int id, String password, String name, String surname, String pesel, String email, String address) {
-        super(id, password, name, surname,email);
-        this.pesel = pesel;
-        this.address = address;
+        setSex(sex);
     }
 }

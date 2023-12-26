@@ -15,12 +15,18 @@ public class Doctor extends User
     @Transient
     private ArrayList<RecurringSchedule> schedules;
     public Doctor(){};
-    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr,String email) {
-        super(id, password, name, surname,email);
-        this.specialisation = specialisation;
-        this.PWZnr = PWZnr;
-        schedules = new ArrayList<>(7);
-    }
+//    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr,String email) {
+//        super(id, password, name, surname,email);
+//        this.specialisation = specialisation;
+//        this.PWZnr = PWZnr;
+//        schedules = new ArrayList<>(7);
+//    }
+public Doctor(String password, String name, String surname, String specialisation, String PWZnr,String email) {
+    super(password, name, surname,email);
+    this.specialisation = specialisation;
+    this.PWZnr = PWZnr;
+    schedules = new ArrayList<>(7);
+}
     public void addSchedule(DayOfWeek day, LocalTime start, LocalTime stop, int visitLength)
     {
         RecurringSchedule recurringSchedule = new RecurringSchedule(day, start, stop, visitLength);
