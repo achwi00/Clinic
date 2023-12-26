@@ -1,15 +1,20 @@
 package com.project.clinic;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+@Entity
 public class Doctor extends User
 {
     private String specialisation;
     private String PWZnr;
+    @Transient
     private ArrayList<RecurringSchedule> schedules;
-
+    public Doctor(){};
     public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr,String email) {
         super(id, password, name, surname,email);
         this.specialisation = specialisation;

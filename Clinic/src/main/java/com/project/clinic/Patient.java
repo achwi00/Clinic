@@ -1,5 +1,8 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Patient extends User
 {
     private String pesel;
@@ -8,6 +11,8 @@ public class Patient extends User
     private enum Sex{
         MALE, FEMALE
     };
+    @Column(name = "sex")
+    @Enumerated(EnumType.STRING)
     private Sex sex;
     public void setSex(String s)
     {
@@ -54,7 +59,7 @@ public class Patient extends User
     {
         this.address = address;
     }
-
+    public Patient(){};
     public Patient(int id, String password, String name, String surname, String pesel, String phoneNr, String email, String address) {
         super(id, password, name, surname,email);
         this.pesel = pesel;

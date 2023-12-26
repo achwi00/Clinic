@@ -10,11 +10,8 @@ public class Clinic
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "clinic_id")
     private int clinicId;
-    @Column(name="department_name")
     private String departmentName;
-    @Column(name="location")
     private String location;
     @Transient
     private ArrayList<Doctor> listOfDoctors = new ArrayList<>();
