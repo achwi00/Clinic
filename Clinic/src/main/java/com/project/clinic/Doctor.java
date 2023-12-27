@@ -29,7 +29,7 @@ public Doctor(String password, String name, String surname, String specialisatio
 }
     public void addSchedule(DayOfWeek day, LocalTime start, LocalTime stop, int visitLength)
     {
-        RecurringSchedule recurringSchedule = new RecurringSchedule(day, start, stop, visitLength);
+        RecurringSchedule recurringSchedule = new RecurringSchedule(day, start, stop, visitLength, this);
         boolean scheduleExists = false;
         for(RecurringSchedule schedule : schedules)
         {

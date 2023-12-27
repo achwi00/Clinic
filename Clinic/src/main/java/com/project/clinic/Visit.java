@@ -4,46 +4,33 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Random;
 
-//@Entity
+@Entity
 public class Visit
 {
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int visitId;
     private LocalDate date;
     private LocalTime time;
-    //@ManyToOne
-    //@JoinColumn(name = "patientId")
+    @ManyToOne
+    @JoinColumn(name = "doctorId", referencedColumnName = "id")
     private Doctor doctor;
-    //@ManyToOne
-    //@JoinColumn(name = "patientId")
+
+    @ManyToOne
+    @JoinColumn(name = "patientId", referencedColumnName = "id")
     private Patient patient;
     private String visitDescription;
     //roomId??
     //prescriptionId??
     //clinicId??
 
-    public Visit(){};
-    public Visit(LocalDate date, LocalTime time, Doctor doctor, Patient patient)
-    {
-        //we need to solve the ID issue: we should have the latest ID pulled out from the database
-        //and then add the latestId+1 as a new Visit's id.
-        //this.visitId = new Random().nextInt(100) + 1;
-        this.date = date;
-        this.time = time;
-        this.doctor = doctor;
-        this.patient = patient;
-        this.status = Status.FREE;
-    }
-
     private enum Status{
         CANCELLED, PENDING, COMPLETED, INPROGRESS, FREE, BOOKED;
     }
 
-    //@Column(name = "status")
-    //@Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
     public void setStatus(String s)
     {
@@ -116,6 +103,16 @@ public class Visit
                 ", status=" + getStatus() +
                 '}';
     }
+    public Visit(){};
+    public Visit(LocalDate date, LocalTime time, Doctor doctor, Patient patient)
+    {
+        this.date = date;
+        this.time = time;
+        this.doctor = doctor;
+        this.patient = patient;
+        this.status = Status.FREE;
+    }
+
 
     public int getVisitId()
     {

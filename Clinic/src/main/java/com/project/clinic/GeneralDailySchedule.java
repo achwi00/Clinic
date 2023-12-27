@@ -1,11 +1,22 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@Entity
 public class GeneralDailySchedule {
-    LocalDate date ;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int generalDailyScheduleId;
+
+    private LocalDate date;
+
+    @Transient
     ArrayList<DoctorSchedule> generalDailySchedule;
+
+    public GeneralDailySchedule(){};
     public GeneralDailySchedule(LocalDate date)
     {
         this.date = date;

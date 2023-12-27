@@ -1,16 +1,30 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+import jakarta.persistence.Transient;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-
+@Entity
 public class DoctorSchedule
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int doctorScheduleId;
+    @ManyToOne
+    @JoinColumn(name = "doctorId", referencedColumnName = "id")
     private Doctor doctor;
+
     private LocalDate date;
-    GeneralDailySchedule generalSchedule;
+    @ManyToOne
+    @JoinColumn(name = "generalScheduleId")
+    private GeneralDailySchedule generalSchedule;
+
+    @Transient
     private ArrayList<Visit> visits;
 
+    public DoctorSchedule(){};
     public DoctorSchedule(Doctor doctor, LocalDate date, GeneralDailySchedule generalSchedule)
     {
         this.doctor = doctor;

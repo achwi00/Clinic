@@ -1,21 +1,32 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-
+@Entity
 public class RecurringSchedule
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int recurringSchId;
     private DayOfWeek dayOfWeek;
     private LocalTime shiftStart;
     private LocalTime shiftEnd;
     private int visitTimeMinutes;
 
-    public RecurringSchedule(DayOfWeek dayOfWeek, LocalTime shiftStart, LocalTime shiftEnd, int visitTimeMinutes)
+    @ManyToOne
+    @JoinColumn(name = "doctorId", referencedColumnName = "id")
+    private Doctor doctor;
+
+    public RecurringSchedule(){};
+    public RecurringSchedule(DayOfWeek dayOfWeek, LocalTime shiftStart, LocalTime shiftEnd, int visitTimeMinutes, Doctor doctor)
     {
         this.dayOfWeek = dayOfWeek;
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
         this.visitTimeMinutes = visitTimeMinutes;
+        this.doctor = doctor;
     }
 
     @Override
@@ -28,6 +39,7 @@ public class RecurringSchedule
                 ", visitTimeMinutes=" + visitTimeMinutes +
                 '}';
     }
+
 
     public DayOfWeek getDayOfWeek()
     {

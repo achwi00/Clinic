@@ -1,12 +1,33 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Refferal
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reffId;
-    private int patientId;
-    private int doctorId;
+
+    @ManyToOne
+    @JoinColumn(name = "patientId", referencedColumnName = "id")
+    private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "doctorId", referencedColumnName = "id")
+    private Doctor doctor;
     private String description;
     private String type;
+
+    public Refferal(Patient patient, Doctor doctor, String description, String type)
+    {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.description = description;
+        this.type = type;
+    }
+
+    public Refferal(){};
 
     public int getReffId()
     {
@@ -18,24 +39,24 @@ public class Refferal
         this.reffId = reffId;
     }
 
-    public int getPatientId()
+    public Patient getPatient()
     {
-        return patientId;
+        return patient;
     }
 
-    public void setPatientId(int patientId)
+    public void setPatient(Patient patient)
     {
-        this.patientId = patientId;
+        this.patient = patient;
     }
 
-    public int getDoctorId()
+    public Doctor getDoctor()
     {
-        return doctorId;
+        return doctor;
     }
 
-    public void setDoctorId(int doctorId)
+    public void setDoctor(Doctor doctor)
     {
-        this.doctorId = doctorId;
+        this.doctor = doctor;
     }
 
     public String getDescription()

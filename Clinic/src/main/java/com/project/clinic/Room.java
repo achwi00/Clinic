@@ -1,13 +1,42 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Room
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roomId;
-    private int clinicId;//czy napewno clinicId??
+    @ManyToOne
+    private Clinic clinic;
     private String type;
-    private enum status
+    private enum Status
     {
         BUSY, FREE
+    }
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public Room(){};
+
+    public Room(Clinic clinic, String type, Status status)
+    {
+        this.clinic = clinic;
+        this.type = type;
+        this.status = Status.FREE;
+    }
+
+    public void setStatus(String s)
+    {
+        if(s.equalsIgnoreCase("FREE"))
+        {
+            this.status = Status.FREE;
+        } else if (s.equalsIgnoreCase("BUSY")) {
+            this.status = Status.BUSY;
+        }
+
     }
 
     public int getRoomId()
@@ -18,16 +47,6 @@ public class Room
     public void setRoomId(int roomId)
     {
         this.roomId = roomId;
-    }
-
-    public int getClinicId()
-    {
-        return clinicId;
-    }
-
-    public void setClinicId(int clinicId)
-    {
-        this.clinicId = clinicId;
     }
 
     public String getType()
