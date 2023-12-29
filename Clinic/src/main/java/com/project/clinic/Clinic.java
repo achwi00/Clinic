@@ -11,7 +11,9 @@ public class Clinic
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int clinicId;
+    @Column(length = 50, nullable = false)
     private String departmentName;
+    @Column(length = 50, nullable = false)
     private String location;
     @Transient
     private ArrayList<Doctor> listOfDoctors = new ArrayList<>();

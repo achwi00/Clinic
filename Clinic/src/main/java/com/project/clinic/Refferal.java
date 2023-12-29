@@ -16,8 +16,11 @@ public class Refferal
     @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "id")
     private Doctor doctor;
+    @Column(length =100, nullable = false)
     private String description;
-    private String type;
+
+    @Column(length =40, nullable = false)
+    private String type;//specialisation of the doctor
 
     public Refferal(Patient patient, Doctor doctor, String description, String type)
     {
@@ -73,7 +76,6 @@ public class Refferal
     {
         return type;
     }
-
     public void setType(String type)
     {
         this.type = type;

@@ -17,6 +17,11 @@ public class DoctorSchedule
     private Doctor doctor;
 
     private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "clinicId", referencedColumnName = "clinicId")
+    private Clinic clinic;
+
     @ManyToOne
     @JoinColumn(name = "generalScheduleId")
     private GeneralDailySchedule generalSchedule;
@@ -25,10 +30,11 @@ public class DoctorSchedule
     private ArrayList<Visit> visits;
 
     public DoctorSchedule(){};
-    public DoctorSchedule(Doctor doctor, LocalDate date, GeneralDailySchedule generalSchedule)
+    public DoctorSchedule(Doctor doctor, LocalDate date, GeneralDailySchedule generalSchedule, Clinic clinic)
     {
         this.doctor = doctor;
         this.date = date;
+        this.clinic = clinic;
         //add to general schedule
         generalSchedule.addSchedule(this);
         visits = new ArrayList<Visit>();

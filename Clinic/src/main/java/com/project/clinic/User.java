@@ -1,9 +1,6 @@
 package com.project.clinic;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 
 @MappedSuperclass
 public abstract class User
@@ -11,9 +8,14 @@ public abstract class User
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(length = 20, nullable = false)
     private String password;
+    @Column(length = 20, nullable = false)
     private String name;
+    @Column(length = 30, nullable = false)
     private String surname;
+
+    @Column(length = 40, nullable = false)
     private String email;
     public User(){};
 

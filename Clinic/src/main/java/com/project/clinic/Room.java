@@ -10,6 +10,7 @@ public class Room
     private int roomId;
     @ManyToOne
     private Clinic clinic;
+    @Column(length = 50)
     private String type;
     private enum Status
     {

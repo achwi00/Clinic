@@ -5,8 +5,11 @@ import jakarta.persistence.*;
 @Entity
 public class Patient extends User
 {
+    @Column(length = 11, nullable = false)
     private String pesel;
+    @Column(length = 15, nullable = true)
     private String phoneNr;
+    @Column(length = 60, nullable = false)
     private String address;
     private enum Sex{
         MALE, FEMALE

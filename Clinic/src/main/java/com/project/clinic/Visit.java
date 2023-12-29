@@ -20,6 +20,7 @@ public class Visit
     @ManyToOne
     @JoinColumn(name = "patientId", referencedColumnName = "id")
     private Patient patient;
+    @Column(length = 255)
     private String visitDescription;
     //roomId??
     //prescriptionId??

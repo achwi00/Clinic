@@ -10,23 +10,34 @@ public class RecurringSchedule
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int recurringSchId;
+    @Column(nullable = false)
     private DayOfWeek dayOfWeek;
+    @Column(nullable = false)
     private LocalTime shiftStart;
+    @Column(nullable = false)
     private LocalTime shiftEnd;
+    @Column(nullable = false)
     private int visitTimeMinutes;
 
     @ManyToOne
+    @JoinColumn(name = "clinicId", referencedColumnName = "clinicId")
+    private Clinic clinic;
+    @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "id")
     private Doctor doctor;
+//    @ManyToOne
+//    @JoinColumn(name = "clinicId")
+//    private Clinic clinic;
 
     public RecurringSchedule(){};
-    public RecurringSchedule(DayOfWeek dayOfWeek, LocalTime shiftStart, LocalTime shiftEnd, int visitTimeMinutes, Doctor doctor)
+    public RecurringSchedule(DayOfWeek dayOfWeek, LocalTime shiftStart, LocalTime shiftEnd, int visitTimeMinutes, Doctor doctor, Clinic clinic)
     {
         this.dayOfWeek = dayOfWeek;
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
         this.visitTimeMinutes = visitTimeMinutes;
         this.doctor = doctor;
+        this.clinic = clinic;
     }
 
     @Override
@@ -37,6 +48,7 @@ public class RecurringSchedule
                 ", shiftStart=" + shiftStart +
                 ", shiftEnd=" + shiftEnd +
                 ", visitTimeMinutes=" + visitTimeMinutes +
+                ", in clinic: " + clinic.getDepartmentName() +
                 '}';
     }
 

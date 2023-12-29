@@ -1,5 +1,6 @@
 package com.project.clinic;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
 
@@ -10,7 +11,10 @@ import java.util.ArrayList;
 @Entity
 public class Doctor extends User
 {
+    @Column(length = 40, nullable = false)
     private String specialisation;
+
+    @Column(length = 7, nullable = false)
     private String PWZnr;
     @Transient
     private ArrayList<RecurringSchedule> schedules;
@@ -27,9 +31,9 @@ public Doctor(String password, String name, String surname, String specialisatio
     this.PWZnr = PWZnr;
     schedules = new ArrayList<>(7);
 }
-    public void addSchedule(DayOfWeek day, LocalTime start, LocalTime stop, int visitLength)
+    public void addSchedule(DayOfWeek day, LocalTime start, LocalTime stop, int visitLength, Clinic clinic)
     {
-        RecurringSchedule recurringSchedule = new RecurringSchedule(day, start, stop, visitLength, this);
+        RecurringSchedule recurringSchedule = new RecurringSchedule(day, start, stop, visitLength, this, clinic);
         boolean scheduleExists = false;
         for(RecurringSchedule schedule : schedules)
         {

@@ -10,14 +10,19 @@ public class Prescription
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int prescriptionId;
+    @Column(length = 4, nullable = false)
     private String accessCode;
+    @Column(length = 100, nullable = false)
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "patientId", referencedColumnName = "id")
     private Patient patient;
+    @Column(length = 3, nullable = false)
     private int refund;
+    @Column(nullable = false)
     private LocalDate issueDate;
+    @Column(nullable = false)
     private LocalDate expiryDate;
 
 
