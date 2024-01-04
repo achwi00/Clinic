@@ -1,12 +1,12 @@
 package com.project.clinic;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Set;
+
 
 @Entity
 public class Doctor extends User
@@ -18,6 +18,9 @@ public class Doctor extends User
     private String PWZnr;
     @Transient
     private ArrayList<RecurringSchedule> schedules;
+
+    @ManyToMany(mappedBy ="doctors")
+    Set<Clinic> clinics;
     public Doctor(){};
 //    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr,String email) {
 //        super(id, password, name, surname,email);

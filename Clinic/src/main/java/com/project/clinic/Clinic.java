@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name="Clinic")
 public class Clinic
@@ -19,6 +20,13 @@ public class Clinic
     private ArrayList<Doctor> listOfDoctors = new ArrayList<>();
     @Transient
     private List<Room> listOfRooms = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "clinic_doctor",
+            joinColumns = @JoinColumn(name = "clinicId"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    private Set<Doctor> doctors;
     public int getClinicId()
     {
         return clinicId;
