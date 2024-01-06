@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
     <head> 
         <meta charset="UTF-8"/>
         <meta name="patientPanel" content="width=device.width, initial-scale=1.0"/>
@@ -46,8 +46,22 @@
         <div id="title-container">
             <p>TWOJE DANE</p>
         </div>
+        <!--added till /ul-->
         <div id="patientData">
-            
+            <h3>All patients</h3>
+            <ul>
+                <div th:if="${patients != null}">
+                <!-- Iterate over patients and display data -->
+                <li th:each="patient : ${patients}">
+                    <span th:text="${patient.getName()}"></span> - <span th:text="${patient.getSurname()}"></span><br>
+                    <!-- Add more fields as needed -->
+                </li>
+                </div>
+                <div th:if="${patients == null}">
+                    <p>No patients found</p>
+                </div>
+            </ul>
+
         </div>
     </div>
 </div>
