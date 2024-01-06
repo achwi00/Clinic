@@ -1,0 +1,94 @@
+body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background-color: #E8E8E8;
+
+}
+
+header {
+    height: 9%;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+#navbar {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    background-color: white;
+}
+
+.dropbtn,
+a {
+    background-color: white;
+    color: #BF4080;
+    padding: 2%;
+    font-size: 0.7rem;
+    border-color: white;
+    text-align: end;
+    text-decoration: none;
+    border-style: none;
+}
+
+.dropbtn:hover a {
+    text-decoration: underline;
+    font-size: 0.8rem;
+    transition: 0.4s;
+    color: #F3D8E5;
+}
+
+#logo_pm,
+#logo_pm a {
+    background-color: white;
+    color: black;
+    padding: 5px;
+}
+
+#logo_img {
+    height: 100%;
+    padding: unset;
+    border: none;
+}
+
+.all-container {
+    min-height: 45%;
+    display: flex;
+    justify-content: center;
+    background-color: #E8E8E8;
+}
+
+#main-wrapper {
+    width: 70%;
+    background-color: #E8E8E8;
+}
+#title-container, #title-container p
+{
+    margin-top: 1%;
+    width:100%;
+    min-height: 10%;
+    display: flex;
+    justify-content: center;
+    color: White;
+    font-size: 1rem;
+    background-color: pink;
+}
+#patientData{
+    width: 100%;
+    margin-top: 1%;
+    height: 200px;
+    margin-bottom: 1%;
+    background-color: white;
+}
+
+footer {
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    color: gray;
+    font-size: 0.5rem;
+    background-color: white;
+}
