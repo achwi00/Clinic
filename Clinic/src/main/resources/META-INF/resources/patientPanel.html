@@ -48,19 +48,19 @@
         </div>
         <!--added till /ul-->
         <div id="patientData">
-            <h3>All patients</h3>
-            <ul>
-                <div th:if="${patients != null}">
-                <!-- Iterate over patients and display data -->
-                <li th:each="patient : ${patients}">
-                    <span th:text="${patient.getName()}"></span> - <span th:text="${patient.getSurname()}"></span><br>
-                    <!-- Add more fields as needed -->
-                </li>
-                </div>
-                <div th:if="${patients == null}">
-                    <p>No patients found</p>
-                </div>
-            </ul>
+            <script>
+                fetch('/patient/all')
+                    .then(response => response.json())
+                    .then(data =>{
+                        data.forEach(patient => {
+                            const patientDiv = document.createElement('div');
+                            patientDiv.textContent = `Patient: ${patient.name} ${patient.surname}`;
+                            document.getElementById('patientData').appendChild(patientDiv);
+                        });
+                        }
+                    )
+                    .catch(error => console.error('Error fetching patient data', error))
+            </script>
 
         </div>
     </div>
