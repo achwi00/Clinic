@@ -28,14 +28,7 @@ body{
     display: block;
     background: #F3D8E5;
 }
-/*section{
-    border: 10px solid gray;
-    height: 60vh;
-    width: 100vh;
-    display: flex;
-    margin: auto;
-    align-items: center;
-}*/
+
 .panel{
 
     position:absolute;
@@ -66,6 +59,13 @@ body{
     height: 100%;
     margin-right: 0;
     width: 50%;
+
+}
+#login_logo{
+    height: 25vh;
+    display: flex;
+    margin-top: 30%;
+    margin-left: 22%;
 }
 .log_register{
     display: inline-block;
