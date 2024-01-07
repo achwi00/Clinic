@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LoginController
@@ -24,10 +25,13 @@ public class LoginController
 
     @PostMapping("/login-submit")
     public String log_in(@RequestParam("email") String email,
-                         @RequestParam("password") String password)
+                         @RequestParam("password") String password,
+                         RedirectAttributes redirectAttributes)
     {
         //redirect to doctor if he is a doctor, to admin, to moderator
         if(isValidUser(email, password).equals("patient")){
+            Long patientId = patientRepository.findIdByEmailAndPassword(email, password);
+            redirectAttributes.addAttribute("patientId", patientId);
             return "redirect:/patient";
         }
         else{
