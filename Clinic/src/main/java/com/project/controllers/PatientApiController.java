@@ -1,8 +1,11 @@
 package com.project.controllers;
 
 import com.project.clinic.Patient;
+import com.project.clinic.Visit;
 import com.project.repository.PatientRepository;
+import com.project.repository.VisitRepository;
 import com.project.service.PatientService;
+import com.project.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,9 @@ public class PatientApiController
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private VisitService visitService;
 
 //    @GetMapping("/all")
 //    public List<Patient> getAllPatients()
@@ -45,4 +51,12 @@ public class PatientApiController
         System.out.println("our patient: " + patient.toString());
         return patient;
     }
+
+    @GetMapping("/allvisits")
+    public List<Visit> getAllVisits(@RequestParam Long patientId)
+    {
+        List<Visit> visits = visitService.getAllVisits();
+        return visits;
+    }
+
 }
