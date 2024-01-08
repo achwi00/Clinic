@@ -17,6 +17,9 @@ public abstract class User
 
     @Column(length = 40, nullable = false)
     private String email;
+
+    @Column(length = 20, nullable = true)
+    private String sessionKey;
     public User(){};
 
     public User(String password, String name, String surname,String email)
@@ -76,5 +79,15 @@ public abstract class User
     public void setSurname(String surname)
     {
         this.surname = surname;
+    }
+
+    public String getSessionKey()
+    {
+        return sessionKey;
+    }
+
+    public void setSessionKey(String sessionKey)
+    {
+        this.sessionKey = sessionKey;
     }
 }
