@@ -19,6 +19,12 @@ public class Clinic
     private ArrayList<Doctor> listOfDoctors = new ArrayList<>();
     @Transient
     private List<Room> listOfRooms = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "clinic_doctor",
+            joinColumns = @JoinColumn(name = "clinicId"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
     public int getClinicId()
     {
         return clinicId;

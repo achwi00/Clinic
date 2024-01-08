@@ -2,11 +2,15 @@ package com.project.clinic;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Transient;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 @Entity
 public class Doctor extends User
@@ -18,6 +22,8 @@ public class Doctor extends User
     private String PWZnr;
     @Transient
     private ArrayList<RecurringSchedule> schedules;
+    @ManyToMany(mappedBy ="doctors")
+    Set<Clinic> clinics;
     public Doctor(){};
 //    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr,String email) {
 //        super(id, password, name, surname,email);
@@ -25,11 +31,12 @@ public class Doctor extends User
 //        this.PWZnr = PWZnr;
 //        schedules = new ArrayList<>(7);
 //    }
-public Doctor(String password, String name, String surname, String specialisation, String PWZnr,String email) {
+public Doctor(String password, String name, String surname, String specialisation, String PWZnr,String email, Set<Clinic>clinics) {
     super(password, name, surname,email);
     this.specialisation = specialisation;
     this.PWZnr = PWZnr;
     schedules = new ArrayList<>(7);
+    this.clinics = clinics ;
 }
     public void addSchedule(DayOfWeek day, LocalTime start, LocalTime stop, int visitLength, Clinic clinic)
     {
