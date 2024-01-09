@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ModeratorRepository extends JpaRepository<Moderator, Long>
 {
+    boolean existsByEmailAndPassword(String email, String password);
 }

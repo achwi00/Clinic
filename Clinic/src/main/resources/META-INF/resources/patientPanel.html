@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
     <head> 
         <meta charset="UTF-8"/>
         <meta name="patientPanel" content="width=device.width, initial-scale=1.0"/>
@@ -11,12 +11,12 @@
 <body>
 <header>
 <div id="navbar">
-    
-    <button class="dropbtn" id="logo_pm" name="logo_pm"><a href="/patient"><img src="logo_premiummed.png" id="logo_img" height="50pxSSSSSS"></a></button>
+
+    <button class="dropbtn" id="logo_pm" name="logo_pm"><img src="logo_premiummed.png" id="logo_img" height="50pxSSSSSS"></a></button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="visits" name="visits"><a href="/visits">Wizyty</a></button>
+    <button class="dropbtn" id="visits" name="visits">Wizyty</button>
     <div class="dropdown-content">
     </div>
 
@@ -32,10 +32,46 @@
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="log_out" name="log_out"><a href="#">Wyloguj</a></button>
+    <button class="dropbtn" id="log_out" name="log_out"><a href="/">Wyloguj</a></button>
     <div class="dropdown-content">
     </div>
 
+    <script>
+        document.getElementById('logo_pm').addEventListener('click', redirectToPatient);
+        document.getElementById('visits').addEventListener('click', displayVisits);
+        const urlParams1 = new URLSearchParams(window.location.search);
+        const patientId1 = urlParams1.get('patientId');
+
+        function redirectToPatient() {
+
+            if (patientId1) {
+                const redirectUrl = `/patient?patientId=${patientId1}`;
+                window.location.href = redirectUrl;
+            } else {
+                // Handle the case when patientId is not available
+                console.error('PatientId: ', patientId1);
+            }
+        }
+        function displayVisits(){
+            const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>TWOJE WIZYTY</p>';
+            const visitsContainer = document.getElementById('patientData');
+            while(visitsContainer.firstChild){
+                visitsContainer.firstChild.remove();
+            }
+            fetch(`/patient/allvisits?patientId=${patientId1}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(visits => {
+                        const patientDiv = document.createElement('div');
+                        patientDiv.textContent = `Visits: ${visits.date} ${visits.time}`;
+                        document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+                }
+
+    </script>
 
 
 </div>
@@ -46,8 +82,36 @@
         <div id="title-container">
             <p>TWOJE DANE</p>
         </div>
+        <!--added till /ul-->
+<!--        <div id="patientData">-->
+<!--            <script>-->
+<!--                fetch('/patient/all')-->
+<!--                    .then(response => response.json())-->
+<!--                    .then(data =>{-->
+<!--                        data.forEach(patient => {-->
+<!--                            const patientDiv = document.createElement('div');-->
+<!--                            patientDiv.textContent = `Patient: ${patient.name} ${patient.surname}`;-->
+<!--                            document.getElementById('patientData').appendChild(patientDiv);-->
+<!--                        });-->
+<!--                        }-->
+<!--                    )-->
+<!--                    .catch(error => console.error('Error fetching patient data', error))-->
+<!--            </script>-->
+
         <div id="patientData">
-            
+            <script>
+                const urlParams = new URLSearchParams(window.location.search);
+                const patientId = urlParams.get('patientId');
+
+                fetch(`/patient/all?patientId=${patientId}`)
+                    .then(response => response.json())
+                    .then(patient => {
+                        const patientDiv = document.createElement('div');
+                        patientDiv.textContent = `Patient: ${patient.name} ${patient.surname}`;
+                        document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                    .catch(error => console.error('Error fetching patient data', error))
+            </script>
         </div>
     </div>
 </div>

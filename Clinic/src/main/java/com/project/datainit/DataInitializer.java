@@ -52,6 +52,7 @@ public class DataInitializer implements CommandLineRunner
 //            GeneralDailySchedule genSch = generalDailyScheduleRepository.save(new GeneralDailySchedule(LocalDate.of(2024,1,1)));
 //            DoctorSchedule doctorSchedule = doctorScheduleRepository.save(new DoctorSchedule(d, LocalDate.of(2024,1,1),genSch,savedClinic));
 //
+
         }catch(Exception e)
         {
             e.printStackTrace();
