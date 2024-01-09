@@ -105,4 +105,7 @@ public Doctor(String password, String name, String surname, String specialisatio
         this.PWZnr = PWZnr;
     }
 
+    public void setClinics(Set<Clinic> clinics) {
+        this.clinics = clinics;
+    }
 }
