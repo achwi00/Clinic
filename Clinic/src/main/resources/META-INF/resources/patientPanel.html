@@ -20,11 +20,11 @@
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="refferals" name="prescription"><a href="#">Skierowania</a></button>
+    <button class="dropbtn" id="refferals" name="refferals">Skierowania</button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="prescription" name="prescription"><a href="#">Recepty</a></button>
+    <button class="dropbtn" id="prescription" name="prescription">Recepty</button>
     <div class="dropdown-content">
     </div>
 
@@ -39,17 +39,22 @@
     <script>
         document.getElementById('logo_pm').addEventListener('click', redirectToPatient);
         document.getElementById('visits').addEventListener('click', displayVisits);
+        document.getElementById('refferals').addEventListener('click',displayRefferals);
+        document.getElementById('prescription').addEventListener('click',displayPrescriptions);
+
         const urlParams1 = new URLSearchParams(window.location.search);
-        const patientId1 = urlParams1.get('patientId');
+        //const patientId1 = urlParams1.get('patientId');
+
+        const sessionKey = urlParams1.get('sessionKey');
 
         function redirectToPatient() {
 
-            if (patientId1) {
-                const redirectUrl = `/patient?patientId=${patientId1}`;
+            if (sessionKey) {
+                const redirectUrl = `/patient?sessionKey=${sessionKey}`;
                 window.location.href = redirectUrl;
             } else {
                 // Handle the case when patientId is not available
-                console.error('PatientId: ', patientId1);
+                console.error('sessionKey: ', sessionKey);
             }
         }
         function displayVisits(){
@@ -59,7 +64,7 @@
             while(visitsContainer.firstChild){
                 visitsContainer.firstChild.remove();
             }
-            fetch(`/patient/allvisits?patientId=${patientId1}`)
+            fetch(`/patient/allvisits?sessionKey=${sessionKey}`)
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(visits => {
@@ -71,6 +76,24 @@
                 .catch(error => console.error('Error fetching patient data', error))
                 }
 
+        function displayRefferals()
+        {
+            const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>TWOJE SKIEROWANIA</p>';
+            const visitsContainer = document.getElementById('patientData');
+            while(visitsContainer.firstChild){
+                visitsContainer.firstChild.remove();
+            }
+        }
+        function displayPrescriptions()
+        {
+            const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>TWOJE RECEPTY</p>';
+            const visitsContainer = document.getElementById('patientData');
+            while(visitsContainer.firstChild){
+                visitsContainer.firstChild.remove();
+            }
+        }
     </script>
 
 
@@ -101,9 +124,9 @@
         <div id="patientData">
             <script>
                 const urlParams = new URLSearchParams(window.location.search);
-                const patientId = urlParams.get('patientId');
+                const sessionKey1 = urlParams.get('sessionKey');
 
-                fetch(`/patient/all?patientId=${patientId}`)
+                fetch(`/patient/all?sessionKey=${sessionKey1}`)
                     .then(response => response.json())
                     .then(patient => {
                         const patientDiv = document.createElement('div');

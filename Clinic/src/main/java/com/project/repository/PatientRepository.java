@@ -17,4 +17,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long>
     Long findIdByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
     Optional<Patient> findById(Long patientId);
+
+    boolean existsBySessionKey(String sessionKey);
+
+    @Query("SELECT id FROM Patient WHERE sessionKey = :sessionKey")
+    Long findIdBySessionKey(@Param("sessionKey") String sessionKey);
 }

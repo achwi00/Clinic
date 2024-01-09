@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface DoctorRepository extends JpaRepository<Doctor, Long>
 {
     boolean existsByEmailAndPassword(String email, String password);
+
+    boolean existsBySessionKey(String sessionKey);
 }

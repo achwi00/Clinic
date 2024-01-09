@@ -25,10 +25,17 @@ public class PatientViewController
 //        return "patientPanel.html";
 //    }
 
+//    @RequestMapping("patient")
+//    public String returnAllPatients(@RequestParam Long patientId)
+//    {
+//        Optional<Patient> patient = patientApiController.getThisPatient(patientId);
+//        return "patientPanel.html";
+//    }
+
     @RequestMapping("patient")
-    public String returnAllPatients(@RequestParam Long patientId)
+    public String returnAllPatients(@RequestParam String sessionKey)
     {
-        Optional<Patient> patient = patientApiController.getThisPatient(patientId);
+        Optional<Patient> patient = patientApiController.getThisPatient(sessionKey);
         return "patientPanel.html";
     }
 

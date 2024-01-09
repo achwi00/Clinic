@@ -30,17 +30,27 @@ public class PatientApiController
     @Autowired
     private VisitService visitService;
 
+
 //    @GetMapping("/all")
-//    public List<Patient> getAllPatients()
+//    public Optional<Patient> getThisPatient(@RequestParam Long patientId)
 //    {
-//        List<Patient> patients = patientService.getAllPatients();
-//        return patients;
+//        System.out.println("patientId from getThisPatient is: " + patientId);
+//
+//        Optional<Patient> patient = patientService.getPatientById(patientId);
+//        if(patient==null)
+//        {
+//            System.out.println("Patient not found with the id: " + patientId);
+//            return null;
+//        }
+//        System.out.println("our patient: " + patient.toString());
+//        return patient;
 //    }
 
     @GetMapping("/all")
-    public Optional<Patient> getThisPatient(@RequestParam Long patientId)
+    public Optional<Patient> getThisPatient(@RequestParam String sessionKey)
     {
-        System.out.println("patientId from getThisPatient is: " + patientId);
+        //System.out.println("patientId from getThisPatient is: " + );
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
 
         Optional<Patient> patient = patientService.getPatientById(patientId);
         if(patient==null)
@@ -52,8 +62,15 @@ public class PatientApiController
         return patient;
     }
 
+//    @GetMapping("/allvisits")
+//    public List<Visit> getAllVisits(@RequestParam Long patientId)
+//    {
+//        List<Visit> visits = visitService.getAllVisits();
+//        return visits;
+//    }
+
     @GetMapping("/allvisits")
-    public List<Visit> getAllVisits(@RequestParam Long patientId)
+    public List<Visit> getAllVisits(@RequestParam String sessionKey)
     {
         List<Visit> visits = visitService.getAllVisits();
         return visits;

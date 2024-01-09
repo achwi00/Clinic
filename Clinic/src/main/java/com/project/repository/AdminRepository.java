@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface AdminRepository extends JpaRepository<Admin, Long>
 {
     boolean existsByEmailAndPassword(String email, String password);
+    boolean existsBySessionKey(String sessionKey);
 }
