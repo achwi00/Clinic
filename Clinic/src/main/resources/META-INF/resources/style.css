@@ -8,14 +8,13 @@ body{
     overflow: hidden;
     background: #F3D8E5;
     align-items: center;
-    /*justify-content: center;*/
-    /*for index.html: background: #F3D8E5;*/
+
 }
 
 .curved {
     display: block;
     position: relative;
-    background: #F3D8E5; /*light pink*/
+    background: #F3D8E5;
     color: #fff;
 }
 
@@ -41,7 +40,6 @@ body{
     width: 50vw;
     
     border-radius: 10px;
-    /*background-image: linear-gradient(#BF4080, #D9D9D9);*/
     background-image: linear-gradient(#BF4080, #D9D9D9);
 }
 .inner{
@@ -59,7 +57,6 @@ body{
     height: 100%;
     margin-right: 0;
     width: 50%;
-
 }
 #login_logo{
     height: 25vh;
@@ -74,7 +71,6 @@ body{
     margin-left: 5vh;
     margin-top: 3vh;
     background-color: #D9D9D9;
-    /*background-color: green;*/
     border-radius: 10px;
     overflow: hidden;
 }
@@ -99,14 +95,11 @@ body{
     color: #e858a1;
 }
 
-
 .log{
     height: 90%;
     width: 100%;
-    /*margin-bottom: 0;*/
-    margin-top: 0vh; /*modify this*/
+    margin-top: 0vh;
     background-color: #E8E8E8;
-    /*background-color: yellow;*/
     border-radius: 10px;
     overflow: hidden;
 }
@@ -115,7 +108,6 @@ body{
     font-family: sans-serif;
 }
 #log_right{
-    
     background-color: #BF4080;
     height: 100%;
 }
@@ -125,7 +117,6 @@ body{
     margin-top: 5%;
     background-color: inherit;
     text-indent: 7%;
-    
 }
 
 .input_box input{

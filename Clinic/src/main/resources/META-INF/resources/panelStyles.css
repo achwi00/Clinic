@@ -107,6 +107,12 @@ a {
     border-radius: 10px;
 }
 
+#formsContainer{
+
+}
+.input_box input{
+
+}
 footer {
     height: 15%;
     display: flex;

@@ -41,6 +41,7 @@
     </div>
 
     <script>
+
         document.getElementById('logo_pm').addEventListener('click', redirectToPatient);
         document.getElementById('visits').addEventListener('click', displayVisits);
         document.getElementById('refferals').addEventListener('click',displayRefferals);
@@ -49,9 +50,8 @@
         document.getElementById('newVisit').addEventListener('click',newVisit);
 
         const urlParams1 = new URLSearchParams(window.location.search);
-        //const patientId1 = urlParams1.get('patientId');
-
         const sessionKey = urlParams1.get('sessionKey');
+
 
         function redirectToPatient() {
 
@@ -90,9 +90,7 @@
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>TWOJE SKIEROWANIA</p>';
             const refferalContainer = document.getElementById('patientData');
-            while(refferalContainer.firstChild){
-                refferalContainer.firstChild.remove();
-            }
+            clearContainer();
 
             refferalContainer.style.cssText = "display: block; justify-content: center;";
             fetch(`/patient/allrefferals?sessionKey=${sessionKey}`)
@@ -110,29 +108,53 @@
         {
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>TWOJE RECEPTY</p>';
-            const visitsContainer = document.getElementById('patientData');
-            while(visitsContainer.firstChild){
-                visitsContainer.firstChild.remove();
-            }
+            clearContainer();
         }
 
         function displayHistory()
         {
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>HISTORIA WIZYT</p>';
-            const visitsContainer = document.getElementById('patientData');
-            while(visitsContainer.firstChild){
-                visitsContainer.firstChild.remove();
-            }
+            clearContainer();
 
         }
         function newVisit()
         {
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>UMÓW NOWĄ WIZYTĘ</p>';
-            const visitsContainer = document.getElementById('patientData');
-            while(visitsContainer.firstChild){
-                visitsContainer.firstChild.remove();
+            clearContainer();
+            const targetContainer = document.getElementById('patientData');
+
+            targetContainer.style.cssText = "display: flex; justify-content: center;";
+
+            const formsContainer = document.createElement('div');
+            formsContainer.id = 'formsContainer';
+            targetContainer.appendChild(formsContainer);
+
+            const visitForm = document.createElement('form');
+            visitForm.action = '/submit-visit';
+            visitForm.method = 'POST';
+
+            const inputBox1 = document.createElement('div');
+            inputBox1.classList.add("inputBox");
+            document.getElementById('formsContainer').appendChild(inputBox1);
+
+            const startDateInput = document.createElement('input');
+            startDateInput.type = 'date';
+            startDateInput.placeholder = 'date';
+            startDateInput.required = true;
+            startDateInput.name = 'startDateInput';
+            inputBox1.appendChild(startDateInput);
+
+            document.getElementById('formsContainer').appendChild(visitForm);
+
+        }
+
+        function clearContainer()
+        {
+            const targetContainer = document.getElementById('patientData');
+            while(targetContainer.firstChild){
+                targetContainer.firstChild.remove();
             }
         }
     </script>
