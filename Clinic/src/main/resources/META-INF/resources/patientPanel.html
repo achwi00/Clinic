@@ -28,7 +28,11 @@
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="newVisit" name="newVisit"><a href="#">Umów</a></button>
+    <button class="dropbtn" id="history" name="history">Historia</button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="newVisit" name="newVisit">Umów</button>
     <div class="dropdown-content">
     </div>
 
@@ -41,6 +45,8 @@
         document.getElementById('visits').addEventListener('click', displayVisits);
         document.getElementById('refferals').addEventListener('click',displayRefferals);
         document.getElementById('prescription').addEventListener('click',displayPrescriptions);
+        document.getElementById('history').addEventListener('click',displayHistory);
+        document.getElementById('newVisit').addEventListener('click',newVisit);
 
         const urlParams1 = new URLSearchParams(window.location.search);
         //const patientId1 = urlParams1.get('patientId');
@@ -59,11 +65,13 @@
         }
         function displayVisits(){
             const titleContainer = document.getElementById('title-container');
-            titleContainer.innerHTML = '<p>TWOJE WIZYTY</p>';
+            titleContainer.innerHTML = '<p>NADCHODZĄCE WIZYTY</p>';
             const visitsContainer = document.getElementById('patientData');
             while(visitsContainer.firstChild){
                 visitsContainer.firstChild.remove();
             }
+
+            visitsContainer.style.cssText = "display: block; justify-content: center;";
             fetch(`/patient/allvisits?sessionKey=${sessionKey}`)
                 .then(response => response.json())
                 .then(data => {
@@ -81,10 +89,12 @@
         {
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>TWOJE SKIEROWANIA</p>';
-            const visitsContainer = document.getElementById('patientData');
-            while(visitsContainer.firstChild){
-                visitsContainer.firstChild.remove();
+            const refferalContainer = document.getElementById('patientData');
+            while(refferalContainer.firstChild){
+                refferalContainer.firstChild.remove();
             }
+
+            refferalContainer.style.cssText = "display: block; justify-content: center;";
             fetch(`/patient/allrefferals?sessionKey=${sessionKey}`)
                 .then(response => response.json())
                 .then(data => {
@@ -100,6 +110,26 @@
         {
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>TWOJE RECEPTY</p>';
+            const visitsContainer = document.getElementById('patientData');
+            while(visitsContainer.firstChild){
+                visitsContainer.firstChild.remove();
+            }
+        }
+
+        function displayHistory()
+        {
+            const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>HISTORIA WIZYT</p>';
+            const visitsContainer = document.getElementById('patientData');
+            while(visitsContainer.firstChild){
+                visitsContainer.firstChild.remove();
+            }
+
+        }
+        function newVisit()
+        {
+            const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>UMÓW NOWĄ WIZYTĘ</p>';
             const visitsContainer = document.getElementById('patientData');
             while(visitsContainer.firstChild){
                 visitsContainer.firstChild.remove();
