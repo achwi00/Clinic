@@ -33,7 +33,7 @@ a {
     border-style: none;
 }
 
-.dropbtn:hover a {
+.dropbtn:hover a, .dropbtn:hover {
     text-decoration: underline;
     font-size: 0.8rem;
     transition: 0.4s;

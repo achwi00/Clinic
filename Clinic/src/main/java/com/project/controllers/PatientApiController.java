@@ -1,10 +1,12 @@
 package com.project.controllers;
 
 import com.project.clinic.Patient;
+import com.project.clinic.Refferal;
 import com.project.clinic.Visit;
 import com.project.repository.PatientRepository;
 import com.project.repository.VisitRepository;
 import com.project.service.PatientService;
+import com.project.service.RefferalService;
 import com.project.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,21 +32,10 @@ public class PatientApiController
     @Autowired
     private VisitService visitService;
 
+    @Autowired
+    private RefferalService refferalService;
 
-//    @GetMapping("/all")
-//    public Optional<Patient> getThisPatient(@RequestParam Long patientId)
-//    {
-//        System.out.println("patientId from getThisPatient is: " + patientId);
-//
-//        Optional<Patient> patient = patientService.getPatientById(patientId);
-//        if(patient==null)
-//        {
-//            System.out.println("Patient not found with the id: " + patientId);
-//            return null;
-//        }
-//        System.out.println("our patient: " + patient.toString());
-//        return patient;
-//    }
+
 
     @GetMapping("/all")
     public Optional<Patient> getThisPatient(@RequestParam String sessionKey)
@@ -74,6 +65,15 @@ public class PatientApiController
     {
         List<Visit> visits = visitService.getAllVisits();
         return visits;
+    }
+
+    @GetMapping("/allrefferals")
+    public List<Refferal> getAllRefferals(@RequestParam String sessionKey){
+
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
+
+        List<Refferal> refferals = refferalService.getAllRefferalsByPatientId(patientId);
+        return refferals;
     }
 
 }

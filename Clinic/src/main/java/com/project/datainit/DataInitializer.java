@@ -34,6 +34,9 @@ public class DataInitializer implements CommandLineRunner
     @Autowired
     private GeneralDailyScheduleRepository generalDailyScheduleRepository;
 
+    @Autowired
+    private RefferalRepository refferalRepository;
+
     @Override
     @Transactional
     public void run(String ... args) throws Exception
@@ -45,7 +48,7 @@ public class DataInitializer implements CommandLineRunner
 //            Patient p = patientRepository.save(new Patient("123", "Anne", "Smith", "07153659547", "asmith@gmail.com", "Maplest 3, Krk", "12536544545", "female"));
 //            moderatorRepository.save(new Moderator("111", "John", "Smith", savedClinic, "premiumMedMod@gmail.com"));
 //            adminRepository.save(new Admin("admin", "Jenny", "Woods", "jenny2@prmed.com"));
-//            Doctor d = doctorRepository.save(new Doctor("234", "Adrien", "Belle","cardiology", "1233625","abelle@gmail.com"));
+//            Doctor d = doctorRepository.save(new Doctor("1212", "Maciej", "Nowak","internist", "1214425","mnowak@gmail.com"));
 //            visitRepository.save(new Visit(LocalDate.of(2023,12,1), LocalTime.of(12,0),d, p));
 //
 //            RecurringSchedule recurringSchedule = recurringScheduleRepository.save(new RecurringSchedule(DayOfWeek.MONDAY, LocalTime.of(8,0),LocalTime.of(12,0),30,d,savedClinic));

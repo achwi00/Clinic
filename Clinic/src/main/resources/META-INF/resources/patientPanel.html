@@ -84,6 +84,16 @@
             while(visitsContainer.firstChild){
                 visitsContainer.firstChild.remove();
             }
+            fetch(`/patient/allrefferals?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(refferal => {
+                        const patientDiv = document.createElement('div');
+                        patientDiv.textContent = `Refferal: ${refferal.reffId} ${refferal.description} ${refferal.type}`;
+                        document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
         }
         function displayPrescriptions()
         {
