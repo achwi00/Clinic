@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8"/>
   <meta name="adminPanel" content="width=device.width, initial-scale=1.0"/>
   <link rel="stylesheet" type="text/css" href="panelStyles.css"/>
 
 
-  <title>loggingPanel</title>
+  <title>adminPanel</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <header>
@@ -20,23 +21,21 @@
     <div class="dropdown-content">
     </div>
 
+    <button class="dropbtn" id="addDoctor" name="addDoctor"><a href="#">Dodawanie lekarza</a></button>
+    <div class="dropdown-content">
+    </div>
+
     <button class="dropbtn" id="doctors" name="doctors"><a href="#">Lekarze</a></button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="addDoctor" name="addDoctor"><a href="#">Dodaj nowego lekarza</a></button>
-    <div class="dropdown-content">
-    </div>
-
-    <button class="dropbtn" id="clinics" name="clinics"><a href="#">Lista Klinik </a></button>
+    <button class="dropbtn" id="clinics" name="clinics"><a href="#">Przychodnie </a></button>
     <div class="dropdown-content">
     </div>
 
     <button class="dropbtn" id="log_out" name="log_out"><a href="#">Wyloguj</a></button>
     <div class="dropdown-content">
     </div>
-
-
 
   </div>
 
@@ -47,13 +46,63 @@
       <p>TWOJE DANE</p>
     </div>
     <div id="adminData">
+      <form id="clinicForm">
+        <div class="input_box">
+          <h1>E-mail</h1>
+          <input type="text" placeholder="Email" required id="email" name="email">
+        </div>
+
+        <div class="input_box">
+          <h1>Hasło</h1>
+          <input type="password" placeholder="Password" required id="password" name="password">
+        </div>
+        <div class="input_box">
+          <h1>Imię</h1>
+          <input type="text" placeholder="Imię" required id="name" name="name">
+        </div>
+
+        <div class="input_box">
+          <h1>Nazwisko</h1>
+          <input type="text" placeholder="Nazwisko" required id="surname" name="surname">
+        </div>
+        <div class="input_box">
+          <h1>Specjalizacja</h1>
+          <input type="text" placeholder="Specjalizacja" required id="specialisation" name="specialisation">
+        </div>
+        <div class="input_box">
+          <h1>numer PWZ</h1>
+          <input type="text" placeholder="numer PWZ" required id="PWZnr" name="PWZnr">
+        </div>
+        <div id="listclinics">
+          <h1>Wybierz kliniki</h1>
+          <ul>
+            <li th:each="Clinic : ${Allclinics}">
+              <input type="checkbox" th:value="${Clinic.departmentName}" name="Clinic" />
+              <label th:text="${Clinic.departmentName}"></label>
+            </li>
+          </ul>
+        </div><br>
+        <button type="submit">Zarejestruj</button>
+      </form>
+      <script>
+    fetch(`/clinic/allClinics`)
+                .then(response => response.json())
+                .then(listclinics => {
+                    const listClinics = document.createElement('div');
+                    <li th:each="Clinic : ${Allclinics}">
+                      <input type="checkbox" th:value="${Clinic.departmentName}" name="Clinic" />
+                      <label th:text="${Clinic.departmentName}"></label>
+                    </li>
+
+                })
+  </script>
 
     </div>
   </div>
 </div>
 
 <footer>
-  <div id="copyrights"><p>Projekt wykonany w ramach przedmiotu Inżynieria Programowania.</p></div>
+  <div id="copyrights"><p>Projekt wykonany przez studentki Politechniki Krakowskiej: Agnieszkę Biel i Aleksandrę Chwierut.</p></div>
 
 </footer>
 </body>

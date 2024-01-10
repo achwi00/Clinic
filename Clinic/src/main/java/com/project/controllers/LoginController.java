@@ -1,5 +1,6 @@
 package com.project.controllers;
 
+import com.project.repository.AdminRepository;
 import com.project.repository.DoctorRepository;
 import com.project.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class LoginController
 
     @Autowired
     public DoctorRepository doctorRepository;
+    @Autowired
+    public AdminRepository adminRepository;
 
     @RequestMapping("/")
     public String showLogin(){
@@ -34,6 +37,11 @@ public class LoginController
             redirectAttributes.addAttribute("patientId", patientId);
             return "redirect:/patient";
         }
+        if(isValidUser(email, password).equals("admin")){
+            Long adminId = adminRepository.findIdByEmailAndPassword(email,password);
+            redirectAttributes.addAttribute("adminId",adminId);
+            return "redirect:/admin";
+        }
         else{
             return "redirect:/";
         }
@@ -50,6 +58,7 @@ public class LoginController
         //check if user is a patient
         if(patientRepository.existsByEmailAndPassword(email, password)) return "patient";
         else if (doctorRepository.existsByEmailAndPassword(email, password)) return "doctor";
+        else if(adminRepository.existsByEmailAndPassword(email,password)) return "admin";
         else return "none";
 
     }

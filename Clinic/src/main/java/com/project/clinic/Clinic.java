@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name="Clinic")
 public class Clinic
@@ -25,6 +26,7 @@ public class Clinic
             joinColumns = @JoinColumn(name = "clinicId"),
             inverseJoinColumns = @JoinColumn(name = "id")
     )
+    private Set<Doctor>doctors;
     public int getClinicId()
     {
         return clinicId;

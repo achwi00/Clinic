@@ -4,6 +4,7 @@ import com.project.clinic.Clinic;
 import com.project.repository.ClinicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,13 +15,12 @@ import java.util.Optional;
         @Autowired
         private ClinicRepository clinicRepository;
 
-
         public List<Clinic> getAllClinics(){
-            List<Clinic> clinics = clinicRepository.findAll();
-            return clinics;
+            List<Clinic> allClinics = clinicRepository.findAll();
+            return allClinics;
         }
 
-        public Optional<Clinic> getPatientById(Long clinicId){
+        public Optional<Clinic> geClinicById(Long clinicId){
             return  clinicRepository.findById(clinicId);
         }
 
