@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 body {
     height: 100vh;
     width: 100vw;
@@ -82,7 +83,29 @@ a {
     margin-bottom: 1%;
     background-color: white;
 }
+.visitsData{
+    color:deeppink;
+}
+#personalInfoContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%
 
+}
+#patientIcon{
+    height: 15vh;
+    width: 15vh;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: lightpink;
+    color:white;
+    font-size: 7rem;
+    border-radius: 10px;
+}
 footer {
     height: 15%;
     display: flex;
