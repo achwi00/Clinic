@@ -185,25 +185,16 @@
 
             const specInput = document.createElement('select');
             specInput.type = 'select';
-            //this serves as a placeholder:
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Wybierz'; // You can customize this placeholder text
-            defaultOption.disabled = true;
-            defaultOption.selected = true; // This makes it selected by default
-            specInput.appendChild(defaultOption);
-
             specInput.required = true;
             specInput.name = 'specInput';
             specInput.id = 'specInput';
 
-            //add the specialisation logic here !!!! like Chat said
+            //dropdown specialisations logic here:
             fetch(`/patient/allspecializations?sessionKey=${sessionKey}`)
                 .then(response => response.json())
                 .then(data => {
                     const specializationsDropdown = document.getElementById('specInput');
                     // Clear existing options
-                    specializationsDropdown.innerHTML = "";
                     //add each option to the dropdown
                     data.forEach(specialization => {
                         const option = document.createElement('option');
@@ -213,6 +204,14 @@
                     });
                 })
                 .catch(error => console.error('Error fetching specializations', error));
+
+            //this acts as a placeholder:
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Wybierz'; // You can customize this placeholder text
+            defaultOption.disabled = true;
+            defaultOption.selected = true; // This makes it selected by default
+            specInput.appendChild(defaultOption);
 
             inputBox3.appendChild(specInput);
 
