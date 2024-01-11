@@ -125,7 +125,7 @@ a {
     flex-wrap: wrap;
     justify-content: space-around;
 }
-.inputBox input{
+.inputBox input, .inputBox select{
     width: 14em;
 }
 #findVisits_btn{

@@ -5,6 +5,7 @@ import com.project.clinic.Refferal;
 import com.project.clinic.Visit;
 import com.project.repository.PatientRepository;
 import com.project.repository.VisitRepository;
+import com.project.service.DoctorService;
 import com.project.service.PatientService;
 import com.project.service.RefferalService;
 import com.project.service.VisitService;
@@ -34,6 +35,9 @@ public class PatientApiController
 
     @Autowired
     private RefferalService refferalService;
+
+    @Autowired
+    private DoctorService doctorService;
 
 
 
@@ -76,4 +80,10 @@ public class PatientApiController
         return refferals;
     }
 
+    @GetMapping("/allspecializations")
+    public List<String> getAllSpecializations()
+    {
+        List<String> specializations = doctorService.getAllSpecialisations();
+        return specializations;
+    }
 }
