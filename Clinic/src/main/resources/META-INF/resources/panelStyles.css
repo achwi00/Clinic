@@ -106,9 +106,18 @@ a {
     font-size: 7rem;
     border-radius: 10px;
 }
-
 #formsContainer{
-
+    font-family: sans-serif;
+    width: 75%;
+}
+#formsContainer h1{
+    font-size: 1.1rem;
+    font-weight: normal;
+}
+#formsContainer h2{
+    font-size: 0.8rem;
+    margin-bottom: 0;
+    font-weight: normal;
 }
 .input_box input{
 

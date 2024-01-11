@@ -125,7 +125,7 @@
             clearContainer();
             const targetContainer = document.getElementById('patientData');
 
-            targetContainer.style.cssText = "display: flex; justify-content: center;";
+            targetContainer.style.cssText = "display: flex; justify-content:center";
 
             const formsContainer = document.createElement('div');
             formsContainer.id = 'formsContainer';
@@ -135,16 +135,39 @@
             visitForm.action = '/submit-visit';
             visitForm.method = 'POST';
 
+            const header = document.createElement('h1');
+            header.textContent = 'W terminie: ';
+            formsContainer.appendChild(header);
+
             const inputBox1 = document.createElement('div');
             inputBox1.classList.add("inputBox");
-            document.getElementById('formsContainer').appendChild(inputBox1);
+            visitForm.appendChild(inputBox1);
+
+            const startHeader = document.createElement('h2');
+            startHeader.textContent = 'Od: ';
+            inputBox1.appendChild(startHeader);
 
             const startDateInput = document.createElement('input');
             startDateInput.type = 'date';
-            startDateInput.placeholder = 'date';
+            startDateInput.placeholder = 'Start date';
             startDateInput.required = true;
             startDateInput.name = 'startDateInput';
             inputBox1.appendChild(startDateInput);
+
+            const inputBox2 = document.createElement('div');
+            inputBox2.classList.add("inputBox");
+            visitForm.appendChild(inputBox2);
+
+            const endHeader = document.createElement('h2');
+            endHeader.textContent = 'Do: ';
+            inputBox2.appendChild(endHeader);
+
+            const endDateInput = document.createElement('input');
+            endDateInput.type = 'date';
+            endDateInput.placeholder = 'End date';
+            endDateInput.required = true;
+            endDateInput.name = 'endDateInput';
+            inputBox2.appendChild(endDateInput);
 
             document.getElementById('formsContainer').appendChild(visitForm);
 
