@@ -74,12 +74,13 @@ a {
     justify-content: center;
     color: White;
     font-size: 1rem;
+    font-family: sans-serif;
     background-color: pink;
 }
 #patientData{
     width: 100%;
     margin-top: 1%;
-    height: 200px;
+    min-height: 200px;
     margin-bottom: 1%;
     background-color: white;
 }
@@ -108,10 +109,10 @@ a {
 }
 #formsContainer{
     font-family: sans-serif;
-    width: 75%;
+    width: 60%;
 }
 #formsContainer h1{
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: normal;
 }
 #formsContainer h2{
@@ -119,8 +120,26 @@ a {
     margin-bottom: 0;
     font-weight: normal;
 }
-.input_box input{
-
+#allInputsHolder form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.inputBox input{
+    width: 14em;
+}
+#findVisits_btn{
+    font-size: 1rem;
+    background-color: #BF4080;
+    color: white;
+    width: 12rem;
+    height: 1.5rem;
+    border: none;
+    border-radius: 6px;
+    margin-top: 1.4rem;
+}
+#findVisits_btn:hover{
+    background-color: #e858a1;
 }
 footer {
     height: 15%;

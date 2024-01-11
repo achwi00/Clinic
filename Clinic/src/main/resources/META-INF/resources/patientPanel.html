@@ -124,25 +124,31 @@
             titleContainer.innerHTML = '<p>UMÓW NOWĄ WIZYTĘ</p>';
             clearContainer();
             const targetContainer = document.getElementById('patientData');
-
             targetContainer.style.cssText = "display: flex; justify-content:center";
 
+            //adding new stuff: adding formsContainer to patientData
             const formsContainer = document.createElement('div');
             formsContainer.id = 'formsContainer';
             targetContainer.appendChild(formsContainer);
-
-            const visitForm = document.createElement('form');
-            visitForm.action = '/submit-visit';
-            visitForm.method = 'POST';
-
+            //adding a header in formsContainer
             const header = document.createElement('h1');
             header.textContent = 'W terminie: ';
             formsContainer.appendChild(header);
 
+            const allInputsHolder = document.createElement('div');
+            allInputsHolder.id = 'allInputsHolder';
+            formsContainer.appendChild(allInputsHolder);
+
+            //creating forms
+            const visitForm = document.createElement('form');
+            visitForm.action = '/submit-visit';
+            visitForm.method = 'POST';
+
+            //creating inputBox, adding it to the forms
             const inputBox1 = document.createElement('div');
             inputBox1.classList.add("inputBox");
             visitForm.appendChild(inputBox1);
-
+            //adding a header to
             const startHeader = document.createElement('h2');
             startHeader.textContent = 'Od: ';
             inputBox1.appendChild(startHeader);
@@ -168,8 +174,40 @@
             endDateInput.required = true;
             endDateInput.name = 'endDateInput';
             inputBox2.appendChild(endDateInput);
+            //specialisation
+            const inputBox3 = document.createElement('div');
+            inputBox3.classList.add("inputBox");
+            visitForm.appendChild(inputBox3);
 
-            document.getElementById('formsContainer').appendChild(visitForm);
+            const specHeader = document.createElement('h2');
+            specHeader.textContent = "Specjalizacja: ";
+            inputBox3.appendChild(specHeader);
+
+            const specInput = document.createElement('input');
+            specInput.type = 'text';
+            specInput.placeholder = 'Wybierz';
+            specInput.required = true;
+            specInput.name = 'specInput';
+            inputBox3.appendChild(specInput);
+
+            const button = document.createElement('button');
+            button.type = 'submit';
+            button.textContent = 'Wyszukaj';
+            button.id = 'findVisits_btn';
+
+            button.addEventListener('click', submitForm)
+            visitForm.appendChild(button);
+            allInputsHolder.appendChild(visitForm);
+            //document.getElementById('formsContainer').appendChild(visitForm);
+
+            function submitForm()
+            {
+                const startDate = startDateInput.value;
+                const endDate = endDateInput.value;
+                const specialization = specInput.value;
+
+                visitForm.submit();
+            }
 
         }
 
