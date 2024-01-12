@@ -5,7 +5,8 @@ import com.project.repository.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,10 +20,10 @@ public class VisitService
         return visitList;
     }
 
-    public List<Visit> getAllVisitsIn(Date start, Date stop, String specialisation){
+    public List<Visit> getAllVisitsIn(LocalDate start, LocalDate stop, String specialisation){
 
-        //List<Visit> visits =
-        return visitRepository.findAll();
+        List<Visit> visits = visitRepository.findFreeVisitsBySpecialisationAndDate(specialisation, start, stop);
+        return visits;
     }
 
 

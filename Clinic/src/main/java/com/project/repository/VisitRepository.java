@@ -2,11 +2,29 @@ package com.project.repository;
 
 import com.project.clinic.Visit;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Long>
 {
+//        @Query(SELECT )
+//        List<Visit> getAllBySpecializationInBetween(@Param("start") Date start, @Param("end") Date end, @Param("specialisation") String specialization);
 
+    //List<Visit> findByDoctorSpecialisationAndStatusAndDateBetween(String specialisation, String status, Date startDate, Date endDate);
+
+    @Query("SELECT v FROM Visit v " +
+            "JOIN v.doctor d " +
+            "WHERE d.specialisation = :specialisation " +
+            "AND v.status = 'FREE' " +
+            "AND v.date BETWEEN :startDate AND :endDate")
+    List<Visit> findFreeVisitsBySpecialisationAndDate(
+            String specialisation, LocalDate startDate, LocalDate endDate
+    );
 
 }

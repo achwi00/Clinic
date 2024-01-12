@@ -62,12 +62,6 @@ public class PatientApiController
         return patient;
     }
 
-//    @GetMapping("/allvisits")
-//    public List<Visit> getAllVisits(@RequestParam Long patientId)
-//    {
-//        List<Visit> visits = visitService.getAllVisits();
-//        return visits;
-//    }
 
     @GetMapping("/allvisits")
     public List<Visit> getAllVisits(@RequestParam String sessionKey)
@@ -99,10 +93,13 @@ public class PatientApiController
 
         LocalDate startDate = LocalDate.parse(startDateIn);
         LocalDate endDate = LocalDate.parse(endDateIn);
-        System.out.println(startDate + specializationIn + endDate);
 
-//        List<Visit> visits = visitService.getAllVisitsIn(startDate, endDate, specializationIn);
-        List<Visit> visits = visitService.getAllVisits();
+        //Date start = Date.valueOf(startDate);
+        //Date end = Date.valueOf(endDate);
+        //System.out.println(start + specializationIn + end);
+
+        List<Visit> visits = visitService.getAllVisitsIn(startDate, endDate, specializationIn);
+        //List<Visit> visits = visitService.getAllVisits();
         for(Visit visit : visits){
             System.out.println(visit.toString());
         }

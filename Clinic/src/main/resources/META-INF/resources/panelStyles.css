@@ -86,6 +86,7 @@ a {
 }
 .visitsData{
     color:deeppink;
+    width: 80%;
 }
 #personalInfoContainer{
     display: flex;
