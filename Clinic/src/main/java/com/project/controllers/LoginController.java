@@ -1,14 +1,20 @@
 package com.project.controllers;
 
+import com.project.clinic.Patient;
 import com.project.repository.AdminRepository;
 import com.project.repository.DoctorRepository;
 import com.project.repository.PatientRepository;
+import com.project.service.AdminService;
+import com.project.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
+import java.util.Random;
 
 @Controller
 public class LoginController
@@ -18,8 +24,15 @@ public class LoginController
 
     @Autowired
     public DoctorRepository doctorRepository;
+
     @Autowired
     public AdminRepository adminRepository;
+
+    @Autowired
+    public AdminService adminService;
+
+    @Autowired
+    public PatientService patientService;
 
     @RequestMapping("/")
     public String showLogin(){
@@ -34,12 +47,20 @@ public class LoginController
         //redirect to doctor if he is a doctor, to admin, to moderator
         if(isValidUser(email, password).equals("patient")){
             Long patientId = patientRepository.findIdByEmailAndPassword(email, password);
-            redirectAttributes.addAttribute("patientId", patientId);
+            String sK = generateSessionKey();
+            patientService.updateSessionKey(patientId, sK);
+
+            //redirectAttributes.addAttribute("patientId", patientId);
+
+            //that is added:
+            redirectAttributes.addAttribute("sessionKey", sK);
             return "redirect:/patient";
         }
-        if(isValidUser(email, password).equals("admin")){
-            Long adminId = adminRepository.findIdByEmailAndPassword(email,password);
-            redirectAttributes.addAttribute("adminId",adminId);
+        else if(isValidUser(email,password).equals("admin")){
+            Long adminId = adminRepository.findIdByEmailAndPassword(email, password);
+            String sK = generateSessionKey();
+            adminService.updateSessionKey(adminId,sK);
+            redirectAttributes.addAttribute("sessionKey", sK);
             return "redirect:/admin";
         }
         else{
@@ -58,8 +79,38 @@ public class LoginController
         //check if user is a patient
         if(patientRepository.existsByEmailAndPassword(email, password)) return "patient";
         else if (doctorRepository.existsByEmailAndPassword(email, password)) return "doctor";
-        else if(adminRepository.existsByEmailAndPassword(email,password)) return "admin";
+        else if (adminRepository.existsByEmailAndPassword(email, password)) return "admin";
         else return "none";
 
+    }
+
+    public String generateSessionKey(){
+        boolean doesExist= false;
+        String generatedString = "";
+        if(doesExist==false)
+        {
+            int leftLimit = 48; // numeral '0'
+            int rightLimit = 122; // letter 'z'
+            int targetStringLength = 20;
+            Random random = new Random();
+
+            generatedString = random.ints(leftLimit, rightLimit + 1)
+                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
+        }
+        if(patientRepository.existsBySessionKey(generatedString)) doesExist=true;
+        if(doctorRepository.existsBySessionKey(generatedString)) doesExist = true;
+        if(adminRepository.existsBySessionKey(generatedString)) doesExist = true;
+        else{
+            doesExist = false;
+        }
+
+        if(doesExist) generateSessionKey();
+
+        System.out.println("String generated: " + generatedString);
+        return generatedString;
     }
 }

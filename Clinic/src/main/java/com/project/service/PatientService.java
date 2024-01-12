@@ -24,4 +24,16 @@ public class PatientService
         return  patientRepository.findById(patientId);
     }
 
+    public void updateSessionKey(Long patientId, String newSessionKey) {
+        Optional<Patient> optionalPatient = patientRepository.findById(patientId);
+
+        optionalPatient.ifPresent(patient -> {
+            // Update the sessionKey
+            patient.setSessionKey(newSessionKey);
+
+            // Save the updated patient back to the database
+            patientRepository.save(patient);
+        });
+    }
+
 }

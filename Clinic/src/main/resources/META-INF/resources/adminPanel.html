@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
   <meta name="adminPanel" content="width=device.width, initial-scale=1.0"/>
@@ -7,35 +7,201 @@
 
 
   <title>adminPanel</title>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <header>
   <div id="navbar">
 
-    <button class="dropbtn" id="logo_pm" name="logo_pm"><a href="/admin"><img src="logo_premiummed.png" id="logo_img" height="50pxSSSSSS"></a></button>
+    <button class="dropbtn" id="logo_pm" name="logo_pm"><img src="logo_premiummed.png" id="logo_img" height="50pxSSSSSS"></button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="visits" name="visits"><a href="/visits">Wyszukaj wizytę</a></button>
+    <button class="dropbtn" id="searchVisits" name="searchVisits">Wyszukaj wizytę</button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="addDoctor" name="addDoctor"><a href="#">Dodawanie lekarza</a></button>
+    <button class="dropbtn" id="addDoctor" name="addDoctor">Dodawanie lekarza</button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="doctors" name="doctors"><a href="#">Lekarze</a></button>
+    <button class="dropbtn" id="doctors" name="doctors">Lekarze</button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="clinics" name="clinics"><a href="#">Przychodnie </a></button>
+    <button class="dropbtn" id="clinics" name="clinics">Przychodnie </button>
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="log_out" name="log_out"><a href="#">Wyloguj</a></button>
+    <button class="dropbtn" id="log_out" name="log_out"><a href="/">Wyloguj</a></button>
     <div class="dropdown-content">
     </div>
+    <script>
+
+        document.getElementById('logo_pm').addEventListener('click', redirectToAdmin);
+        document.getElementById('searchVisits').addEventListener('click', searchVisits);
+        document.getElementById('addDoctor').addEventListener('click', formAddDoctor);
+        document.getElementById('doctors').addEventListener('click', displayDoctors);
+        document.getElementById('clinics').addEventListener('click', displayClinics);
+
+        const urlParams1 = new URLSearchParams(window.location.search);
+        const sessionKey = urlParams1.get('sessionKey');
+
+        function redirectToAdmin() {
+
+            if (sessionKey) {
+                const redirectUrl = `/admin?sessionKey=${sessionKey}`;
+                window.location.href = redirectUrl;
+            } else {
+                // Handle the case when adminId is not available
+                console.error('sessionKey: ', sessionKey);
+            }
+        }
+        function displayDoctors(){
+        const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>LISTA WSZYSTKICH LEKARZY</p>';
+            const doctorsContainer = document.getElementById('adminData');
+            clearContainer();
+            doctorsContainer.id = 'doctorsContainer';
+            document.getElementById('adminData').appendChild(doctorsContainer);
+
+            doctorsContainer.style.cssText = "display: block; justify-content: center;";
+            fetch(`/admin/alldoctors?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(doctors => {
+                        const adminDiv = document.createElement('div');
+                        //adminDiv.classList.add("doctorsData");
+                        adminDiv.textContent = `Doctors: ${doctors.name} ${doctors.surname}`;
+                        document.getElementById('doctorsContainer').appendChild(adminDiv);
+                    })
+                })
+                .catch(error => console.error('Error fetching admin data', error))
+
+        }
+
+        function formAddDoctor(){
+        const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>DODAJ NOWEGO LEKARZA</p>';
+            clearContainer();
+            const targetContainer = document.getElementById('adminData');
+            targetContainer.style.cssText = "display: flex; justify-content:center";
+
+            //adding new stuff: adding formsContainer to patientData
+            const formsContainer = document.createElement('div');
+            formsContainer.id = 'formsContainer';
+            targetContainer.appendChild(formsContainer);
+
+            const allInputsHolder = document.createElement('div');
+            allInputsHolder.id = 'allInputsHolder';
+            formsContainer.appendChild(allInputsHolder);
+
+            //creating forms
+            const doctorForm = document.createElement('form');
+            doctorForm.action = '/submit-doctor';
+            doctorForm.method = 'POST';
+
+            //creating inputBox, adding it to the forms
+            const inputBox1 = document.createElement('div');
+            inputBox1.classList.add("inputBox");
+            doctorForm.appendChild(inputBox1);
+
+            const startHeader = document.createElement('h2');
+            nameHeader.textContent = 'Name';
+            inputBox1.appendChild(nameHeader);
+
+            const startNameInput = document.createElement('input');
+            startNameInput.type = 'text';
+            startNameInput.placeholder = 'Name';
+            startNameInput.required = true;
+            startNameInput.name = 'nameInput';
+            inputBox1.appendChild(nameInput);
+
+            const inputBox2 = document.createElement('div');
+            inputBox2.classList.add("inputBox");
+            doctorForm.appendChild(inputBox2);
+
+            const surnameHeader = document.createElement('h2');
+            surnameHeader.textContent = 'Nazwisko: ';
+            inputBox2.appendChild(surnameHeader);
+
+            const surnameInput = document.createElement('input');
+            endDateInput.type = 'text';
+            endDateInput.placeholder = 'Surname';
+            endDateInput.required = true;
+            endDateInput.name = 'SurnameInput';
+            inputBox2.appendChild(SurnameInput);
+            //e-mail
+            const inputBox3 = document.createElement('div');
+            inputBox3.classList.add("inputBox");
+            doctorForm.appendChild(inputBox3);
+
+            const emailHeader = document.createElement('h2');
+            emailHeader.textContent = 'E-mail: ';
+            inputBox3.appendChild(emailHeader);
+
+            const emailInput = document.createElement('input');
+            endDateInput.type = 'email';
+            endDateInput.placeholder = 'Email';
+            endDateInput.required = true;
+            endDateInput.name = 'emailInput';
+            inputBox3.appendChild(emailInput);
+
+            //password
+            const inputBox4 = document.createElement('div');
+            inputBox4.classList.add("inputBox");
+            doctorForm.appendChild(inputBox4);
+
+            const passwordHeader = document.createElement('h2');
+            passwordHeader.textContent = 'Password: ';
+            inputBox4.appendChild(passwordHeader);
+
+            const passwordInput = document.createElement('input');
+            passwordInput.type = 'text';
+            passwordInput.placeholder = 'Password';
+            passwordInput.required = true;
+            passwordInput.name = 'passwordInput';
+            inputBox4.appendChild(passwordInput);
+
+            //listofClinic
+            const inputBox5 = document.createElement('div');
+            inputBox5.classList.add("inputBox");
+            doctorForm.appendChild(inputBox5);
+
+            const listHeader = document.createElement('h2');
+            listHeader.textContent = "Kliniki: ";
+            inputBox5.appendChild(listHeader);
+
+            const listInput = document.createElement('select');
+            listInput.type = 'select';
+            listInput.required = true;
+            listInput.name = 'listInput';
+            listInput.id = 'listInput';
+
+            //dropdown specialisations logic here:
+            fetch(`/admin/allclinics?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    const clinicsDropdown = document.getElementById('listInput');
+                    // Clear existing options
+                    //add each option to the dropdown
+                    data.forEach(specialization => {
+                        const option = document.createElement('option');
+                        option.value = specialization;
+                        option.textContent = specialization;
+                        specializationsDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching specializations', error));
+
+        }
+        function clearContainer()
+        {
+            const targetContainer = document.getElementById('adminData');
+            while(targetContainer.firstChild){
+                targetContainer.firstChild.remove();
+            }
+        }
+    </script>
 
   </div>
 
@@ -46,56 +212,26 @@
       <p>TWOJE DANE</p>
     </div>
     <div id="adminData">
-      <form id="clinicForm">
-        <div class="input_box">
-          <h1>E-mail</h1>
-          <input type="text" placeholder="Email" required id="email" name="email">
-        </div>
-
-        <div class="input_box">
-          <h1>Hasło</h1>
-          <input type="password" placeholder="Password" required id="password" name="password">
-        </div>
-        <div class="input_box">
-          <h1>Imię</h1>
-          <input type="text" placeholder="Imię" required id="name" name="name">
-        </div>
-
-        <div class="input_box">
-          <h1>Nazwisko</h1>
-          <input type="text" placeholder="Nazwisko" required id="surname" name="surname">
-        </div>
-        <div class="input_box">
-          <h1>Specjalizacja</h1>
-          <input type="text" placeholder="Specjalizacja" required id="specialisation" name="specialisation">
-        </div>
-        <div class="input_box">
-          <h1>numer PWZ</h1>
-          <input type="text" placeholder="numer PWZ" required id="PWZnr" name="PWZnr">
-        </div>
-        <div id="listclinics">
-          <h1>Wybierz kliniki</h1>
-          <ul>
-            <li th:each="Clinic : ${Allclinics}">
-              <input type="checkbox" th:value="${Clinic.departmentName}" name="Clinic" />
-              <label th:text="${Clinic.departmentName}"></label>
-            </li>
-          </ul>
-        </div><br>
-        <button type="submit">Zarejestruj</button>
-      </form>
       <script>
-    fetch(`/clinic/allClinics`)
-                .then(response => response.json())
-                .then(listclinics => {
-                    const listClinics = document.createElement('div');
-                    <li th:each="Clinic : ${Allclinics}">
-                      <input type="checkbox" th:value="${Clinic.departmentName}" name="Clinic" />
-                      <label th:text="${Clinic.departmentName}"></label>
-                    </li>
+          const urlParams = new URLSearchParams(window.location.search);
+          const sessionKey1 = urlParams.get('sessionKey');
 
-                })
-  </script>
+          const personalInfoContainer = document.createElement('div');
+          personalInfoContainer.id = 'personalInfoContainer';
+          document.getElementById('adminData').appendChild(personalInfoContainer);
+
+          const adminData = document.getElementById('adminData');
+          adminData.style.cssText = "display: flex; justify-content: center;";
+
+          fetch(`/admin/all?sessionKey=${sessionKey1}`)
+             .then(response => response.json())
+             .then(admin => {
+                            const adminDiv = document.createElement('div');
+                            adminDiv.textContent = `Admin: ${admin.name} ${admin.surname}`;
+                            document.getElementById('personalInfoContainer').appendChild(adminDiv);
+                        })
+             .catch(error => console.error('Error fetching admin data', error))
+      </script>
 
     </div>
   </div>
