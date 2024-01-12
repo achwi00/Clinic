@@ -52,6 +52,7 @@ public class LoginController
             redirectAttributes.addAttribute("sessionKey", sK);
             return "redirect:/patient";
         }
+
         else{
             return "redirect:/";
         }

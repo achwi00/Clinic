@@ -1,5 +1,10 @@
 package com.project.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import java.sql.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.ui.Model;
 import com.project.clinic.Patient;
 import com.project.clinic.Refferal;
 import com.project.clinic.Visit;
@@ -10,12 +15,11 @@ import com.project.service.PatientService;
 import com.project.service.RefferalService;
 import com.project.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLOutput;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +43,8 @@ public class PatientApiController
     @Autowired
     private DoctorService doctorService;
 
-
+    @Autowired
+    HttpServletRequest request;
 
     @GetMapping("/all")
     public Optional<Patient> getThisPatient(@RequestParam String sessionKey)
@@ -86,4 +91,24 @@ public class PatientApiController
         List<String> specializations = doctorService.getAllSpecialisations();
         return specializations;
     }
+
+    @PostMapping("/patient/submit-visit")
+    public List<Visit> getVisitsIn(@RequestParam("startDateIn") String startDateIn,
+                                   @RequestParam("endDateIn") String endDateIn,
+                                    @RequestParam("specializationIn") String specializationIn){
+
+        LocalDate startDate = LocalDate.parse(startDateIn);
+        LocalDate endDate = LocalDate.parse(endDateIn);
+        System.out.println(startDate + specializationIn + endDate);
+
+//        List<Visit> visits = visitService.getAllVisitsIn(startDate, endDate, specializationIn);
+        List<Visit> visits = visitService.getAllVisits();
+        for(Visit visit : visits){
+            System.out.println(visit.toString());
+        }
+
+        return visits;
+    }
+
+
 }

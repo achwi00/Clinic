@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface VisitRepository extends JpaRepository<Visit, Long>
 {
 
+
 }

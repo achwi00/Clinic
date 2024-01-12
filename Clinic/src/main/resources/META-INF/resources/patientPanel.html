@@ -220,18 +220,47 @@
             button.textContent = 'Wyszukaj';
             button.id = 'findVisits_btn';
 
-            button.addEventListener('click', submitForm)
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                searchForVisits();
+            });
             visitForm.appendChild(button);
             allInputsHolder.appendChild(visitForm);
             //document.getElementById('formsContainer').appendChild(visitForm);
 
-            function submitForm()
+            function searchForVisits()
             {
-                const startDate = startDateInput.value;
-                const endDate = endDateInput.value;
-                const specialization = specInput.value;
+                const startDateIn = startDateInput.value.toString();
+                const endDateIn = endDateInput.value.toString();
+                const specializationIn = specInput.value;
 
-                visitForm.submit();
+                //visitForm.submit();
+                clearContainer();
+                targetContainer.style.cssText = "display: flex; justify-content:center; flex-direction:row";
+
+                const formData = new FormData();
+                formData.append('startDateIn', startDateIn);
+                formData.append('endDateIn', endDateIn);
+                formData.append('specializationIn', specializationIn);
+
+                fetch('/patient/patient/submit-visit', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(visits => {
+                            const patientDiv = document.createElement('div');
+                            patientDiv.classList.add("visitsData");
+                            patientDiv.textContent = `Visits: ${visits.date} ${visits.time}`;
+                            document.getElementById('patientData').appendChild(patientDiv);
+                        })
+                    })
+                    .catch(error => console.error('Error fetching patient data', error))
+
+
+
+                //fetch(`/patient/returnedVisits?sessionKey=${sessionKey}`)
             }
 
         }
