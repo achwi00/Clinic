@@ -32,6 +32,7 @@ public class AdminApiController {
 
     @Autowired
     HttpServletRequest request;
+
     @GetMapping("/alldoctors")
     public List<Doctor> getAllDoctors(@RequestParam String sessionKey)
     {

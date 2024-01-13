@@ -37,14 +37,18 @@
     </div>
     <script>
 
+        let sessionKey;
+        const urlParams1 = new URLSearchParams(window.location.search);
+        if (urlParams1.has('sessionKey')) {
+          sessionKey = urlParams1.get('sessionKey');
+        }
         document.getElementById('logo_pm').addEventListener('click', redirectToAdmin);
         document.getElementById('searchVisits').addEventListener('click', searchVisits);
         document.getElementById('addDoctor').addEventListener('click', formAddDoctor);
         document.getElementById('doctors').addEventListener('click', displayDoctors);
         document.getElementById('clinics').addEventListener('click', displayClinics);
 
-        const urlParams1 = new URLSearchParams(window.location.search);
-        const sessionKey = urlParams1.get('sessionKey');
+
 
         function redirectToAdmin() {
 
@@ -61,8 +65,6 @@
             titleContainer.innerHTML = '<p>LISTA WSZYSTKICH LEKARZY</p>';
             const doctorsContainer = document.getElementById('adminData');
             clearContainer();
-            doctorsContainer.id = 'doctorsContainer';
-            document.getElementById('adminData').appendChild(doctorsContainer);
 
             doctorsContainer.style.cssText = "display: block; justify-content: center;";
             fetch(`/admin/alldoctors?sessionKey=${sessionKey}`)
@@ -71,8 +73,9 @@
                     data.forEach(doctors => {
                         const adminDiv = document.createElement('div');
                         //adminDiv.classList.add("doctorsData");
-                        adminDiv.textContent = `Doctors: ${doctors.name} ${doctors.surname}`;
-                        document.getElementById('doctorsContainer').appendChild(adminDiv);
+                        adminDiv.textContent = `dr. ${doctors.name} ${doctors.surname} specjalizacja: ${doctors.specialisation}`;
+                        //document.getElementById('doctorsContainer').appendChild(adminDiv);
+                        doctorsContainer.appendChild(adminDiv);
                     })
                 })
                 .catch(error => console.error('Error fetching admin data', error))
