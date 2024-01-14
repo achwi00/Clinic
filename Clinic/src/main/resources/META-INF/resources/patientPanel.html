@@ -71,7 +71,7 @@
                 visitsContainer.firstChild.remove();
             }
 
-            visitsContainer.style.cssText = "display: block; justify-content: center;";
+            document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
             fetch(`/patient/allvisits?sessionKey=${sessionKey}`)
                 .then(response => response.json())
                 .then(data => {
@@ -257,13 +257,19 @@
                             const newVisitDoctor = document.createElement('div');
                             const newVisitClinic = document.createElement('div');
                             newVisitDateTime.classList.add("newVisitDateTime");
-
-                            newVisitDateTime.textContent = `Visits: ${visits.visitId} ${visits.date} ${visits.time}`;
+                            newVisitDateTime.textContent = `${visits.visitId} ${visits.date} ${visits.time}`;
                             patientDiv.appendChild(newVisitDateTime);
-                            newVisitDoctor.textContent =`DoctorName: ${visits.doctor.name}`
-                            patientDiv.appendChild(newVisitDoctor);
+
+                            const newVisitDocClInfo = document.createElement('div');
+                            newVisitDocClInfo.classList.add("newVisitDocClInfo");
+                            newVisitDoctor.classList.add("newVisitDoctor");
+                            newVisitDoctor.innerHTML =`${visits.doctor.specialisation}`+`<br>`+`${visits.doctor.name} ${visits.doctor.surname}`;
+
+                            newVisitDocClInfo.appendChild(newVisitDoctor);
                             newVisitClinic.textContent = `Clinic: ${visits.clinic.location}`
-                            patientDiv.appendChild(newVisitClinic);
+                            newVisitDocClInfo.appendChild(newVisitClinic);
+
+                            patientDiv.appendChild(newVisitDocClInfo);
                             document.getElementById('patientData').appendChild(patientDiv);
                         })
                     })

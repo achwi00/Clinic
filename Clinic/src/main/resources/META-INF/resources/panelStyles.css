@@ -145,9 +145,26 @@ a {
     width: 80%;
     background-color: #FFEAEE;
     margin-bottom: 1%;
+    min-height: 50px;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+.newVisitDateTime{
+    border-bottom: 2px solid lightgray;
+    padding: 5px;
+    font-weight: bold;
 }
 
-
+.newVisitDocClInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
+}
+.newVisitDoctor::first-line{
+    font-weight: bold;
+    text-transform: capitalize;
+}
 footer {
     height: 15%;
     display: flex;
