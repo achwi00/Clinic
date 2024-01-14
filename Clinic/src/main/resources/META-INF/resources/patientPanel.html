@@ -236,12 +236,13 @@
 
                 //visitForm.submit();
                 clearContainer();
-                targetContainer.style.cssText = "display: flex; align-items:center; flex-direction:column";
-
+                //targetContainer.style.cssText = "display: flex; align-items:center; flex-direction:column, justify-content: space-evenly;";
                 const formData = new FormData();
                 formData.append('startDateIn', startDateIn);
                 formData.append('endDateIn', endDateIn);
                 formData.append('specializationIn', specializationIn);
+
+                document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
 
                 fetch('/patient/patient/submit-visit', {
                     method: 'POST',
@@ -250,10 +251,19 @@
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(visits => {
-                            const patientDiv = document.createElement('div');
+                            const patientDiv = document.createElement('div');//d1
                             patientDiv.classList.add("visitsData");
+                            const newVisitDateTime = document.createElement('div');//d2
+                            const newVisitDoctor = document.createElement('div');
+                            const newVisitClinic = document.createElement('div');
+                            newVisitDateTime.classList.add("newVisitDateTime");
 
-                            patientDiv.textContent = `Visits: ${visits.visitId} ${visits.date} ${visits.time} DoctorName: ${visits.doctor.name} Clinic: ${visits.clinic.location}`;
+                            newVisitDateTime.textContent = `Visits: ${visits.visitId} ${visits.date} ${visits.time}`;
+                            patientDiv.appendChild(newVisitDateTime);
+                            newVisitDoctor.textContent =`DoctorName: ${visits.doctor.name}`
+                            patientDiv.appendChild(newVisitDoctor);
+                            newVisitClinic.textContent = `Clinic: ${visits.clinic.location}`
+                            patientDiv.appendChild(newVisitClinic);
                             document.getElementById('patientData').appendChild(patientDiv);
                         })
                     })

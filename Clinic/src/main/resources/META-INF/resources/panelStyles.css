@@ -84,10 +84,7 @@ a {
     margin-bottom: 1%;
     background-color: white;
 }
-.visitsData{
-    color:deeppink;
-    width: 80%;
-}
+
 #personalInfoContainer{
     display: flex;
     flex-direction: row;
@@ -142,6 +139,15 @@ a {
 #findVisits_btn:hover{
     background-color: #e858a1;
 }
+
+.visitsData{
+    color:black;
+    width: 80%;
+    background-color: #FFEAEE;
+    margin-bottom: 1%;
+}
+
+
 footer {
     height: 15%;
     display: flex;
