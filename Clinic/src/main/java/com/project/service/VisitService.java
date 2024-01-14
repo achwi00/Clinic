@@ -3,6 +3,7 @@ package com.project.service;
 import com.project.clinic.Visit;
 import com.project.repository.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

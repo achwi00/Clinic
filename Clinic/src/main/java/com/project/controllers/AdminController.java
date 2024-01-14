@@ -5,6 +5,7 @@ import com.project.clinic.Clinic;
 import com.project.clinic.Doctor;
 import com.project.clinic.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class AdminController {
         List<Clinic> clinics = adminApiController.getAllClinics(sessionKey);
         return clinics;
     }
-    public List<Visit> returnFindVisitByDoctorId(@RequestParam Long doctorId)
+    public List<Visit> returnFindVisitByDoctorId(Long doctorId)
     {
         List<Visit> visits = adminApiController.findVisitByDoctorId(doctorId);
         return visits;

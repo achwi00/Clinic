@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Long>
 {
-    @Query("Select v FROM Visit v WHERE doctorId= :doctorId")
-    List<Visit> findByDoctorId(@Param("doctorID")Long doctorId);
+    //query zakomentowane bo wywala błąd, ale no trezba je poprawić bo bez tego razcej nie pobierze tych danych
+    //@Query("SELECT v FROM Visit v WHERE v.doctorId = :doctorId")
+    List<Visit> findByDoctorId(Long doctorId);
 }

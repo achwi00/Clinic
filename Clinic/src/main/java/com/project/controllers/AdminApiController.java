@@ -10,10 +10,8 @@ import com.project.service.ClinicService;
 import com.project.service.DoctorService;
 import com.project.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.sql.SQLOutput;
 
@@ -51,8 +49,8 @@ public class AdminApiController {
          return clinics;
     }
 
-    @GetMapping("/findvisit")
-    public List<Visit> findVisitByDoctorId(@RequestParam("doctorId") Long doctorId){
+    @GetMapping("/admin/submit-visit")
+    public List<Visit> findVisitByDoctorId(@RequestParam Long doctorId){
         List<Visit> visits = visitService.findByDoctorId(doctorId);
         return visits;
     }

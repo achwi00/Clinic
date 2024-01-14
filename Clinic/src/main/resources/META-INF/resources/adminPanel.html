@@ -59,17 +59,67 @@
             }
         }
 
-        function searchVisits(){
-        const titleContainer = document.getElementById('title-container');
-            titleContainer.innerHTML = '<p>WYSZUKAJ WIZYTE</p>';
-            //clearContainer();
-            const visitContainer = document.getElementById('adminData');
-            while(visitContainer.firstChild){
-                visitContainer.firstChild.remove();
-            }
-            visitContainer.id ='visitContainer';
+    function searchVisits(){
+    const titleContainer = document.getElementById('title-container');
+    titleContainer.innerHTML = '<p>WYSZUKAJ WIZYTY</p>';
 
-        }
+    // Clear the container
+    clearContainer();
+
+    // Create the visit container
+    const visitContainer = document.getElementById('adminData');
+    visitContainer.id ='visitContainer';
+    const visitForm = document.createElement('form');
+    //visitForm.id='visitForm';
+    visitForm.action = 'admin/admin/submit-visit';
+    visitForm.method = 'POST';
+    visitContainer.appendChild(visitForm);
+
+    // Create an input field for doctorId
+    const doctorIdInput = document.createElement('input');
+    doctorIdInput.type = 'number';
+    doctorIdInput.placeholder = 'Doctor ID';
+    doctorIdInput.id = 'doctorIdInput';
+
+    // Create a search button
+    const searchButton = document.createElement('button');
+    searchButton.textContent = 'Szukaj';
+    searchButton.addEventListener('click', getVisitsByDoctorId);
+
+    // Append the input field and search button to the visit container
+    visitForm.appendChild(doctorIdInput);
+    visitForm.appendChild(searchButton);
+    }
+
+    function getVisitsByDoctorId() {
+    const doctorId = document.getElementById('doctorIdInput').value;
+    const visitContainer = document.getElementById('visitContainer');
+
+    // Clear the visit container
+    while (visitContainer.firstChild) {
+        visitContainer.firstChild.remove();
+    }
+
+    const formData = new FormData();
+    formData.append('doctorId', doctorId);
+
+    // Fetch visits from the API
+    //fetch(`/admin/admin/submit-visit?doctorId=${doctorId}`)
+    fetch('/admin/admin/submit-visit',{
+      method: 'POST',
+      body: formData})
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(visit => {
+                const visitDiv = document.createElement('div');
+                visitDiv.textContent = `Wizyta id: ${visit.id}, lekarz id: ${visit.doctorId}, pacjent id: ${visit.patientId}`;
+                //visitContainer.appendChild(visitDiv);
+                document.getElementById('adminData').appendChild(visitDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching visits', error));
+}
+
 
         function displayDoctors(){
         const titleContainer = document.getElementById('title-container');
@@ -120,12 +170,11 @@
 
         function formAddDoctor(){
         const titleContainer = document.getElementById('title-container');
-            titleContainer.innerHTML = '<p>DODAJ NOWEGO LEKARZA</p>';
-            const targetContainer = document.getElementById('adminData');
-            clearContainer();
-            targetContainer.id='targetContainer';
-            targetContainer.innerHTML = '<p>targetContainer</p>';
-            targetContainer.style.cssText = "display: flex; justify-content:center";
+        titleContainer.innerHTML = '<p>DODAJ NOWEGO LEKARZA</p>';
+        const targetContainer = document.getElementById('adminData');
+        clearContainer();
+        targetContainer.id='targetContainer';
+        targetContainer.style.cssText = "display: flex; justify-content:center";
 
             //adding new stuff: adding formsContainer to patientData
             const formsContainer = document.createElement('div');
