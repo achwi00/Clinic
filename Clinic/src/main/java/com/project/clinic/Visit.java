@@ -18,6 +18,10 @@ public class Visit
     private Doctor doctor;
 
     @ManyToOne
+    @JoinColumn(name = "clinicId", referencedColumnName = "clinicId")
+    private Clinic clinic;
+
+    @ManyToOne
     @JoinColumn(name = "patientId", referencedColumnName = "id")
     private Patient patient;
     @Column(length = 255)
@@ -173,5 +177,15 @@ public class Visit
     public void setVisitDescription(String visitDescription)
     {
         this.visitDescription = visitDescription;
+    }
+
+    public Clinic getClinic()
+    {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic)
+    {
+        this.clinic = clinic;
     }
 }

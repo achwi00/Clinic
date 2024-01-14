@@ -236,7 +236,7 @@
 
                 //visitForm.submit();
                 clearContainer();
-                targetContainer.style.cssText = "display: flex; justify-content:center; flex-direction:column";
+                targetContainer.style.cssText = "display: flex; align-items:center; flex-direction:column";
 
                 const formData = new FormData();
                 formData.append('startDateIn', startDateIn);
@@ -252,7 +252,8 @@
                         data.forEach(visits => {
                             const patientDiv = document.createElement('div');
                             patientDiv.classList.add("visitsData");
-                            patientDiv.textContent = `Visits: ${visits.visitId} ${visits.date} ${visits.time}`;
+
+                            patientDiv.textContent = `Visits: ${visits.visitId} ${visits.date} ${visits.time} DoctorName: ${visits.doctor.name} Clinic: ${visits.clinic.location}`;
                             document.getElementById('patientData').appendChild(patientDiv);
                         })
                     })

@@ -8,6 +8,9 @@ public class Room
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roomId;
+
+    private int roomNumber;
+
     @ManyToOne
     private Clinic clinic;
     @Column(length = 50)

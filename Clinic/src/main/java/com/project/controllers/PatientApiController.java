@@ -1,5 +1,6 @@
 package com.project.controllers;
 
+import com.project.clinic.Doctor;
 import jakarta.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
@@ -106,6 +107,8 @@ public class PatientApiController
 
         return visits;
     }
+
+
 
 
 }
