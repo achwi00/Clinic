@@ -48,8 +48,6 @@
         document.getElementById('doctors').addEventListener('click', displayDoctors);
         document.getElementById('clinics').addEventListener('click', displayClinics);
 
-
-
         function redirectToAdmin() {
 
             if (sessionKey) {
@@ -60,43 +58,85 @@
                 console.error('sessionKey: ', sessionKey);
             }
         }
+
+        function searchVisits(){
+        const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>WYSZUKAJ WIZYTE</p>';
+            //clearContainer();
+            const visitContainer = document.getElementById('adminData');
+            while(visitContainer.firstChild){
+                visitContainer.firstChild.remove();
+            }
+            visitContainer.id ='visitContainer';
+
+        }
+
         function displayDoctors(){
         const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>LISTA WSZYSTKICH LEKARZY</p>';
+            //clearContainer();
             const doctorsContainer = document.getElementById('adminData');
-            clearContainer();
+            while(doctorsContainer.firstChild){
+                doctorsContainer.firstChild.remove();
+            }
+            doctorsContainer.id ='doctorsContainer';
+            doctorsContainer.style.cssText = "display: block; justify-content: center;text-align: center;margin-top: 1em;";
 
-            doctorsContainer.style.cssText = "display: block; justify-content: center;";
             fetch(`/admin/alldoctors?sessionKey=${sessionKey}`)
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(doctors => {
                         const adminDiv = document.createElement('div');
-                        //adminDiv.classList.add("doctorsData");
                         adminDiv.textContent = `dr. ${doctors.name} ${doctors.surname} specjalizacja: ${doctors.specialisation}`;
-                        //document.getElementById('doctorsContainer').appendChild(adminDiv);
-                        doctorsContainer.appendChild(adminDiv);
+                        document.getElementById('doctorsContainer').appendChild(adminDiv);
+                        //doctorsContainer.appendChild(adminDiv);
                     })
                 })
                 .catch(error => console.error('Error fetching admin data', error))
+        }
+        function displayClinics(){
+        const titleContainer = document.getElementById('title-container');
+            titleContainer.innerHTML = '<p>LISTA PRZYCHODNI LEKARSKICH</p>';
+            //clearContainer();
+            const clinicsContainer = document.getElementById('adminData');
+            while(clinicsContainer.firstChild){
+                clinicsContainer.firstChild.remove();
+            }
+            clinicsContainer.id ='clinicsContainer';
 
+            clinicsContainer.style.cssText = "display: block; justify-content: center;text-align: center;margin-top: 1em;";
+
+            fetch(`/admin/allclinics?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(clinics => {
+                        const adminDiv = document.createElement('div');
+                        adminDiv.textContent = `Przychodnia Lekarska:  ${clinics.departmentName}`;
+                        document.getElementById('clinicsContainer').appendChild(adminDiv);
+                    })
+                })
+                .catch(error => console.error('Error fetching admin data', error))
         }
 
         function formAddDoctor(){
         const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>DODAJ NOWEGO LEKARZA</p>';
-            clearContainer();
             const targetContainer = document.getElementById('adminData');
+            clearContainer();
+            targetContainer.id='targetContainer';
+            targetContainer.innerHTML = '<p>targetContainer</p>';
             targetContainer.style.cssText = "display: flex; justify-content:center";
 
             //adding new stuff: adding formsContainer to patientData
             const formsContainer = document.createElement('div');
             formsContainer.id = 'formsContainer';
-            targetContainer.appendChild(formsContainer);
+            document.getElementById('targetContainer').appendChild(formsContainer);
+            formsContainer.innerHTML='formsContainer';
 
             const allInputsHolder = document.createElement('div');
             allInputsHolder.id = 'allInputsHolder';
             formsContainer.appendChild(allInputsHolder);
+            allInputsHolder.innerHTML='allInputsHolder';
 
             //creating forms
             const doctorForm = document.createElement('form');
@@ -187,11 +227,11 @@
                     const clinicsDropdown = document.getElementById('listInput');
                     // Clear existing options
                     //add each option to the dropdown
-                    data.forEach(specialization => {
+                    data.forEach(clinics => {
                         const option = document.createElement('option');
-                        option.value = specialization;
-                        option.textContent = specialization;
-                        specializationsDropdown.appendChild(option);
+                        option.value = clinics;
+                        option.textContent = clinics;
+                        clinicsDropdown.appendChild(option);
                     });
                 })
                 .catch(error => console.error('Error fetching specializations', error));
@@ -224,7 +264,7 @@
           document.getElementById('adminData').appendChild(personalInfoContainer);
 
           const adminData = document.getElementById('adminData');
-          adminData.style.cssText = "display: flex; justify-content: center;";
+          adminData.style.cssText = "display: flex; justify-content: center;margin-top: 1em;";
 
           fetch(`/admin/all?sessionKey=${sessionKey1}`)
              .then(response => response.json())

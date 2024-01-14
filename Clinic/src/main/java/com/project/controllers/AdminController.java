@@ -1,7 +1,9 @@
 package com.project.controllers;
 
 import com.project.clinic.Admin;
+import com.project.clinic.Clinic;
 import com.project.clinic.Doctor;
+import com.project.clinic.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +29,16 @@ public class AdminController {
     {
         List<Doctor> doctors = adminApiController.getAllDoctors(sessionKey);
         return doctors;
+    }
+    public List<Clinic> returnAllClinics(@RequestParam String sessionKey)
+    {
+        List<Clinic> clinics = adminApiController.getAllClinics(sessionKey);
+        return clinics;
+    }
+    public List<Visit> returnFindVisitByDoctorId(@RequestParam Long doctorId)
+    {
+        List<Visit> visits = adminApiController.findVisitByDoctorId(doctorId);
+        return visits;
     }
     /*public String returnAdminMain()
     {

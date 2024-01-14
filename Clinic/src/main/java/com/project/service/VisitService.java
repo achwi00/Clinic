@@ -17,5 +17,10 @@ public class VisitService
         List<Visit> visitList = visitRepository.findAll();
         return visitList;
     }
+    public List<Visit> findByDoctorId(Long doctorId)
+    {
+        List<Visit> visits = visitRepository.findByDoctorId(doctorId);
+        return visits;
+    }
 
 }
