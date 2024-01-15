@@ -78,4 +78,5 @@ public class Clinic
     public void deleteRoom(Room room){
         listOfRooms.remove(room);
     }
+
 }

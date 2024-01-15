@@ -37,98 +37,95 @@
     </div>
     <script>
 
-        let sessionKey;
-        const urlParams1 = new URLSearchParams(window.location.search);
-        if (urlParams1.has('sessionKey')) {
-          sessionKey = urlParams1.get('sessionKey');
+      let sessionKey;
+      const urlParams1 = new URLSearchParams(window.location.search);
+      if (urlParams1.has('sessionKey')) {
+        sessionKey = urlParams1.get('sessionKey');
+      }
+      document.getElementById('logo_pm').addEventListener('click', redirectToAdmin);
+      document.getElementById('searchVisits').addEventListener('click', searchVisits);
+      document.getElementById('addDoctor').addEventListener('click', formAddDoctor);
+      document.getElementById('doctors').addEventListener('click', displayDoctors);
+      document.getElementById('clinics').addEventListener('click', displayClinics);
+
+      function redirectToAdmin() {
+
+        if (sessionKey) {
+          const redirectUrl = `/admin?sessionKey=${sessionKey}`;
+          window.location.href = redirectUrl;
+        } else {
+          // Handle the case when adminId is not available
+          console.error('sessionKey: ', sessionKey);
         }
-        document.getElementById('logo_pm').addEventListener('click', redirectToAdmin);
-        document.getElementById('searchVisits').addEventListener('click', searchVisits);
-        document.getElementById('addDoctor').addEventListener('click', formAddDoctor);
-        document.getElementById('doctors').addEventListener('click', displayDoctors);
-        document.getElementById('clinics').addEventListener('click', displayClinics);
+      }
+      function searchVisits(){
+        const titleContainer = document.getElementById('title-container');
+      titleContainer.innerHTML = '<p>WYSZUKAJ WIZYTY</p>';
 
-        function redirectToAdmin() {
+      // Clear the container
+      clearContainer();
 
-            if (sessionKey) {
-                const redirectUrl = `/admin?sessionKey=${sessionKey}`;
-                window.location.href = redirectUrl;
-            } else {
-                // Handle the case when adminId is not available
-                console.error('sessionKey: ', sessionKey);
-            }
-        }
+      // Create the visit container
+      const visitContainer = document.getElementById('adminData');
+      visitContainer.id ='visitContainer';
+      const visitForm = document.createElement('form');
+      //visitForm.id='visitForm';
+      visitForm.action = 'admin/submit-visit';
+      visitForm.method = 'POST';
+      visitContainer.appendChild(visitForm);
 
-    function searchVisits(){
-    const titleContainer = document.getElementById('title-container');
-    titleContainer.innerHTML = '<p>WYSZUKAJ WIZYTY</p>';
+      // Create an input field for doctorId
+      const doctorIdInput = document.createElement('input');
+      doctorIdInput.type = 'number';
+      doctorIdInput.placeholder = 'Doctor ID';
+      doctorIdInput.id = 'doctorIdInput';
 
-    // Clear the container
-    clearContainer();
+      // Create a search button
+      const searchButton = document.createElement('button');
+      searchButton.textContent = 'Szukaj';
+      searchButton.addEventListener('click', getVisitsByDoctorId);
 
-    // Create the visit container
-    const visitContainer = document.getElementById('adminData');
-    visitContainer.id ='visitContainer';
-    const visitForm = document.createElement('form');
-    //visitForm.id='visitForm';
-    visitForm.action = 'admin/admin/submit-visit';
-    visitForm.method = 'POST';
-    visitContainer.appendChild(visitForm);
+      // Append the input field and search button to the visit container
+      visitForm.appendChild(doctorIdInput);
+      visitForm.appendChild(searchButton);
+      }
 
-    // Create an input field for doctorId
-    const doctorIdInput = document.createElement('input');
-    doctorIdInput.type = 'number';
-    doctorIdInput.placeholder = 'Doctor ID';
-    doctorIdInput.id = 'doctorIdInput';
-
-    // Create a search button
-    const searchButton = document.createElement('button');
-    searchButton.textContent = 'Szukaj';
-    searchButton.addEventListener('click', getVisitsByDoctorId);
-
-    // Append the input field and search button to the visit container
-    visitForm.appendChild(doctorIdInput);
-    visitForm.appendChild(searchButton);
-    }
-
-    function getVisitsByDoctorId() {
-    const doctorId = document.getElementById('doctorIdInput').value;
-    const visitContainer = document.getElementById('visitContainer');
-
-    // Clear the visit container
-    while (visitContainer.firstChild) {
+      function getVisitsByDoctorId() {
+      const doctorId = document.getElementById('doctorIdInput').value;
+      const visitContainer = document.getElementById('visitContainer');
+      visitContainer.id='visitContainer';
+      // Clear the visit container
+      while (visitContainer.firstChild) {
         visitContainer.firstChild.remove();
-    }
+      }
 
-    const formData = new FormData();
-    formData.append('doctorId', doctorId);
+      const formData = new FormData();
+      formData.append('doctorId', doctorId);
 
-    // Fetch visits from the API
-    //fetch(`/admin/admin/submit-visit?doctorId=${doctorId}`)
-    fetch('/admin/admin/submit-visit',{
-      method: 'POST',
-      body: formData})
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(visit => {
-                const visitDiv = document.createElement('div');
-                visitDiv.textContent = `Wizyta id: ${visit.id}, lekarz id: ${visit.doctorId}, pacjent id: ${visit.patientId}`;
-                //visitContainer.appendChild(visitDiv);
-                document.getElementById('adminData').appendChild(visitDiv);
-            });
-        })
-        .catch(error => console.error('Error fetching visits', error));
-}
+      // Fetch visits from the API
+      //fetch(`/admin/admin/submit-visit?doctorId=${doctorId}`)
+        fetch('/admin/submit-visit',{
+            method: 'POST',
+            body: formData})
+          .then(response => response.json())
+          .then(data => {
+              data.forEach(visit => {
+                  const visitDiv = document.createElement('div');
+                  visitDiv.textContent = `Wizyta id: ${visit.visitId}, data: ${visit.date}, lekarz id: ${visit.doctor.id}, pacjent id: ${visit.patient.id}, status: ${visit.status} `;
+                 //visitContainer.appendChild(visitDiv);
+                  document.getElementById('visitContainer').appendChild(visitDiv);
+              });
+          })
+          .catch(error => console.error('Error fetching visits', error));
+        }
 
 
         function displayDoctors(){
         const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>LISTA WSZYSTKICH LEKARZY</p>';
-            //clearContainer();
+            clearContainer();
             const doctorsContainer = document.getElementById('adminData');
-            while(doctorsContainer.firstChild){
-                doctorsContainer.firstChild.remove();
-            }
+
             doctorsContainer.id ='doctorsContainer';
             doctorsContainer.style.cssText = "display: block; justify-content: center;text-align: center;margin-top: 1em;";
 
@@ -176,121 +173,164 @@
         targetContainer.id='targetContainer';
         targetContainer.style.cssText = "display: flex; justify-content:center";
 
-            //adding new stuff: adding formsContainer to patientData
-            const formsContainer = document.createElement('div');
-            formsContainer.id = 'formsContainer';
-            document.getElementById('targetContainer').appendChild(formsContainer);
-            formsContainer.innerHTML='formsContainer';
+        const formsContainer = document.createElement('div');
+        formsContainer.id = 'formsContainer';
+        document.getElementById('targetContainer').appendChild(formsContainer);
+        const allInputsHolder = document.createElement('div');
+        allInputsHolder.id = 'allInputsHolder';
+        formsContainer.appendChild(allInputsHolder);
 
-            const allInputsHolder = document.createElement('div');
-            allInputsHolder.id = 'allInputsHolder';
-            formsContainer.appendChild(allInputsHolder);
-            allInputsHolder.innerHTML='allInputsHolder';
+          //create form
+        const doctorForm = document.createElement('form');
+        doctorForm.action = '/admin/submit-doctor';
+        doctorForm.method = 'POST';
 
-            //creating forms
-            const doctorForm = document.createElement('form');
-            doctorForm.action = '/submit-doctor';
-            doctorForm.method = 'POST';
+          //name
+        const inputBox1 = document.createElement('div');
+        inputBox1.classList.add("inputBox");
+        doctorForm.appendChild(inputBox1);
 
-            //creating inputBox, adding it to the forms
-            const inputBox1 = document.createElement('div');
-            inputBox1.classList.add("inputBox");
-            doctorForm.appendChild(inputBox1);
+        const nameHeader = document.createElement('h3');
+        nameHeader.textContent = 'Name';
+        inputBox1.appendChild(nameHeader);
 
-            const startHeader = document.createElement('h2');
-            nameHeader.textContent = 'Name';
-            inputBox1.appendChild(nameHeader);
+        const NameInput = document.createElement('input');
+        NameInput.type = 'text';
+        NameInput.placeholder = 'Name';
+        NameInput.required = true;
+        NameInput.name = 'name';
+        inputBox1.appendChild(NameInput);
 
-            const startNameInput = document.createElement('input');
-            startNameInput.type = 'text';
-            startNameInput.placeholder = 'Name';
-            startNameInput.required = true;
-            startNameInput.name = 'nameInput';
-            inputBox1.appendChild(nameInput);
+          //surname
+        const inputBox2 = document.createElement('div');
+        inputBox2.classList.add("inputBox");
+        doctorForm.appendChild(inputBox2);
 
-            const inputBox2 = document.createElement('div');
-            inputBox2.classList.add("inputBox");
-            doctorForm.appendChild(inputBox2);
+        const surnameHeader = document.createElement('h3');
+        surnameHeader.textContent = 'Nazwisko: ';
+        inputBox2.appendChild(surnameHeader);
 
-            const surnameHeader = document.createElement('h2');
-            surnameHeader.textContent = 'Nazwisko: ';
-            inputBox2.appendChild(surnameHeader);
+        const surnameInput = document.createElement('input');
+        surnameInput.type = 'text';
+        surnameInput.placeholder = 'Surname';
+        surnameInput.required = true;
+        surnameInput.name = 'surname';
+        inputBox2.appendChild(surnameInput);
 
-            const surnameInput = document.createElement('input');
-            endDateInput.type = 'text';
-            endDateInput.placeholder = 'Surname';
-            endDateInput.required = true;
-            endDateInput.name = 'SurnameInput';
-            inputBox2.appendChild(SurnameInput);
-            //e-mail
-            const inputBox3 = document.createElement('div');
-            inputBox3.classList.add("inputBox");
-            doctorForm.appendChild(inputBox3);
+          //e-mail
+        const inputBox3 = document.createElement('div');
+        inputBox3.classList.add("inputBox");
+        doctorForm.appendChild(inputBox3);
 
-            const emailHeader = document.createElement('h2');
-            emailHeader.textContent = 'E-mail: ';
-            inputBox3.appendChild(emailHeader);
+        const emailHeader = document.createElement('h3');
+        emailHeader.textContent = 'E-mail: ';
+        inputBox3.appendChild(emailHeader);
 
-            const emailInput = document.createElement('input');
-            endDateInput.type = 'email';
-            endDateInput.placeholder = 'Email';
-            endDateInput.required = true;
-            endDateInput.name = 'emailInput';
-            inputBox3.appendChild(emailInput);
+        const emailInput = document.createElement('input');
+        emailInput.type = 'email';
+        emailInput.placeholder = 'Email';
+        emailInput.required = true;
+        emailInput.name = 'email';
+        inputBox3.appendChild(emailInput);
 
-            //password
-            const inputBox4 = document.createElement('div');
-            inputBox4.classList.add("inputBox");
-            doctorForm.appendChild(inputBox4);
+          //password
+        const inputBox4 = document.createElement('div');
+        inputBox4.classList.add("inputBox");
+        doctorForm.appendChild(inputBox4);
 
-            const passwordHeader = document.createElement('h2');
-            passwordHeader.textContent = 'Password: ';
-            inputBox4.appendChild(passwordHeader);
+        const passwordHeader = document.createElement('h3');
+        passwordHeader.textContent = 'Password: ';
+        inputBox4.appendChild(passwordHeader);
 
-            const passwordInput = document.createElement('input');
-            passwordInput.type = 'text';
-            passwordInput.placeholder = 'Password';
-            passwordInput.required = true;
-            passwordInput.name = 'passwordInput';
-            inputBox4.appendChild(passwordInput);
+        const passwordInput = document.createElement('input');
+        passwordInput.type = 'text';
+        passwordInput.placeholder = 'Password';
+        passwordInput.required = true;
+        passwordInput.name = 'password';
+        inputBox4.appendChild(passwordInput);
+
+          //nr PWZ
+        const inputBox5 = document.createElement('div');
+        inputBox5.classList.add("inputBox");
+        doctorForm.appendChild(inputBox5);
+
+        const pwzHeader = document.createElement('h3');
+        pwzHeader.textContent = 'Numer PWZ: ';
+        inputBox5.appendChild(pwzHeader);
+
+        const pwzInput = document.createElement('input');
+        pwzInput.type = 'text';
+        pwzInput.placeholder = 'Numer PWZ';
+        pwzInput.required = true;
+        pwzInput.name = 'PWZnr';
+        inputBox5.appendChild(pwzInput);
+
+          //specjalizacja
+        const inputBox6 = document.createElement('div');
+        inputBox6.classList.add("inputBox");
+        doctorForm.appendChild(inputBox6);
+
+        const specialisationHeader = document.createElement('h3');
+        specialisationHeader.textContent = 'Specjalizacja: ';
+        inputBox5.appendChild(specialisationHeader);
+
+        const specialisationInput = document.createElement('input');
+        specialisationInput.type = 'text';
+        specialisationInput.placeholder = 'specjalizacja';
+        specialisationInput.required = true;
+        specialisationInput.name = 'specialisation';
+        inputBox6.appendChild(specialisationInput);
 
             //listofClinic
-            const inputBox5 = document.createElement('div');
-            inputBox5.classList.add("inputBox");
-            doctorForm.appendChild(inputBox5);
+            const inputBox7 = document.createElement('div');
+            inputBox7.classList.add("inputBox");
+            doctorForm.appendChild(inputBox7);
 
-            const listHeader = document.createElement('h2');
-            listHeader.textContent = "Kliniki: ";
-            inputBox5.appendChild(listHeader);
+            const listHeader = document.createElement('h3');
+            listHeader.textContent = "Przychodnie: ";
+            inputBox7.appendChild(listHeader);
 
-            const listInput = document.createElement('select');
-            listInput.type = 'select';
-            listInput.required = true;
-            listInput.name = 'listInput';
-            listInput.id = 'listInput';
-
-            //dropdown specialisations logic here:
-            fetch(`/admin/allclinics?sessionKey=${sessionKey}`)
-                .then(response => response.json())
-                .then(data => {
-                    const clinicsDropdown = document.getElementById('listInput');
-                    // Clear existing options
-                    //add each option to the dropdown
-                    data.forEach(clinics => {
-                        const option = document.createElement('option');
-                        option.value = clinics;
-                        option.textContent = clinics;
-                        clinicsDropdown.appendChild(option);
+          fetch(`/admin/allclinics?sessionKey=${sessionKey}`)
+                  .then(response => response.json())
+                  .then(data => {
+                    data.forEach(clinic => {
+                      const checkboxDiv = document.createElement('div');
+                      checkboxDiv.classList.add("clinicCheckbox");
+                      const clinics = document.createElement('input');
+                      clinics.type = 'checkbox';
+                      clinics.required = false;
+                      clinics.name = 'clinics';
+                      clinics.value = clinic.clinicId;
+                      const clinicLabel = document.createElement('label');
+                      clinicLabel.textContent = clinic.departmentName;
+                      checkboxDiv.appendChild(clinics);
+                      checkboxDiv.appendChild(clinicLabel);
+                      inputBox7.appendChild(checkboxDiv);
                     });
-                })
-                .catch(error => console.error('Error fetching specializations', error));
+                  })
+                    .catch(error => console.error('Error fetching all clinics to form', error));
+
+            //inputBox7.appendChild(listInput);
+
+            const buttonAddDoctor = document.createElement('button');
+          buttonAddDoctor.type = 'submit';
+          buttonAddDoctor.textContent = 'Zapisz';
+          buttonAddDoctor.id = 'buttonAddDoctor';
+
+          /*buttonAddDoctor.addEventListener('click', function(event){
+            event.preventDefault(); // Prevent the default form submission
+            });*/
+
+            doctorForm.appendChild(buttonAddDoctor);
+            allInputsHolder.appendChild(doctorForm);
+          //document.getElementById('formsContainer').appendChild(visitForm);
 
         }
         function clearContainer()
         {
             const targetContainer = document.getElementById('adminData');
             while(targetContainer.firstChild){
-                targetContainer.firstChild.remove();
+              targetContainer.firstChild.remove();
             }
         }
     </script>
