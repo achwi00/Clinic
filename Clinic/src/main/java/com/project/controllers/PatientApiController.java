@@ -1,21 +1,15 @@
 package com.project.controllers;
 
-import com.project.clinic.Doctor;
+import com.project.clinic.*;
+import com.project.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import com.project.clinic.Patient;
-import com.project.clinic.Refferal;
-import com.project.clinic.Visit;
 import com.project.repository.PatientRepository;
 import com.project.repository.VisitRepository;
-import com.project.service.DoctorService;
-import com.project.service.PatientService;
-import com.project.service.RefferalService;
-import com.project.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +40,11 @@ public class PatientApiController
     private DoctorService doctorService;
 
     @Autowired
+    private PrescriptionService prescriptionService;
+
+    @Autowired
     HttpServletRequest request;
+
 
     @GetMapping("/all")
     public Optional<Patient> getThisPatient(@RequestParam String sessionKey)
@@ -81,6 +79,13 @@ public class PatientApiController
 
         List<Refferal> refferals = refferalService.getAllRefferalsByPatientId(patientId);
         return refferals;
+    }
+
+    @GetMapping("/allprescriptions")
+    public List<Prescription> getAllPrescriptions(@RequestParam String sessionKey){
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
+        List<Prescription> prescriptions = prescriptionService.getAllPrescriptionsByPatientId(patientId);
+        return prescriptions;
     }
 
     @GetMapping("/allspecializations")

@@ -91,15 +91,15 @@
             titleContainer.innerHTML = '<p>TWOJE SKIEROWANIA</p>';
             const refferalContainer = document.getElementById('patientData');
             clearContainer();
+            refferalContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
 
-            refferalContainer.style.cssText = "display: block; justify-content: center;";
             fetch(`/patient/allrefferals?sessionKey=${sessionKey}`)
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(refferal => {
                         const patientDiv = document.createElement('div');
-
-                        patientDiv.textContent = `Refferal: ${refferal.reffId} ${refferal.description} ${refferal.type}`;
+                        patientDiv.classList.add("visitsData");
+                        patientDiv.textContent = `${refferal.reffId} ${refferal.description} ${refferal.type}`;
                         document.getElementById('patientData').appendChild(patientDiv);
                     })
                 })
@@ -110,6 +110,21 @@
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>TWOJE RECEPTY</p>';
             clearContainer();
+            const prescriptionContainer = document.getElementById('patientData');
+            prescriptionContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+            fetch(`/patient/allprescriptions?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(prescription => {
+                        const patientDiv = document.createElement('div');
+                        patientDiv.classList.add("visitsData");
+                        patientDiv.textContent = `${prescription.accessCode} ${prescription.description} ${prescription.issueDate} ${prescription.expiryDate}`;
+                        document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+
         }
 
         function displayHistory()
@@ -257,8 +272,9 @@
                             const newVisitDateTime = document.createElement('div');//d2
                             const newVisitDoctor = document.createElement('div');
                             const newVisitClinic = document.createElement('div');
+                            newVisitClinic.classList.add("newVisitClinic");
                             newVisitDateTime.classList.add("newVisitDateTime");
-                            newVisitDateTime.textContent = `${visits.visitId} ${visits.date} ${visits.time}`;
+                            newVisitDateTime.textContent = `${visits.date} ${visits.time}`;
                             patientDiv.appendChild(newVisitDateTime);
 
                             const newVisitDocClInfo = document.createElement('div');
@@ -267,7 +283,8 @@
                             newVisitDoctor.innerHTML =`${visits.doctor.specialisation}`+`<br>`+`${visits.doctor.name} ${visits.doctor.surname}`;
 
                             newVisitDocClInfo.appendChild(newVisitDoctor);
-                            newVisitClinic.textContent = `Clinic: ${visits.clinic.location}`
+                            //newVisitClinic.textContent = `Clinic: ${visits.clinic.location}`;
+                            newVisitClinic.innerHTML = `${visits.clinic.departmentName}`+`<br>`+`${visits.clinic.location}`;
                             newVisitDocClInfo.appendChild(newVisitClinic);
                             //create button
                             //add type submit and class

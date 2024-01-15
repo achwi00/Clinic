@@ -148,12 +148,13 @@ a {
     margin-top: 0.5%;
     min-height: 50px;
     font-family: sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 .newVisitDateTime{
-    border-bottom: 2px solid lightgray;
+    border-bottom: 1px solid lightgray;
     padding: 5px;
     font-weight: bold;
+    font-size: 0.85rem;
 }
 
 .newVisitDocClInfo{
@@ -165,10 +166,16 @@ a {
 .newVisitDoctor::first-line{
     font-weight: bold;
     text-transform: capitalize;
+    font-size: 0.7rem;
 }
+.newVisitClinic{
+    font-size: 0.7rem;
+}
+.newVisitClinic::first-line{
 
+}
 .bookVisitButton{
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     background-color: #BF4080;
     color: white;
     width: 9rem;
