@@ -20,6 +20,11 @@ public class VisitService
         return visitList;
     }
 
+    public List<Visit> getAllVisitsForPatient(Long patientId){
+        List<Visit> visits = visitRepository.findBookedVisitsForPatient(patientId);
+        return visits;
+    }
+
     public List<Visit> getAllVisitsIn(LocalDate start, LocalDate stop, String specialisation){
 
         List<Visit> visits = visitRepository.findFreeVisitsBySpecialisationAndDate(specialisation, start, stop);
@@ -29,5 +34,6 @@ public class VisitService
     public void bookVisitForPatient(Long patientId, Long visitId){
         visitRepository.updateVisitStatusAndPatientId(visitId, patientId);
     }
+
 
 }

@@ -98,6 +98,7 @@
                 .then(data => {
                     data.forEach(refferal => {
                         const patientDiv = document.createElement('div');
+
                         patientDiv.textContent = `Refferal: ${refferal.reffId} ${refferal.description} ${refferal.type}`;
                         document.getElementById('patientData').appendChild(patientDiv);
                     })

@@ -68,7 +68,9 @@ public class PatientApiController
     @GetMapping("/allvisits")
     public List<Visit> getAllVisits(@RequestParam String sessionKey)
     {
-        List<Visit> visits = visitService.getAllVisits();
+        //List<Visit> visits = visitService.getAllVisits();
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
+        List<Visit> visits = visitService.getAllVisitsForPatient(patientId);
         return visits;
     }
 

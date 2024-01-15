@@ -11,14 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Long>
 {
-//        @Query(SELECT )
-//        List<Visit> getAllBySpecializationInBetween(@Param("start") Date start, @Param("end") Date end, @Param("specialisation") String specialization);
 
-    //List<Visit> findByDoctorSpecialisationAndStatusAndDateBetween(String specialisation, String status, Date startDate, Date endDate);
 
     @Query("SELECT v FROM Visit v " +
             "JOIN v.doctor d " +
@@ -35,4 +33,6 @@ public interface VisitRepository extends JpaRepository<Visit, Long>
     void updateVisitStatusAndPatientId(@Param("visitId") Long visitId,
                                        @Param("patientId") Long patientId);
 
+    @Query("SELECT v FROM Visit v WHERE v.patient.id = :patientId AND v.status = 'BOOKED'")
+    List<Visit> findBookedVisitsForPatient(@Param("patientId") Long patientId);
 }
