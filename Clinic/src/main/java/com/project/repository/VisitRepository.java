@@ -1,7 +1,9 @@
 package com.project.repository;
 
 import com.project.clinic.Visit;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -26,5 +28,11 @@ public interface VisitRepository extends JpaRepository<Visit, Long>
     List<Visit> findFreeVisitsBySpecialisationAndDate(
             String specialisation, LocalDate startDate, LocalDate endDate
     );
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Visit v SET v.status = 'BOOKED', v.patient.id = :patientId WHERE v.visitId = :visitId")
+    void updateVisitStatusAndPatientId(@Param("visitId") Long visitId,
+                                       @Param("patientId") Long patientId);
 
 }

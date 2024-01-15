@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import com.project.clinic.Patient;
 import com.project.clinic.Refferal;
@@ -108,6 +109,14 @@ public class PatientApiController
         return visits;
     }
 
+    @PostMapping("/patient/submit-visit/submit-bookVisit")
+    public ResponseEntity<String> bookVisit(@RequestParam("visId") Long visId,
+                            @RequestParam("sessionKey") String sessionKey){
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
+        visitService.bookVisitForPatient(patientId, visId);
+
+        return ResponseEntity.ok("You have successfully booked a visit");
+    }
 
 
 

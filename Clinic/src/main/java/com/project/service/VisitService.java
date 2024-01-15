@@ -26,5 +26,8 @@ public class VisitService
         return visits;
     }
 
+    public void bookVisitForPatient(Long patientId, Long visitId){
+        visitRepository.updateVisitStatusAndPatientId(visitId, patientId);
+    }
 
 }

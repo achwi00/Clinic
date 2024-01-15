@@ -268,6 +268,48 @@
                             newVisitDocClInfo.appendChild(newVisitDoctor);
                             newVisitClinic.textContent = `Clinic: ${visits.clinic.location}`
                             newVisitDocClInfo.appendChild(newVisitClinic);
+                            //create button
+                            //add type submit and class
+                            const bookVisitButton = document.createElement('button');
+                            bookVisitButton.classList.add("bookVisitButton");
+                            bookVisitButton.type = 'submit';
+                            bookVisitButton.textContent = 'Zarezerwuj';
+
+                            //create forms
+                            const patientSessionkey = sessionKey;
+                            const visId = visits.visitId;
+                            //add visitId and patientId to the forms
+                            const visitBooking = new FormData();
+                            visitBooking.append('visId', visId);
+                            visitBooking.append('sessionKey',sessionKey);
+                            visitBooking.action = '/submit-bookVisit';
+
+                            //prevent default and send the data by post
+
+                            bookVisitButton.addEventListener('click', function(event) {
+                                event.preventDefault(); // Prevent the default form submission
+                                bookVisit();
+                            });
+
+                            function bookVisit(){
+                                clearContainer();
+                                //fetch etc
+                                fetch('/patient/patient/submit-visit/submit-bookVisit', {
+                                    method: 'POST',
+                                    body: visitBooking
+                                })
+                                    .then(response => response.text())
+                                    .then(info => {
+                                        const infoDiv = document.createElement('div');
+                                        infoDiv.textContent = info;
+                                        document.getElementById('patientData').appendChild(infoDiv);
+                                    })
+                                    .catch(error => console.error('Error fetching data', error))
+                            }
+
+                            //add it to newVisitDocClInfo
+
+                            newVisitDocClInfo.appendChild(bookVisitButton);
 
                             patientDiv.appendChild(newVisitDocClInfo);
                             document.getElementById('patientData').appendChild(patientDiv);
