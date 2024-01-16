@@ -4,6 +4,7 @@ import com.project.clinic.Patient;
 import com.project.repository.AdminRepository;
 import com.project.repository.DoctorRepository;
 import com.project.repository.PatientRepository;
+import com.project.service.DoctorService;
 import com.project.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ public class LoginController
 
     @Autowired
     public DoctorRepository doctorRepository;
+
+    @Autowired
+    public DoctorService doctorService;
 
     @Autowired
     public AdminRepository adminRepository;
@@ -51,9 +55,15 @@ public class LoginController
             //that is added:
             redirectAttributes.addAttribute("sessionKey", sK);
             return "redirect:/patient";
-        }
-
-        else{
+        }else if (isValidUser(email,password).equals("doctor")) {
+            Long doctorId = doctorRepository.findIdByEmailAndPassword(email, password);
+            String sK = generateSessionKey();
+            doctorService.updateSessionKey(doctorId, sK);
+            //redirectAttributes.addAttribute("patientId", patientId);
+            //that is added:
+            redirectAttributes.addAttribute("sessionKey", sK);
+            return "redirect:/doctor";
+        } else{
             return "redirect:/";
         }
     }

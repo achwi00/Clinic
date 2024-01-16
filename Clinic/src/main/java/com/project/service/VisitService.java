@@ -35,5 +35,9 @@ public class VisitService
         visitRepository.updateVisitStatusAndPatientId(visitId, patientId);
     }
 
+    public List<Visit> getCompletedVisitsForPatient(Long patientId){
+        return visitRepository.findCompletedVisitsForPatient(patientId);
+    }
+
 
 }

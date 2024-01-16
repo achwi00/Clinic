@@ -88,6 +88,13 @@ public class PatientApiController
         return prescriptions;
     }
 
+    @GetMapping("/allhistory")
+    public List<Visit> getHistory(@RequestParam String sessionKey){
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
+        List<Visit> visits = visitService.getCompletedVisitsForPatient(patientId);
+        return visits;
+    }
+
     @GetMapping("/allspecializations")
     public List<String> getAllSpecializations()
     {

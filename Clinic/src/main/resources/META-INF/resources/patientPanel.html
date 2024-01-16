@@ -132,6 +132,20 @@
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>HISTORIA WIZYT</p>';
             clearContainer();
+            const targetContainer = document.getElementById('patientData');
+            targetContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+            fetch(`/patient/allhistory?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(visits => {
+                        const patientDiv = document.createElement('div');
+                        patientDiv.classList.add("visitsData");
+                        patientDiv.textContent = `${visits.date} ${visits.time} ${visits.doctor.specialisation}`;
+                        document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
 
         }
         function newVisit()

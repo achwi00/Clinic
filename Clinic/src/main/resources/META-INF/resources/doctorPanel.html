@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="patientPanel" content="width=device.width, initial-scale=1.0"/>
+  <link rel="stylesheet" type="text/css" href="panelStyles.css"/>
+
+
+  <title>loggingPanel</title>
+</head>
+<body>
+<header>
+  <div id="navbar">
+
+    <button class="dropbtn" id="logo_pm" name="logo_pm"><img src="logo_premiummed.png" id="logo_img" height="50pxSSSSSS"></a></button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="schedule" name="schedule">Grafik</button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="refferal" name="refferal">Skierowanie</button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="prescription" name="prescription">Recepta</button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="patient" name="patient">Pacjent</button>
+    <div class="dropdown-content">
+    </div>
+
+
+    <button class="dropbtn" id="log_out" name="log_out"><a href="/">Wyloguj</a></button>
+    <div class="dropdown-content">
+    </div>
+
+    <script>
+
+      document.getElementById('logo_pm').addEventListener('click', redirectToDoctor);
+      document.getElementById('schedule').addEventListener('click', displaySchedule);
+      document.getElementById('refferal').addEventListener('click',newRefferal);
+      document.getElementById('prescription').addEventListener('click',newPrescription);
+      document.getElementById('patient').addEventListener('click',displayPatient);
+
+      const urlParams1 = new URLSearchParams(window.location.search);
+      const sessionKey = urlParams1.get('sessionKey');
+
+
+      function redirectToDoctor() {
+
+        if (sessionKey) {
+          const redirectUrl = `/doctor?sessionKey=${sessionKey}`;
+          window.location.href = redirectUrl;
+        } else {
+          // Handle the case when patientId is not available
+          console.error('sessionKey: ', sessionKey);
+        }
+      }
+      function displaySchedule(){
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>NADCHODZĄCE WIZYTY</p>';
+        const visitsContainer = document.getElementById('patientData');
+        while(visitsContainer.firstChild){
+          visitsContainer.firstChild.remove();
+        }
+
+        document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+        fetch(`/doctor/allvisits?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                  data.forEach(visits => {
+                    const patientDiv = document.createElement('div');
+                    patientDiv.classList.add("visitsData");
+                    patientDiv.textContent = `Visits: ${visits.date} ${visits.time}`;
+                    document.getElementById('patientData').appendChild(patientDiv);
+                  })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+      }
+
+      function newRefferal()
+      {
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>NOWE SKIEROWANIE</p>';
+        const refferalContainer = document.getElementById('patientData');
+        clearContainer();
+        refferalContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+        fetch(`/patient/allrefferals?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                  data.forEach(refferal => {
+                    const patientDiv = document.createElement('div');
+                    patientDiv.classList.add("visitsData");
+                    patientDiv.textContent = `${refferal.reffId} ${refferal.description} ${refferal.type}`;
+                    document.getElementById('patientData').appendChild(patientDiv);
+                  })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+      }
+      function newPrescription()
+      {
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>NOWA RECEPTA</p>';
+        clearContainer();
+        const prescriptionContainer = document.getElementById('patientData');
+        prescriptionContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+        fetch(`/patient/allprescriptions?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                  data.forEach(prescription => {
+                    const patientDiv = document.createElement('div');
+                    patientDiv.classList.add("visitsData");
+                    patientDiv.textContent = `${prescription.accessCode} ${prescription.description} ${prescription.issueDate} ${prescription.expiryDate}`;
+                    document.getElementById('patientData').appendChild(patientDiv);
+                  })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+
+      }
+
+      function displayPatient()
+      {
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>WYSZUKAJ PACJENTA</p>';
+        clearContainer();
+        const targetContainer = document.getElementById('patientData');
+        targetContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+        fetch(`/patient/allhistory?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                  data.forEach(visits => {
+                    const patientDiv = document.createElement('div');
+                    patientDiv.classList.add("visitsData");
+                    patientDiv.textContent = `${visits.date} ${visits.time} ${visits.doctor.specialisation}`;
+                    document.getElementById('patientData').appendChild(patientDiv);
+                  })
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+
+      }
+      function newVisit()
+      {
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>UMÓW NOWĄ WIZYTĘ</p>';
+        clearContainer();
+        const targetContainer = document.getElementById('patientData');
+        targetContainer.style.cssText = "display: flex; justify-content:center";
+
+        //adding new stuff: adding formsContainer to patientData
+        const formsContainer = document.createElement('div');
+        formsContainer.id = 'formsContainer';
+        targetContainer.appendChild(formsContainer);
+        //adding a header in formsContainer
+        const header = document.createElement('h1');
+        header.textContent = 'W terminie: ';
+        formsContainer.appendChild(header);
+
+        const allInputsHolder = document.createElement('div');
+        allInputsHolder.id = 'allInputsHolder';
+        formsContainer.appendChild(allInputsHolder);
+
+        //creating forms
+        const visitForm = document.createElement('form');
+        visitForm.action = '/submit-visit';
+        visitForm.method = 'POST';
+
+        //creating inputBox, adding it to the forms
+        const inputBox1 = document.createElement('div');
+        inputBox1.classList.add("inputBox");
+        visitForm.appendChild(inputBox1);
+        //adding a header to
+        const startHeader = document.createElement('h2');
+        startHeader.textContent = 'Od: ';
+        inputBox1.appendChild(startHeader);
+
+        const startDateInput = document.createElement('input');
+        startDateInput.type = 'date';
+        startDateInput.placeholder = 'Start date';
+        startDateInput.required = true;
+        startDateInput.name = 'startDateInput';
+        inputBox1.appendChild(startDateInput);
+
+        const inputBox2 = document.createElement('div');
+        inputBox2.classList.add("inputBox");
+        visitForm.appendChild(inputBox2);
+
+        const endHeader = document.createElement('h2');
+        endHeader.textContent = 'Do: ';
+        inputBox2.appendChild(endHeader);
+
+        const endDateInput = document.createElement('input');
+        endDateInput.type = 'date';
+        endDateInput.placeholder = 'End date';
+        endDateInput.required = true;
+        endDateInput.name = 'endDateInput';
+        inputBox2.appendChild(endDateInput);
+        //specialisation
+        const inputBox3 = document.createElement('div');
+        inputBox3.classList.add("inputBox");
+        visitForm.appendChild(inputBox3);
+
+        const specHeader = document.createElement('h2');
+        specHeader.textContent = "Specjalizacja: ";
+        inputBox3.appendChild(specHeader);
+
+        const specInput = document.createElement('select');
+        specInput.type = 'select';
+        specInput.required = true;
+        specInput.name = 'specInput';
+        specInput.id = 'specInput';
+
+        //dropdown specialisations logic here:
+        fetch(`/patient/allspecializations?sessionKey=${sessionKey}`)
+                .then(response => response.json())
+                .then(data => {
+                  const specializationsDropdown = document.getElementById('specInput');
+                  // Clear existing options
+                  //add each option to the dropdown
+                  data.forEach(specialization => {
+                    const option = document.createElement('option');
+                    option.value = specialization;
+                    option.textContent = specialization;
+                    specializationsDropdown.appendChild(option);
+                  });
+                })
+                .catch(error => console.error('Error fetching specializations', error));
+
+        //this acts as a placeholder:
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Wybierz'; // You can customize this placeholder text
+        defaultOption.disabled = true;
+        defaultOption.selected = true; // This makes it selected by default
+        specInput.appendChild(defaultOption);
+
+        inputBox3.appendChild(specInput);
+
+        const button = document.createElement('button');
+        button.type = 'submit';
+        button.textContent = 'Wyszukaj';
+        button.id = 'findVisits_btn';
+
+        button.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          searchForVisits();
+        });
+        visitForm.appendChild(button);
+        allInputsHolder.appendChild(visitForm);
+        //document.getElementById('formsContainer').appendChild(visitForm);
+
+        function searchForVisits()
+        {
+          const startDateIn = startDateInput.value.toString();
+          const endDateIn = endDateInput.value.toString();
+          const specializationIn = specInput.value;
+
+          //visitForm.submit();
+          clearContainer();
+          //targetContainer.style.cssText = "display: flex; align-items:center; flex-direction:column, justify-content: space-evenly;";
+          const formData = new FormData();
+          formData.append('startDateIn', startDateIn);
+          formData.append('endDateIn', endDateIn);
+          formData.append('specializationIn', specializationIn);
+
+          document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+          fetch('/patient/patient/submit-visit', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.json())
+                  .then(data => {
+                    data.forEach(visits => {
+                      const patientDiv = document.createElement('div');//d1
+                      patientDiv.classList.add("visitsData");
+                      const newVisitDateTime = document.createElement('div');//d2
+                      const newVisitDoctor = document.createElement('div');
+                      const newVisitClinic = document.createElement('div');
+                      newVisitClinic.classList.add("newVisitClinic");
+                      newVisitDateTime.classList.add("newVisitDateTime");
+                      newVisitDateTime.textContent = `${visits.date} ${visits.time}`;
+                      patientDiv.appendChild(newVisitDateTime);
+
+                      const newVisitDocClInfo = document.createElement('div');
+                      newVisitDocClInfo.classList.add("newVisitDocClInfo");
+                      newVisitDoctor.classList.add("newVisitDoctor");
+                      newVisitDoctor.innerHTML =`${visits.doctor.specialisation}`+`<br>`+`${visits.doctor.name} ${visits.doctor.surname}`;
+
+                      newVisitDocClInfo.appendChild(newVisitDoctor);
+                      //newVisitClinic.textContent = `Clinic: ${visits.clinic.location}`;
+                      newVisitClinic.innerHTML = `${visits.clinic.departmentName}`+`<br>`+`${visits.clinic.location}`;
+                      newVisitDocClInfo.appendChild(newVisitClinic);
+                      //create button
+                      //add type submit and class
+                      const bookVisitButton = document.createElement('button');
+                      bookVisitButton.classList.add("bookVisitButton");
+                      bookVisitButton.type = 'submit';
+                      bookVisitButton.textContent = 'Zarezerwuj';
+
+                      //create forms
+                      const patientSessionkey = sessionKey;
+                      const visId = visits.visitId;
+                      //add visitId and patientId to the forms
+                      const visitBooking = new FormData();
+                      visitBooking.append('visId', visId);
+                      visitBooking.append('sessionKey',sessionKey);
+                      visitBooking.action = '/submit-bookVisit';
+
+                      //prevent default and send the data by post
+
+                      bookVisitButton.addEventListener('click', function(event) {
+                        event.preventDefault(); // Prevent the default form submission
+                        bookVisit();
+                      });
+
+                      function bookVisit(){
+                        clearContainer();
+                        //fetch etc
+                        fetch('/patient/patient/submit-visit/submit-bookVisit', {
+                          method: 'POST',
+                          body: visitBooking
+                        })
+                                .then(response => response.text())
+                                .then(info => {
+                                  const infoDiv = document.createElement('div');
+                                  infoDiv.textContent = info;
+                                  document.getElementById('patientData').appendChild(infoDiv);
+                                })
+                                .catch(error => console.error('Error fetching data', error))
+                      }
+
+                      //add it to newVisitDocClInfo
+
+                      newVisitDocClInfo.appendChild(bookVisitButton);
+
+                      patientDiv.appendChild(newVisitDocClInfo);
+                      document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                  })
+                  .catch(error => console.error('Error fetching patient data', error))
+
+
+
+          //fetch(`/patient/returnedVisits?sessionKey=${sessionKey}`)
+        }
+
+      }
+
+      function clearContainer()
+      {
+        const targetContainer = document.getElementById('patientData');
+        while(targetContainer.firstChild){
+          targetContainer.firstChild.remove();
+        }
+      }
+    </script>
+
+
+  </div>
+
+</header>
+<div class="all-container">
+  <div id="main-wrapper">
+    <div id="title-container">
+      <p>TWOJE DANE</p>
+    </div>
+
+    <div id="patientData">
+
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionKey1 = urlParams.get('sessionKey');
+
+        const personalInfoContainer = document.createElement('div');
+        personalInfoContainer.id = 'personalInfoContainer';
+        document.getElementById('patientData').appendChild(personalInfoContainer);
+
+        const patientIcon = document.createElement('div');
+        patientIcon.id = 'patientIcon';
+        patientIcon.innerHTML = '<i class=\"bi bi-person-fill\"></i>';
+        document.getElementById('personalInfoContainer').appendChild(patientIcon);
+
+        const patientData = document.getElementById('patientData');
+        patientData.style.cssText = "display: flex; justify-content: center;";
+
+        fetch(`/doctor/all?sessionKey=${sessionKey1}`)
+                .then(response => response.json())
+                .then(doctor => {
+                  const patientDiv = document.createElement('div');
+                  patientDiv.textContent = `Doctor: ${doctor.name} ${doctor.surname}`;
+                  document.getElementById('personalInfoContainer').appendChild(patientDiv);
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+      </script>
+
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div id="copyrights"><p>Projekt wykonany w ramach przedmiotu Technologie Obiektowe.</p></div>
+
+</footer>
+</body>
+
+</html>
