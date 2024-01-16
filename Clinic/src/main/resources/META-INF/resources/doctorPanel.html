@@ -66,19 +66,67 @@
         while(visitsContainer.firstChild){
           visitsContainer.firstChild.remove();
         }
-
         document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
-        fetch(`/doctor/allvisits?sessionKey=${sessionKey}`)
-                .then(response => response.json())
-                .then(data => {
-                  data.forEach(visits => {
-                    const patientDiv = document.createElement('div');
-                    patientDiv.classList.add("visitsData");
-                    patientDiv.textContent = `Visits: ${visits.date} ${visits.time}`;
-                    document.getElementById('patientData').appendChild(patientDiv);
+
+        //create formsContainer, inputBox type date, button of existing class
+        //create new FormData, add the stuff into it
+        //post with fetch, map it in the controller
+
+        const formsBox = document.createElement('div');
+        formsBox.classList.add("formsBox");
+
+        const dateInputBox = document.createElement('div');
+        dateInputBox.classList.add("inputBox");
+        dateInputBox.id = 'inputBoxSmall';
+        //create the input
+        const dateInput = document.createElement('input');
+        dateInput.type = 'date';
+        dateInput.required = true;
+        dateInput.name = 'dateInput';
+        //create the button
+        const visit_button =document.createElement('button');
+        visit_button.type = 'submit';
+        visit_button.textContent = 'Wyszukaj';
+        visit_button.id = 'visit_button';
+        visit_button.classList.add("bookVisitButton");
+        //append the input to the dateInputBox
+        dateInputBox.appendChild(dateInput);
+        formsBox.appendChild(dateInputBox);
+        //append the button to the formsBox
+        formsBox.appendChild(visit_button);
+        visit_button.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          searchForVisits();
+        });
+
+        //prevent default behavior, call a function
+        document.getElementById('patientData').appendChild(formsBox);
+        function searchForVisits()
+        {
+          const workingDate = dateInput.value.toString();
+          clearContainer();
+          const formData = new FormData();
+          formData.append('workingDate', workingDate);
+          formData.append('sessionKey', sessionKey);
+          document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+          fetch('/doctor/doctor/submit-visit', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.json())
+                  .then(data => {
+                    data.forEach(visits => {
+                      const patientDiv = document.createElement('div');
+                      patientDiv.classList.add("visitsData");
+                      patientDiv.textContent = `Visits: ${visits.date} ${visits.time}`;
+                      document.getElementById('patientData').appendChild(patientDiv);
+                    })
                   })
-                })
-                .catch(error => console.error('Error fetching patient data', error))
+                  .catch(error => console.error('Error fetching patient data', error))
+
+        }
+
       }
 
       function newRefferal()

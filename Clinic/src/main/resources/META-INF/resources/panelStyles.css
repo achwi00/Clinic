@@ -186,6 +186,20 @@ a {
 .bookVisitButton:hover{
     background-color: #e858a1;
 }
+
+.formsBox{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-around;
+    align-items: center;
+}
+#inputBoxSmall{
+    width: 10rem;
+}
+#visit_button{
+    width: 10rem;
+}
 footer {
     height: 15%;
     display: flex;
