@@ -139,17 +139,92 @@
         clearContainer();
         refferalContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
 
-        fetch(`/patient/allrefferals?sessionKey=${sessionKey}`)
-                .then(response => response.json())
-                .then(data => {
-                  data.forEach(refferal => {
-                    const patientDiv = document.createElement('div');
-                    patientDiv.classList.add("visitsData");
-                    patientDiv.textContent = `${refferal.reffId} ${refferal.description} ${refferal.type}`;
-                    document.getElementById('patientData').appendChild(patientDiv);
+        const newreffbox = document.createElement('div');
+        newreffbox.classList.add("newreffbox");
+        const reffForms = document.createElement('div');
+        reffForms.classList.add("reffForms");
+        const dataReffForms = document.createElement('div');
+        dataReffForms.classList.add("dataReffForms");
+        const buttonHolder = document.createElement('div');
+        buttonHolder.classList.add("buttonHolder");
+
+        const peselInputPlace = document.createElement('input');
+        peselInputPlace.type = 'text';
+        peselInputPlace.required = true;
+        peselInputPlace.placeholder = 'PESEL';
+        peselInputPlace.name = 'peselInputPlace';
+        peselInputPlace.id = 'peselInputPlace';
+
+       // dataReffForms.appendChild(peselInputPlace);
+
+        const typeInputPlace = document.createElement('input');
+        typeInputPlace.type = 'text';
+        typeInputPlace.required = true;
+        typeInputPlace.placeholder = 'typ';
+        typeInputPlace.name = 'typeInputPlace';
+        typeInputPlace.id = 'typeInputPlace';
+
+        //dataReffForms.appendChild(typeInputPlace);
+
+        const reffpeselType = document.createElement('div');
+        reffpeselType.classList.add("reffpeselType");
+
+        reffpeselType.appendChild(peselInputPlace);
+        reffpeselType.appendChild(typeInputPlace);
+
+        const descriptionInputPlace = document.createElement('input');
+        descriptionInputPlace.type = 'text';
+        descriptionInputPlace.required = true;
+        descriptionInputPlace.placeholder = 'Opis...';
+        descriptionInputPlace.name = 'descriptionInputPlace';
+        descriptionInputPlace.id = 'descriptionInputPlace';
+
+        dataReffForms.appendChild(reffpeselType);
+        dataReffForms.appendChild(descriptionInputPlace);
+
+        const newReff_btn = document.createElement('button');
+        newReff_btn.type = 'submit';
+        newReff_btn.textContent = 'Wystaw';
+        newReff_btn.id = 'newReff_btn';
+        newReff_btn.classList.add("bookVisitButton");
+        buttonHolder.appendChild(newReff_btn);
+
+        reffForms.appendChild(dataReffForms);
+        reffForms.appendChild(buttonHolder);
+        newreffbox.appendChild(reffForms);
+        refferalContainer.appendChild(newreffbox);
+
+        newReff_btn.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          submitRefferal();
+        });
+
+        function submitRefferal()
+        {
+          const pesel = peselInputPlace.value;
+          const type = typeInputPlace.value;
+          const description = descriptionInputPlace.value;
+
+          clearContainer();
+          const formData = new FormData();
+          formData.append('pesel', pesel);
+          formData.append('type',type);
+          formData.append('description',description);
+          formData.append('sessionKey', sessionKey);
+
+          fetch('/doctor/doctor/submit-refferal', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.text())
+                  .then(info => {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.textContent = info;
+                    document.getElementById('patientData').appendChild(infoDiv);
                   })
-                })
-                .catch(error => console.error('Error fetching patient data', error))
+                  .catch(error => console.error('Error fetching data', error))
+        }
+
       }
       function newPrescription()
       {

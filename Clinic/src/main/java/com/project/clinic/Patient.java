@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 public class Patient extends User
 {
-    @Column(length = 11, nullable = false)
+    @Column(length = 11, nullable = false, unique = true)
     private String pesel;
     @Column(length = 15, nullable = true)
     private String phoneNr;

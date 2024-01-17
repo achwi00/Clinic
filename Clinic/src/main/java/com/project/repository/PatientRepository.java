@@ -22,4 +22,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long>
 
     @Query("SELECT id FROM Patient WHERE sessionKey = :sessionKey")
     Long findIdBySessionKey(@Param("sessionKey") String sessionKey);
+
+    @Query("SELECT id FROM Patient WHERE pesel = :pesel")
+    Long findIdByPesel(@Param("pesel") String pesel);
 }

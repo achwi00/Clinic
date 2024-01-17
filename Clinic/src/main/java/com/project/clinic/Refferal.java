@@ -80,4 +80,6 @@ public class Refferal
     {
         this.type = type;
     }
+
+
 }

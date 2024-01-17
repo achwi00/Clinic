@@ -205,6 +205,35 @@ a {
 #visit_button{
     width: 10rem;
 }
+
+.newreffbox{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.reffForms{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.dataReffForms{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.reffpeselType{
+    display: flex;
+    flex-direction: column;
+}
+#descriptionInputPlace{
+
+}
+.buttonHolder{
+    display: flex;
+    justify-content: center;
+}
+
 footer {
     height: 15%;
     display: flex;

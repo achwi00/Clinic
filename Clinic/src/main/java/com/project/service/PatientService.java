@@ -36,4 +36,9 @@ public class PatientService
         });
     }
 
+
+    public Long findIdByPesel(String pesel)
+    {
+        return patientRepository.findIdByPesel(pesel);
+    }
 }

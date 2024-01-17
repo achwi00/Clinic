@@ -23,4 +23,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long>
 
     @Query("SELECT DISTINCT d.specialisation FROM Doctor d")
     List<String> findDistinctSpecializations();
+
 }
