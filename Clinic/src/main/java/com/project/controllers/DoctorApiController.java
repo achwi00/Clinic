@@ -88,7 +88,7 @@ public class DoctorApiController
         System.out.println("PatientId: " + patientId);
         System.out.println("Pesel" + pesel);
 
-        if(patientId.equals(null)){//that does not work
+        if(patientId==null){//that does not work
             return ResponseEntity.ok("PESEL invalid");
         }
         if((refferalService.createNewRefferal(doctorId, patientId, type, description)))
