@@ -84,7 +84,11 @@ a {
     margin-bottom: 1%;
     background-color: white;
 }
-
+#patientData > h3{
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    font-weight: normal;
+}
 #personalInfoContainer{
     display: flex;
     flex-direction: row;
@@ -189,6 +193,7 @@ a {
 
 .formsBox{
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     width: 70%;
     justify-content: space-around;

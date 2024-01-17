@@ -71,7 +71,9 @@
         //create formsContainer, inputBox type date, button of existing class
         //create new FormData, add the stuff into it
         //post with fetch, map it in the controller
-
+        const header1 = document.createElement('h3');
+        header1.textContent = "Sprawdź swoje wizyty na dany dzień";
+        document.getElementById('patientData').appendChild(header1);
         const formsBox = document.createElement('div');
         formsBox.classList.add("formsBox");
 
