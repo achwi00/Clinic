@@ -31,6 +31,12 @@ public class VisitService
         return visits;
     }
 
+   public List<Visit> getAllVisitsByDateAndDoctor(LocalDate date, Long doctorId){
+
+        List<Visit> visits = visitRepository.findBookedAndCompletedForDoctorByDate(date, doctorId);
+        return visits;
+    }
+
     public void bookVisitForPatient(Long patientId, Long visitId){
         visitRepository.updateVisitStatusAndPatientId(visitId, patientId);
     }

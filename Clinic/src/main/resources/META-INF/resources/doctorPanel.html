@@ -119,7 +119,7 @@
                     data.forEach(visits => {
                       const patientDiv = document.createElement('div');
                       patientDiv.classList.add("visitsData");
-                      patientDiv.textContent = `Visits: ${visits.date} ${visits.time}`;
+                      patientDiv.textContent = `${visits.date} ${visits.time} Pacjent: ${visits.patient.name} ${visits.patient.surname} ${visits.patient.pesel}`;
                       document.getElementById('patientData').appendChild(patientDiv);
                     })
                   })

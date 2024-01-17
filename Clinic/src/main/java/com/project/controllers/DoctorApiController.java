@@ -46,11 +46,15 @@ public class DoctorApiController
     public List<Visit> getVisitsIn(@RequestParam("workingDate") String workingDate,
                                    @RequestParam("sessionKey") String sessionKey){
 
+        System.out.println("Working date: " + workingDate);
+        System.out.println("SessionKey: " + sessionKey);
 
+        Long doctorId = doctorRepository.findIdBySessionKey(sessionKey);
         LocalDate date = LocalDate.parse(workingDate);
 
-        List<Visit> visits = visitService.getAllVisits();
         //List<Visit> visits = visitService.getAllVisits();
+        List<Visit> visits = visitService.getAllVisitsByDateAndDoctor(date, doctorId);
+
         for(Visit visit : visits){
             System.out.println(visit.toString());
         }
