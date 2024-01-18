@@ -233,7 +233,25 @@ a {
     display: flex;
     justify-content: center;
 }
+#prescription_forms{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#newPrescriptionData{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 0 0 50%;
+    align-content: space-between;
+}
+#newPrescrButtonHolder{
 
+}
+.inputPlace{
+
+}
 footer {
     height: 15%;
     display: flex;

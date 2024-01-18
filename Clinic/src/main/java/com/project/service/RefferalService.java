@@ -29,23 +29,6 @@ public class RefferalService
 
     public boolean createNewRefferal(Long doctorId, Long patientId, String type, String description){
 
-        System.out.println("DoctorId : " + doctorId);
-        System.out.println("PatientId: " + patientId);
-//        Optional<Patient> optionalPatient = patientRepository.findById(patientId);
-//        Optional<Doctor> optionalDoctor = doctorRepository.findById(doctorId);
-//        Patient patient;
-//        Doctor doctor;
-//        if(optionalPatient.isPresent() && optionalDoctor.isPresent()){
-//            patient = optionalPatient.get();
-//            doctor = optionalDoctor.get();
-//            Refferal refferal = new Refferal(patient, doctor, description, type);
-//            refferalRepository.save(refferal);
-//
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
         Optional<Doctor> optionalDoctor = doctorRepository.findById(doctorId);
         Optional<Patient> optionalPatient = patientRepository.findById(patientId);
         Doctor doctor;

@@ -100,4 +100,29 @@ public class DoctorApiController
         }
 
     }
+
+    @PostMapping(("/doctor/submit-prescription"))
+    public ResponseEntity<String> submitPrescription(@RequestParam("pesel") String pesel,
+                                                     @RequestParam("refund") Number refund,
+                                                     @RequestParam("accessCode") String accessCode,
+                                                     @RequestParam("expiryDate") String expiryDate,
+                                                     @RequestParam("sessionKey") String sessionKey)
+    {
+        Long doctorId = doctorRepository.findIdBySessionKey(sessionKey);
+        Long patientId = patientRepository.findIdByPesel(pesel);
+
+        LocalDate date = LocalDate.parse(expiryDate);
+        System.out.println("Pesel: " + pesel + "Refund: " + refund);
+        System.out.println("Accesscode: " + accessCode + "Expiry date: " + date);
+        System.out.println("PatiendId: " + patientId + "DoctorId: " + doctorId);
+
+        if(patientId==null){//that does not work
+            return ResponseEntity.ok("PESEL invalid");
+        }
+        else{
+
+        }
+
+        return ResponseEntity.ok("Connection is there");
+    }
 }

@@ -234,17 +234,96 @@
         const prescriptionContainer = document.getElementById('patientData');
         prescriptionContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
 
-        fetch(`/patient/allprescriptions?sessionKey=${sessionKey}`)
-                .then(response => response.json())
-                .then(data => {
-                  data.forEach(prescription => {
-                    const patientDiv = document.createElement('div');
-                    patientDiv.classList.add("visitsData");
-                    patientDiv.textContent = `${prescription.accessCode} ${prescription.description} ${prescription.issueDate} ${prescription.expiryDate}`;
-                    document.getElementById('patientData').appendChild(patientDiv);
+
+        const forms = document.createElement('div');
+        forms.id = 'prescription_forms';
+
+        const dataContainer = document.createElement('div');
+        dataContainer.id = 'newPrescriptionData';
+        //here
+        const peselInputPlace = document.createElement('input');
+        peselInputPlace.type = 'text';
+        peselInputPlace.required = true;
+        peselInputPlace.placeholder = 'PESEL';
+        peselInputPlace.name = 'peselInputPrescription';
+        peselInputPlace.id = 'peselInputPrescription';
+        peselInputPlace.classList.add('inputPlace');
+
+        dataContainer.appendChild(peselInputPlace);
+
+        const refundInputPlace = document.createElement('input');
+        refundInputPlace.type = 'number';
+        refundInputPlace.required = true;
+        refundInputPlace.placeholder = 'Refund';
+        refundInputPlace.id = 'refundInputPlace';
+        refundInputPlace.classList.add('inputPlace');
+
+        dataContainer.appendChild(refundInputPlace);
+
+        const codeInputPlace = document.createElement('input');
+        codeInputPlace.type = 'text';
+        codeInputPlace.required = true;
+        codeInputPlace.placeholder = 'Kod dostępu';
+        codeInputPlace.id = 'codeInputPlace';
+        codeInputPlace.classList.add('inputPlace');
+
+        dataContainer.appendChild(codeInputPlace);
+
+        const expiryDateInputPlace = document.createElement('input');
+        expiryDateInputPlace.type = 'date';
+        expiryDateInputPlace.required = true;
+        expiryDateInputPlace.id = 'expiryDateInputPlace';
+        expiryDateInputPlace.classList.add('inputPlace');
+
+        dataContainer.appendChild(expiryDateInputPlace);
+
+        const newPrescrButtonHolder = document.createElement('div');
+        newPrescrButtonHolder.id = 'newPrescrButtonHolder';
+        const newPrescrButton = document.createElement('button');
+
+        newPrescrButton.type = 'submit';
+        newPrescrButton.textContent = 'Wystaw';
+        newPrescrButton.id = 'newPrescr_btn';
+        newPrescrButton.classList.add("bookVisitButton");
+
+        newPrescrButtonHolder.appendChild(newPrescrButton);
+
+        forms.appendChild(dataContainer);
+        forms.appendChild(newPrescrButtonHolder);
+        prescriptionContainer.appendChild(forms);
+
+        newPrescrButton.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          submitPrescription();
+        });
+
+        function submitPrescription()
+        {
+          const pesel = peselInputPlace.value;
+          const refund = refundInputPlace.value;
+          const accessCode = codeInputPlace.value;
+          const expiryDate = expiryDateInputPlace.value.toString();
+
+          clearContainer();
+          const formData = new FormData();
+          formData.append('pesel', pesel);
+          formData.append('refund',refund);
+          formData.append('accessCode',accessCode);
+          formData.append('expiryDate',expiryDate);
+          formData.append('sessionKey', sessionKey);
+
+          fetch('/doctor/doctor/submit-prescription', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.text())
+                  .then(info => {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.textContent = info;
+                    document.getElementById('patientData').appendChild(infoDiv);
                   })
-                })
-                .catch(error => console.error('Error fetching patient data', error))
+                  .catch(error => console.error('Error fetching data', error))
+        }
 
       }
 
