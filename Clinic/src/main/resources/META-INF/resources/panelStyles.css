@@ -94,8 +94,18 @@ a {
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    width: 100%
+    width: 60%;
+    flex-wrap: wrap;
 
+}
+.infoBox{
+    border: 1px solid gray;
+    padding: 9px;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+.infoBox::first-line{
+    font-weight: bold;
 }
 #patientIcon{
     height: 15vh;
@@ -106,7 +116,7 @@ a {
     flex-wrap: wrap;
     background-color: lightpink;
     color:white;
-    font-size: 7rem;
+    font-size: 15vh;
     border-radius: 10px;
 }
 #formsContainer{
@@ -210,6 +220,7 @@ a {
     width: 100%;
     display: flex;
     justify-content: center;
+    min-height: 100px;
 }
 .reffForms{
     display: flex;
@@ -222,9 +233,18 @@ a {
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+.dataReffForms input, .dataReffForms textarea{
+    margin: 0 7px 7px 0;
+}
+.dataReffForms textarea{
+    height: 80%;
+}
 .reffpeselType{
     display: flex;
     flex-direction: column;
+    font-family: sans-serif;
+    font-size: 0.8rem;
 }
 #descriptionInputPlace{
 

@@ -397,7 +397,9 @@
                         .then(response => response.json())
                         .then(patient => {
                             const patientDiv = document.createElement('div');
-                            patientDiv.textContent = `Patient: ${patient.name} ${patient.surname}`;
+                            patientDiv.classList.add('infoBox');
+                            patientDiv.innerHTML = `${patient.name} ${patient.surname}` + `<br>` +
+                                        `${patient.email}` + `<br>` + `Nr. tel: ${patient.phoneNr}` + `<br>` + `Pesel: ${patient.pesel}`;
                             document.getElementById('personalInfoContainer').appendChild(patientDiv);
                         })
                         .catch(error => console.error('Error fetching patient data', error))

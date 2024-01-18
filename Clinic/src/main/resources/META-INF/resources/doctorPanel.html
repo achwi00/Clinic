@@ -169,18 +169,35 @@
         const reffpeselType = document.createElement('div');
         reffpeselType.classList.add("reffpeselType");
 
+        const peselLabel = document.createElement('label');
+        peselLabel.for = 'peselInputPlace';
+        peselLabel.textContent = 'Pesel:';
+        reffpeselType.appendChild(peselLabel);
         reffpeselType.appendChild(peselInputPlace);
+
+        const typeLabel = document.createElement('label');
+        typeLabel.for = 'typeInputPlace';
+        typeLabel.textContent = 'Typ:';
+        reffpeselType.appendChild(typeLabel);
         reffpeselType.appendChild(typeInputPlace);
 
-        const descriptionInputPlace = document.createElement('input');
-        descriptionInputPlace.type = 'text';
+        const descriptionInputPlace = document.createElement('textarea');
+        //descriptionInputPlace.type = 'text';
         descriptionInputPlace.required = true;
         descriptionInputPlace.placeholder = 'Opis...';
         descriptionInputPlace.name = 'descriptionInputPlace';
         descriptionInputPlace.id = 'descriptionInputPlace';
 
         dataReffForms.appendChild(reffpeselType);
-        dataReffForms.appendChild(descriptionInputPlace);
+
+        const descriptionLabel = document.createElement('label');
+        descriptionLabel.for = 'descriptionInputPlace';
+        descriptionLabel.textContent = 'Opis: ';
+        const descriptionContainer = document.createElement('div');
+        descriptionContainer.classList.add('reffpeselType');
+        dataReffForms.appendChild(descriptionContainer);
+        descriptionContainer.appendChild(descriptionLabel);
+        descriptionContainer.appendChild(descriptionInputPlace);
 
         const newReff_btn = document.createElement('button');
         newReff_btn.type = 'submit';
@@ -449,7 +466,10 @@
                 .then(response => response.json())
                 .then(doctor => {
                   const patientDiv = document.createElement('div');
-                  patientDiv.textContent = `Doctor: ${doctor.name} ${doctor.surname}`;
+                  patientDiv.classList.add('infoBox');
+                  patientDiv.innerHTML = `${doctor.name} ${doctor.surname}` + `<br>` +
+                          `${doctor.email}` + `<br>` + `Specjalizacja: ${doctor.specialisation}` + `<br>` +
+                            `Numer uprawnień: ${doctor.pwznr}`;
                   document.getElementById('personalInfoContainer').appendChild(patientDiv);
                 })
                 .catch(error => console.error('Error fetching patient data', error))

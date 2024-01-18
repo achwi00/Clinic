@@ -16,6 +16,7 @@ public class Doctor extends User
 
     @Column(length = 7, nullable = false)
     private String PWZnr;
+
     @Transient
     private ArrayList<RecurringSchedule> schedules;
     public Doctor(){};
