@@ -277,6 +277,15 @@
 
         dataContainer.appendChild(expiryDateInputPlace);
 
+        const descriptionInputPlace = document.createElement('input');
+        descriptionInputPlace.type = 'text';
+        descriptionInputPlace.required = true;
+        descriptionInputPlace.placeholder = 'Opis...';
+        descriptionInputPlace.id = 'descriptionInputPl';
+        descriptionInputPlace.classList.add('inputPlace');
+
+        dataContainer.appendChild(descriptionInputPlace);
+
         const newPrescrButtonHolder = document.createElement('div');
         newPrescrButtonHolder.id = 'newPrescrButtonHolder';
         const newPrescrButton = document.createElement('button');
@@ -303,6 +312,7 @@
           const refund = refundInputPlace.value;
           const accessCode = codeInputPlace.value;
           const expiryDate = expiryDateInputPlace.value.toString();
+          const description = descriptionInputPlace.value;
 
           clearContainer();
           const formData = new FormData();
@@ -310,6 +320,7 @@
           formData.append('refund',refund);
           formData.append('accessCode',accessCode);
           formData.append('expiryDate',expiryDate);
+          formData.append('description',description);
           formData.append('sessionKey', sessionKey);
 
           fetch('/doctor/doctor/submit-prescription', {

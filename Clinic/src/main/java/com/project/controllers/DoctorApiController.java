@@ -5,10 +5,7 @@ import com.project.clinic.Patient;
 import com.project.clinic.Visit;
 import com.project.repository.DoctorRepository;
 import com.project.repository.PatientRepository;
-import com.project.service.DoctorService;
-import com.project.service.PatientService;
-import com.project.service.RefferalService;
-import com.project.service.VisitService;
+import com.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +35,10 @@ public class DoctorApiController
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private PrescriptionService prescriptionService;
+
 
     @GetMapping("/all")
     public Optional<Doctor> getThisDoctor(@RequestParam String sessionKey)
@@ -106,6 +107,7 @@ public class DoctorApiController
                                                      @RequestParam("refund") Number refund,
                                                      @RequestParam("accessCode") String accessCode,
                                                      @RequestParam("expiryDate") String expiryDate,
+                                                     @RequestParam("description") String description,
                                                      @RequestParam("sessionKey") String sessionKey)
     {
         Long doctorId = doctorRepository.findIdBySessionKey(sessionKey);
@@ -120,9 +122,14 @@ public class DoctorApiController
             return ResponseEntity.ok("PESEL invalid");
         }
         else{
-
+            if(prescriptionService.createNewPrescription(doctorId, patientId, refund, accessCode, date, description))
+            {
+                return ResponseEntity.ok("You have successfully submitted a prescription");
+            }
+            else{
+                return ResponseEntity.ok("Something went wrong");
+            }
         }
 
-        return ResponseEntity.ok("Connection is there");
     }
 }
