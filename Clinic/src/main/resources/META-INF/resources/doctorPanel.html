@@ -344,228 +344,69 @@
         titleContainer.innerHTML = '<p>WYSZUKAJ PACJENTA</p>';
         clearContainer();
         const targetContainer = document.getElementById('patientData');
-        targetContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+        targetContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center    /* place-content: center; */\n" +
+                "    /* justify-content: center; */\n" +
+                "    /* align-items: center;";
 
-        fetch(`/patient/allhistory?sessionKey=${sessionKey}`)
-                .then(response => response.json())
-                .then(data => {
-                  data.forEach(visits => {
-                    const patientDiv = document.createElement('div');
-                    patientDiv.classList.add("visitsData");
-                    patientDiv.textContent = `${visits.date} ${visits.time} ${visits.doctor.specialisation}`;
-                    document.getElementById('patientData').appendChild(patientDiv);
-                  })
-                })
-                .catch(error => console.error('Error fetching patient data', error))
+        const patientSearchContainer = document.createElement('div');
+        patientSearchContainer.id = 'patientSearchContainer';
 
-      }
-      function newVisit()
-      {
-        const titleContainer = document.getElementById('title-container');
-        titleContainer.innerHTML = '<p>UMÓW NOWĄ WIZYTĘ</p>';
-        clearContainer();
-        const targetContainer = document.getElementById('patientData');
-        targetContainer.style.cssText = "display: flex; justify-content:center";
+        const peselContainer = document.createElement('div');
+        peselContainer.id = 'peselContainer';
 
-        //adding new stuff: adding formsContainer to patientData
-        const formsContainer = document.createElement('div');
-        formsContainer.id = 'formsContainer';
-        targetContainer.appendChild(formsContainer);
-        //adding a header in formsContainer
-        const header = document.createElement('h1');
-        header.textContent = 'W terminie: ';
-        formsContainer.appendChild(header);
+        const peselInputPlace = document.createElement('input');
+        peselInputPlace.type = 'input';
+        peselInputPlace.placeholder = 'PESEL';
+        peselInputPlace.id = 'patientSearchPesel';
+        peselInputPlace.classList.add('inputPlace');
+        peselInputPlace.required = true;
 
-        const allInputsHolder = document.createElement('div');
-        allInputsHolder.id = 'allInputsHolder';
-        formsContainer.appendChild(allInputsHolder);
+        peselContainer.appendChild(peselInputPlace);
 
-        //creating forms
-        const visitForm = document.createElement('form');
-        visitForm.action = '/submit-visit';
-        visitForm.method = 'POST';
+        const patientSearchButtonHolder = document.createElement('div');
+        patientSearchButtonHolder.id = 'patientSearchButtonHolder';
+        const patientSearchButton = document.createElement('button');
+        patientSearchButton.type = 'submit';
+        patientSearchButton.textContent = 'Szukaj';
+        patientSearchButton.id = 'patientSearch_btn';
+        patientSearchButton.classList.add("bookVisitButton");
 
-        //creating inputBox, adding it to the forms
-        const inputBox1 = document.createElement('div');
-        inputBox1.classList.add("inputBox");
-        visitForm.appendChild(inputBox1);
-        //adding a header to
-        const startHeader = document.createElement('h2');
-        startHeader.textContent = 'Od: ';
-        inputBox1.appendChild(startHeader);
+        patientSearchButtonHolder.appendChild(patientSearchButton);
+        patientSearchContainer.appendChild(peselContainer);
+        patientSearchContainer.appendChild(patientSearchButtonHolder);
+        targetContainer.appendChild(patientSearchContainer);
 
-        const startDateInput = document.createElement('input');
-        startDateInput.type = 'date';
-        startDateInput.placeholder = 'Start date';
-        startDateInput.required = true;
-        startDateInput.name = 'startDateInput';
-        inputBox1.appendChild(startDateInput);
-
-        const inputBox2 = document.createElement('div');
-        inputBox2.classList.add("inputBox");
-        visitForm.appendChild(inputBox2);
-
-        const endHeader = document.createElement('h2');
-        endHeader.textContent = 'Do: ';
-        inputBox2.appendChild(endHeader);
-
-        const endDateInput = document.createElement('input');
-        endDateInput.type = 'date';
-        endDateInput.placeholder = 'End date';
-        endDateInput.required = true;
-        endDateInput.name = 'endDateInput';
-        inputBox2.appendChild(endDateInput);
-        //specialisation
-        const inputBox3 = document.createElement('div');
-        inputBox3.classList.add("inputBox");
-        visitForm.appendChild(inputBox3);
-
-        const specHeader = document.createElement('h2');
-        specHeader.textContent = "Specjalizacja: ";
-        inputBox3.appendChild(specHeader);
-
-        const specInput = document.createElement('select');
-        specInput.type = 'select';
-        specInput.required = true;
-        specInput.name = 'specInput';
-        specInput.id = 'specInput';
-
-        //dropdown specialisations logic here:
-        fetch(`/patient/allspecializations?sessionKey=${sessionKey}`)
-                .then(response => response.json())
-                .then(data => {
-                  const specializationsDropdown = document.getElementById('specInput');
-                  // Clear existing options
-                  //add each option to the dropdown
-                  data.forEach(specialization => {
-                    const option = document.createElement('option');
-                    option.value = specialization;
-                    option.textContent = specialization;
-                    specializationsDropdown.appendChild(option);
-                  });
-                })
-                .catch(error => console.error('Error fetching specializations', error));
-
-        //this acts as a placeholder:
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = 'Wybierz'; // You can customize this placeholder text
-        defaultOption.disabled = true;
-        defaultOption.selected = true; // This makes it selected by default
-        specInput.appendChild(defaultOption);
-
-        inputBox3.appendChild(specInput);
-
-        const button = document.createElement('button');
-        button.type = 'submit';
-        button.textContent = 'Wyszukaj';
-        button.id = 'findVisits_btn';
-
-        button.addEventListener('click', function(event) {
+        patientSearchButton.addEventListener('click', function(event) {
           event.preventDefault(); // Prevent the default form submission
-          searchForVisits();
+          findPatient();
         });
-        visitForm.appendChild(button);
-        allInputsHolder.appendChild(visitForm);
-        //document.getElementById('formsContainer').appendChild(visitForm);
 
-        function searchForVisits()
+        function findPatient()
         {
-          const startDateIn = startDateInput.value.toString();
-          const endDateIn = endDateInput.value.toString();
-          const specializationIn = specInput.value;
-
-          //visitForm.submit();
+          const pesel = peselInputPlace.value;
           clearContainer();
-          //targetContainer.style.cssText = "display: flex; align-items:center; flex-direction:column, justify-content: space-evenly;";
           const formData = new FormData();
-          formData.append('startDateIn', startDateIn);
-          formData.append('endDateIn', endDateIn);
-          formData.append('specializationIn', specializationIn);
+          formData.append('pesel', pesel);
 
-          document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
 
-          fetch('/patient/patient/submit-visit', {
+          fetch('/doctor/doctor/search-patient', {
             method: 'POST',
             body: formData
           })
                   .then(response => response.json())
                   .then(data => {
                     data.forEach(visits => {
-                      const patientDiv = document.createElement('div');//d1
+                      const patientDiv = document.createElement('div');
                       patientDiv.classList.add("visitsData");
-                      const newVisitDateTime = document.createElement('div');//d2
-                      const newVisitDoctor = document.createElement('div');
-                      const newVisitClinic = document.createElement('div');
-                      newVisitClinic.classList.add("newVisitClinic");
-                      newVisitDateTime.classList.add("newVisitDateTime");
-                      newVisitDateTime.textContent = `${visits.date} ${visits.time}`;
-                      patientDiv.appendChild(newVisitDateTime);
-
-                      const newVisitDocClInfo = document.createElement('div');
-                      newVisitDocClInfo.classList.add("newVisitDocClInfo");
-                      newVisitDoctor.classList.add("newVisitDoctor");
-                      newVisitDoctor.innerHTML =`${visits.doctor.specialisation}`+`<br>`+`${visits.doctor.name} ${visits.doctor.surname}`;
-
-                      newVisitDocClInfo.appendChild(newVisitDoctor);
-                      //newVisitClinic.textContent = `Clinic: ${visits.clinic.location}`;
-                      newVisitClinic.innerHTML = `${visits.clinic.departmentName}`+`<br>`+`${visits.clinic.location}`;
-                      newVisitDocClInfo.appendChild(newVisitClinic);
-                      //create button
-                      //add type submit and class
-                      const bookVisitButton = document.createElement('button');
-                      bookVisitButton.classList.add("bookVisitButton");
-                      bookVisitButton.type = 'submit';
-                      bookVisitButton.textContent = 'Zarezerwuj';
-
-                      //create forms
-                      const patientSessionkey = sessionKey;
-                      const visId = visits.visitId;
-                      //add visitId and patientId to the forms
-                      const visitBooking = new FormData();
-                      visitBooking.append('visId', visId);
-                      visitBooking.append('sessionKey',sessionKey);
-                      visitBooking.action = '/submit-bookVisit';
-
-                      //prevent default and send the data by post
-
-                      bookVisitButton.addEventListener('click', function(event) {
-                        event.preventDefault(); // Prevent the default form submission
-                        bookVisit();
-                      });
-
-                      function bookVisit(){
-                        clearContainer();
-                        //fetch etc
-                        fetch('/patient/patient/submit-visit/submit-bookVisit', {
-                          method: 'POST',
-                          body: visitBooking
-                        })
-                                .then(response => response.text())
-                                .then(info => {
-                                  const infoDiv = document.createElement('div');
-                                  infoDiv.textContent = info;
-                                  document.getElementById('patientData').appendChild(infoDiv);
-                                })
-                                .catch(error => console.error('Error fetching data', error))
-                      }
-
-                      //add it to newVisitDocClInfo
-
-                      newVisitDocClInfo.appendChild(bookVisitButton);
-
-                      patientDiv.appendChild(newVisitDocClInfo);
+                      patientDiv.textContent = `${visits.date} ${visits.time} Pacjent: ${visits.patient.name} ${visits.patient.surname} ${visits.patient.pesel}`;
                       document.getElementById('patientData').appendChild(patientDiv);
                     })
                   })
                   .catch(error => console.error('Error fetching patient data', error))
-
-
-
-          //fetch(`/patient/returnedVisits?sessionKey=${sessionKey}`)
         }
 
       }
+
 
       function clearContainer()
       {

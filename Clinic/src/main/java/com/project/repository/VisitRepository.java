@@ -42,4 +42,6 @@ public interface VisitRepository extends JpaRepository<Visit, Long>
     @Query("SELECT v FROM Visit v WHERE v.doctor.id = :doctorId AND v.date = :date AND (v.status = 'BOOKED'OR v.status = 'COMPLETED') ORDER BY v.time")
     List<Visit> findBookedAndCompletedForDoctorByDate(@Param("date") LocalDate date,
             @Param("doctorId") Long doctorId);
+
+    List<Visit> findByPatientId(@Param("patientId") Long patientId);
 }

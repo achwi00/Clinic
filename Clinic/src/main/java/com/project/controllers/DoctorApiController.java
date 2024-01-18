@@ -132,4 +132,17 @@ public class DoctorApiController
         }
 
     }
+
+    @PostMapping("/doctor/search-patient")
+    public List<Visit> searchForPatient(@RequestParam("pesel") String pesel)
+    {
+        System.out.println("Pesel: " + pesel);
+        Long patientId = patientRepository.findIdByPesel(pesel);
+
+        if(patientId==null){
+            System.out.println("Patient does not exist");
+        }
+
+        return visitService.getByPatientId(patientId);
+    }
 }

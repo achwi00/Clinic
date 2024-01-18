@@ -252,6 +252,18 @@ a {
 .inputPlace{
 
 }
+#patientSearchContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    justify-content: space-between;
+}
+#peselContainer{
+
+}
+#patientSearch_btn{
+
+}
 footer {
     height: 15%;
     display: flex;

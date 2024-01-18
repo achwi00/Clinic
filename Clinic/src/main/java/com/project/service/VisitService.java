@@ -45,5 +45,9 @@ public class VisitService
         return visitRepository.findCompletedVisitsForPatient(patientId);
     }
 
+    public List<Visit> getByPatientId(Long patientId)
+    {
+        return visitRepository.findByPatientId(patientId);
+    }
 
 }
