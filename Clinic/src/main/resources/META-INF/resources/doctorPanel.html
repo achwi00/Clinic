@@ -266,7 +266,12 @@
         peselInputPlace.id = 'peselInputPrescription';
         peselInputPlace.classList.add('inputPlace');
 
-        dataContainer.appendChild(peselInputPlace);
+        const peselLabel = document.createElement('h3');
+        peselLabel.textContent = 'Pesel';
+        const peselContainer = document.createElement('div');
+        peselContainer.appendChild(peselLabel);
+        peselContainer.appendChild(peselInputPlace);
+        dataContainer.appendChild(peselContainer);
 
         const refundInputPlace = document.createElement('input');
         refundInputPlace.type = 'number';
@@ -275,7 +280,12 @@
         refundInputPlace.id = 'refundInputPlace';
         refundInputPlace.classList.add('inputPlace');
 
-        dataContainer.appendChild(refundInputPlace);
+        const refundLabel = document.createElement('h3');
+        refundLabel.textContent = 'Refundacja: ';
+        const refundContainer = document.createElement('div');
+        refundContainer.appendChild(refundLabel);
+        refundContainer.appendChild(refundInputPlace);
+        dataContainer.appendChild(refundContainer);
 
         const codeInputPlace = document.createElement('input');
         codeInputPlace.type = 'text';
@@ -284,7 +294,12 @@
         codeInputPlace.id = 'codeInputPlace';
         codeInputPlace.classList.add('inputPlace');
 
-        dataContainer.appendChild(codeInputPlace);
+        const codeLabel = document.createElement('h3');
+        codeLabel.textContent = 'Kod dostępu:';
+        const codeContainer = document.createElement('div');
+        codeContainer.appendChild(codeLabel);
+        codeContainer.appendChild(codeInputPlace);
+        dataContainer.appendChild(codeContainer);
 
         const expiryDateInputPlace = document.createElement('input');
         expiryDateInputPlace.type = 'date';
@@ -292,16 +307,27 @@
         expiryDateInputPlace.id = 'expiryDateInputPlace';
         expiryDateInputPlace.classList.add('inputPlace');
 
-        dataContainer.appendChild(expiryDateInputPlace);
+        const expiryDateLabel = document.createElement('h3');
+        expiryDateLabel.textContent = 'Data ważności:'
+        const expiryDateContainer = document.createElement('div');
+        expiryDateContainer.appendChild(expiryDateLabel);
+        expiryDateContainer.appendChild(expiryDateInputPlace);
+        dataContainer.appendChild(expiryDateContainer);
 
-        const descriptionInputPlace = document.createElement('input');
-        descriptionInputPlace.type = 'text';
+        const descriptionInputPlace = document.createElement('textarea');
+        //descriptionInputPlace.type = 'text';
         descriptionInputPlace.required = true;
         descriptionInputPlace.placeholder = 'Opis...';
         descriptionInputPlace.id = 'descriptionInputPl';
         descriptionInputPlace.classList.add('inputPlace');
 
-        dataContainer.appendChild(descriptionInputPlace);
+
+        const descriptionLabel = document.createElement('h3');
+        descriptionLabel.textContent = 'Opis recepty:';
+        const descriptionContainer = document.createElement('div');
+        descriptionContainer.appendChild(descriptionLabel);
+        descriptionContainer.appendChild(descriptionInputPlace);
+        dataContainer.appendChild(descriptionContainer);
 
         const newPrescrButtonHolder = document.createElement('div');
         newPrescrButtonHolder.id = 'newPrescrButtonHolder';
@@ -378,6 +404,9 @@
         peselInputPlace.classList.add('inputPlace');
         peselInputPlace.required = true;
 
+        const peselLabel = document.createElement('h3');
+        peselLabel.textContent = 'Pesel pacjenta:';
+        peselContainer.appendChild(peselLabel);
         peselContainer.appendChild(peselInputPlace);
 
         const patientSearchButtonHolder = document.createElement('div');

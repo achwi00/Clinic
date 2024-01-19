@@ -257,14 +257,31 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 50vh;
 }
 #newPrescriptionData{
-    width: 70%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    flex: 0 0 50%;
+    /*flex: 0 0 50%;*/
+    height: 80%;
     align-content: space-between;
+    justify-content: space-around;
+    align-items: stretch;
+}
+#newPrescriptionData input, #newPrescriptionData textarea{
+    width: 100%;
+    box-sizing: border-box;
+}
+#newPrescriptionData h3{
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    margin: 0;
+    font-weight: normal;
+}
+
+#newPrescriptionData > div {
+    text-align: left;
 }
 #newPrescrButtonHolder{
 
@@ -277,10 +294,18 @@ a {
     flex-wrap: wrap;
     width: 50%;
     justify-content: space-between;
+    flex-direction: row;
+    align-items: flex-end;
 }
 #peselContainer{
-
 }
+#peselContainer h3{
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: normal;
+    margin: 0;
+}
+
 #patientSearch_btn{
 
 }
