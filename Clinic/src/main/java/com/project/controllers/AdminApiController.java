@@ -13,15 +13,12 @@ import com.project.service.DoctorService;
 import com.project.service.VisitService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
-import java.sql.SQLOutput;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/admin")
@@ -74,23 +71,27 @@ public class AdminApiController {
 
 
     @Transactional
-    @PostMapping("/submit-doctor")
+    @PostMapping("/admin/submit-doctor")
     public ResponseEntity<String> createDoctor(@RequestParam("name")String name,
                                                @RequestParam("surname") String surname,
                                                @RequestParam("email") String email,
                                                @RequestParam("password") String password,
                                                @RequestParam("PWZnr") String PWZnr,
-                                               @RequestParam("specialisation") String specialisation,
-                                               @RequestParam("clinicIds") Set<Long> clinicIds){
-        Set<Clinic> clinics = null;
-        for (Long clinicId : clinicIds){
+                                               @RequestParam("specialisation") String specialisation )
+                                              /*@RequestParam("clinicIds") Set<Long> clinicIds)*/{
+        //Set<Clinic> clinics = null;
+        System.out.println("email: "+ email);
+        /*for (Long clinicId : clinicIds){
+            System.out.println("ClinicId: " +clinicId);
             Optional<Clinic> clinicOptional = clinicRepository.findById(clinicId);
             clinicOptional.ifPresent(clinics::add);
-        }
-        Doctor doctor = new Doctor(password,name,surname,specialisation,PWZnr,email,clinics);
+        }*/
+        //Doctor doctor = new Doctor(password,name,surname,specialisation,PWZnr,email,clinics);
+        Doctor doctor = new Doctor(password,name,surname,specialisation,PWZnr,email);
         doctorRepository.save(doctor);
+       return ResponseEntity.ok("You have successfully create a doctor account");
 
-        return ResponseEntity.ok("You have successfully create a doctor account");
+
     }
 
     @GetMapping("/all")

@@ -82,9 +82,20 @@ a {
     margin-bottom: 1%;
     background-color: white;
 }
+#adminData{
+    width: 100%;
+    margin-top: 1%;
+    height: 100%;
+    margin-bottom: 1%;
+}
+#targetContainer{
+    height: 100%;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
 
 footer {
-    height: 15%;
+    min-height: 10%;
     display: flex;
     justify-content: center;
     align-items: flex-end;

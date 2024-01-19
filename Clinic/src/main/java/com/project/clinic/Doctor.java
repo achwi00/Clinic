@@ -38,6 +38,12 @@ public Doctor(String password, String name, String surname, String specialisatio
     schedules = new ArrayList<>(7);
     this.clinics = clinics ;
 }
+    public Doctor(String password, String name, String surname, String specialisation, String PWZnr,String email) {
+        super(password, name, surname,email);
+        this.specialisation = specialisation;
+        this.PWZnr = PWZnr;
+        schedules = new ArrayList<>(7);
+    }
     public void addSchedule(DayOfWeek day, LocalTime start, LocalTime stop, int visitLength, Clinic clinic)
     {
         RecurringSchedule recurringSchedule = new RecurringSchedule(day, start, stop, visitLength, this, clinic);
