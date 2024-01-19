@@ -75,7 +75,7 @@ a {
     color: White;
     font-size: 1rem;
     font-family: sans-serif;
-    background-color: pink;
+    background-color: #edc5d8;
 }
 #patientData{
     width: 100%;
@@ -114,7 +114,7 @@ a {
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
-    background-color: lightpink;
+    background-color: #edc5d8;
     color:white;
     font-size: 15vh;
     border-radius: 10px;
@@ -157,7 +157,7 @@ a {
 .visitsData{
     color:black;
     width: 80%;
-    background-color: #FFEAEE;
+    background-color: #f7e7ef;
     margin-bottom: 1%;
     margin-top: 0.5%;
     min-height: 50px;
@@ -187,6 +187,9 @@ a {
 }
 .newVisitClinic::first-line{
 
+}
+.prescriptionDescription{
+    word-wrap: break-word;
 }
 .bookVisitButton{
     font-size: 0.8rem;
