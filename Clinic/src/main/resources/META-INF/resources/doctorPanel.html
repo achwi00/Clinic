@@ -121,7 +121,24 @@
                     data.forEach(visits => {
                       const patientDiv = document.createElement('div');
                       patientDiv.classList.add("visitsData");
-                      patientDiv.textContent = `${visits.date} ${visits.time} Pacjent: ${visits.patient.name} ${visits.patient.surname} ${visits.patient.pesel}`;
+                      const newVisitDateTime = document.createElement('div');//d2
+                      const newVisitDoctor = document.createElement('div');
+                      const newVisitClinic = document.createElement('div');
+                      const newVisitDocClInfo = document.createElement('div');
+
+                      newVisitDocClInfo.classList.add("newVisitDocClInfo");
+                      newVisitDateTime.classList.add("newVisitDateTime");
+                      newVisitDoctor.classList.add("newVisitDoctor");
+                      newVisitClinic.classList.add("newVisitClinic");
+                      newVisitDateTime.textContent = `${visits.date} ${visits.time}`;
+                      newVisitDoctor.innerHTML = `Pacjent: ${visits.patient.name} ${visits.patient.surname}` + `<br>` +
+                              `Pesel: ${visits.patient.pesel}`;
+
+                      newVisitClinic.innerHTML = `${visits.clinic.departmentName}` + `<br>` + `${visits.clinic.location}`;
+                      patientDiv.appendChild(newVisitDateTime);
+                      newVisitDocClInfo.appendChild(newVisitDoctor);
+                      newVisitDocClInfo.appendChild(newVisitClinic);
+                      patientDiv.appendChild(newVisitDocClInfo);
                       document.getElementById('patientData').appendChild(patientDiv);
                     })
                   })
@@ -444,7 +461,24 @@
                     data.forEach(visits => {
                       const patientDiv = document.createElement('div');
                       patientDiv.classList.add("visitsData");
-                      patientDiv.textContent = `${visits.date} ${visits.time} Pacjent: ${visits.patient.name} ${visits.patient.surname} ${visits.patient.pesel}`;
+                      const newVisitDateTime = document.createElement('div');//d2
+                      const newVisitDoctor = document.createElement('div');
+                      const newVisitClinic = document.createElement('div');
+                      const newVisitDocClInfo = document.createElement('div');
+
+                      newVisitDocClInfo.classList.add("newVisitDocClInfo");
+                      newVisitDateTime.classList.add("newVisitDateTime");
+                      newVisitDoctor.classList.add("newVisitDoctor");
+                      newVisitClinic.classList.add("newVisitClinic");
+                      newVisitDateTime.textContent = `${visits.date} ${visits.time} ${visits.doctor.specialisation}`;
+                      newVisitDoctor.innerHTML = `Pacjent: ${visits.patient.name} ${visits.patient.surname}` + `<br>` +
+                              `Pesel: ${visits.patient.pesel}`;
+
+                      newVisitClinic.innerHTML = `${visits.clinic.departmentName}` + `<br>` + `${visits.clinic.location}`;
+                      patientDiv.appendChild(newVisitDateTime);
+                      newVisitDocClInfo.appendChild(newVisitDoctor);
+                      newVisitDocClInfo.appendChild(newVisitClinic);
+                      patientDiv.appendChild(newVisitDocClInfo);
                       document.getElementById('patientData').appendChild(patientDiv);
                     })
                   })
