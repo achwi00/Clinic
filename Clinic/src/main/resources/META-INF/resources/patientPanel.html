@@ -63,11 +63,11 @@
                 console.error('sessionKey: ', sessionKey);
             }
         }
-        function displayVisits(){
+        function displayVisits() {
             const titleContainer = document.getElementById('title-container');
             titleContainer.innerHTML = '<p>NADCHODZĄCE WIZYTY</p>';
             const visitsContainer = document.getElementById('patientData');
-            while(visitsContainer.firstChild){
+            while (visitsContainer.firstChild) {
                 visitsContainer.firstChild.remove();
             }
 
@@ -96,11 +96,55 @@
                         newVisitDocClInfo.appendChild(newVisitClinic);
                         patientDiv.appendChild(newVisitDocClInfo);
                         document.getElementById('patientData').appendChild(patientDiv);
+                        //added part
+                        const cancelVisit_button = document.createElement('button');
+                        cancelVisit_button.classList.add("bookVisitButton");
+                        cancelVisit_button.type = 'submit';
+                        cancelVisit_button.textContent = 'Odwołaj';
+
+                        //create forms
+                        const patientSessionkey = sessionKey;
+                        const visId = visits.visitId;
+                        //add visitId and patientId to the forms
+                        const visitCancelling = new FormData();
+                        visitCancelling.append('visId', visId);
+                        visitCancelling.append('sessionKey', sessionKey);
+                        visitCancelling.action = '/submit-cancelVisit';
+
+                        //prevent default and send the data by post
+
+                        cancelVisit_button.addEventListener('click', function (event) {
+                            event.preventDefault(); // Prevent the default form submission
+                            cancelVisit();
+                        });
+                        newVisitDocClInfo.appendChild(cancelVisit_button);
+                        patientDiv.appendChild(newVisitDocClInfo);
+                        document.getElementById('patientData').appendChild(patientDiv);
+
+                        function cancelVisit() {
+                            clearContainer();
+                            //fetch etc
+                            fetch('/patient/patient/submit-cancelVisit', {
+                                method: 'POST',
+                                body: visitCancelling
+                            })
+                                .then(response => response.text())
+                                .then(info => {
+                                    const infoDiv = document.createElement('div');
+                                    infoDiv.textContent = info;
+                                    document.getElementById('patientData').appendChild(infoDiv);
+                                })
+                                .catch(error => console.error('Error fetching data', error))
+                        }
+
+                        //add it to newVisitDocClInfo
+
+
                     })
                 })
                 .catch(error => console.error('Error fetching patient data', error))
-                }
 
+        }
         function displayRefferals()
         {
             const titleContainer = document.getElementById('title-container');

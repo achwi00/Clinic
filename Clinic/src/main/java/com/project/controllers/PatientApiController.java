@@ -132,6 +132,16 @@ public class PatientApiController
         return ResponseEntity.ok("You have successfully booked a visit");
     }
 
+    @PostMapping("/patient/submit-cancelVisit")
+    public ResponseEntity<String> cancelVisit(@RequestParam("visId") Long visId,
+                                            @RequestParam("sessionKey") String sessionKey){
+
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
+        visitService.bookVisitForPatient(patientId, visId);
+
+        return ResponseEntity.ok("Connection is there");
+    }
+
 
 
 }
