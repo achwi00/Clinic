@@ -137,9 +137,10 @@ public class PatientApiController
                                             @RequestParam("sessionKey") String sessionKey){
 
         Long patientId = patientRepository.findIdBySessionKey(sessionKey);
-        visitService.bookVisitForPatient(patientId, visId);
+        //visitService.bookVisitForPatient(patientId, visId);
+        visitService.cancelVisit(visId);
 
-        return ResponseEntity.ok("Connection is there");
+        return ResponseEntity.ok("Odwołano wizytę");
     }
 
 
