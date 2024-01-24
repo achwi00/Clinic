@@ -20,13 +20,13 @@ public class Clinic
     private ArrayList<Doctor> listOfDoctors = new ArrayList<>();
     @Transient
     private List<Room> listOfRooms = new ArrayList<>();
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
             name = "clinic_doctor",
             joinColumns = @JoinColumn(name = "clinicId"),
             inverseJoinColumns = @JoinColumn(name = "id")
     )
-    private Set<Doctor>doctors;
+    private Set<Doctor>doctors;*/
     public int getClinicId()
     {
         return clinicId;

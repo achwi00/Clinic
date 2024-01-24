@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class AdminController {
@@ -54,7 +55,10 @@ public class AdminController {
         //return adminApiController.createDoctor(name, surname, email, password,PWZnr,specialisation,clinicIds);
         return adminApiController.createDoctor(name, surname, email, password,PWZnr,specialisation);
     }
-
+    public ResponseEntity<String> returnCreateClinicDoctor( @RequestParam("doctorId") Long doctorId,
+                                                            @RequestParam("clinicIds") Set<Long> clinicIds) {
+    return adminApiController.createClinicDoctor(doctorId,clinicIds);
+    }
     @PostMapping("admin/logo_pm")
     public String reload(@RequestParam String sessionKey,
                          RedirectAttributes redirectAttributes){

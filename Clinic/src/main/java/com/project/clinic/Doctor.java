@@ -22,8 +22,9 @@ public class Doctor extends User
     private String PWZnr;
     @Transient
     private ArrayList<RecurringSchedule> schedules;
-    @ManyToMany(mappedBy ="doctors")
-    Set<Clinic> clinics;
+   /* @ManyToMany(mappedBy ="doctors")
+    Set<Clinic> clinics;*/
+
     public Doctor(){};
 //    public Doctor(int id, String password, String name, String surname, String specialisation, String PWZnr,String email) {
 //        super(id, password, name, surname,email);
@@ -31,13 +32,13 @@ public class Doctor extends User
 //        this.PWZnr = PWZnr;
 //        schedules = new ArrayList<>(7);
 //    }
-public Doctor(String password, String name, String surname, String specialisation, String PWZnr,String email, Set<Clinic>clinics) {
+/*public Doctor(String password, String name, String surname, String specialisation, String PWZnr,String email, Set<Clinic>clinics) {
     super(password, name, surname,email);
     this.specialisation = specialisation;
     this.PWZnr = PWZnr;
     schedules = new ArrayList<>(7);
     this.clinics = clinics ;
-}
+}*/
     public Doctor(String password, String name, String surname, String specialisation, String PWZnr,String email) {
         super(password, name, surname,email);
         this.specialisation = specialisation;
@@ -109,9 +110,5 @@ public Doctor(String password, String name, String surname, String specialisatio
     public void setPWZnr(String PWZnr)
     {
         this.PWZnr = PWZnr;
-    }
-
-    public void setClinics(Set<Clinic> clinics) {
-        this.clinics = clinics;
     }
 }

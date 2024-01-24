@@ -24,6 +24,10 @@
     <div class="dropdown-content">
     </div>
 
+    <button class="dropbtn" id="doctor_clinic" name="doctor_clinic">Lekarze przychodnia</button>
+    <div class="dropdown-content">
+    </div>
+
     <button class="dropbtn" id="doctors" name="doctors">Lekarze</button>
     <div class="dropdown-content">
     </div>
@@ -45,6 +49,7 @@
       document.getElementById('logo_pm').addEventListener('click', redirectToAdmin);
       document.getElementById('searchVisits').addEventListener('click', searchVisits);
       document.getElementById('addDoctor').addEventListener('click', formAddDoctor);
+      document.getElementById('doctor_clinic').addEventListener('click', doctorToClinic);
       document.getElementById('doctors').addEventListener('click', displayDoctors);
       document.getElementById('clinics').addEventListener('click', displayClinics);
 
@@ -92,6 +97,7 @@
 
       function getVisitsByDoctorId() {
       const doctorId = document.getElementById('doctorIdInput').value;
+      //clearContainer();
       const visitContainer = document.getElementById('visitContainer');
       visitContainer.id='visitContainer';
       // Clear the visit container
@@ -102,8 +108,6 @@
       const formData = new FormData();
       formData.append('doctorId', doctorId);
 
-      // Fetch visits from the API
-      //fetch(`/admin/admin/submit-visit?doctorId=${doctorId}`)
         fetch('/admin/submit-visit',{
             method: 'POST',
             body: formData})
@@ -112,13 +116,109 @@
               data.forEach(visit => {
                   const visitDiv = document.createElement('div');
                   visitDiv.textContent = `Wizyta id: ${visit.visitId}, data: ${visit.date}, lekarz id: ${visit.doctor.id}, pacjent id: ${visit.patient.id}, status: ${visit.status} `;
-                 //visitContainer.appendChild(visitDiv);
-                  document.getElementById('visitContainer').appendChild(visitDiv);
+                 visitContainer.appendChild(visitDiv);
+                  //document.getElementById('visitContainer').appendChild(visitDiv);
               });
           })
           .catch(error => console.error('Error fetching visits', error));
         }
 
+        function doctorToClinic(){
+          const titleContainer = document.getElementById('title-container');
+          titleContainer.innerHTML = '<p>PRZYPISZ LEKARZA DO PRZYCHODNI</p>';
+          clearContainer();
+          const doctorsClinicContainer = document.getElementById('adminData');
+
+          //create form
+          const doctorClinicForm = document.createElement('form');
+          doctorClinicForm.action = '/admin/admin/doctor-clinic';
+          doctorClinicForm.method = 'POST';
+
+          const inputBox11 = document.createElement('div');
+          inputBox11.classList.add("inputBox");
+          doctorClinicForm.appendChild(inputBox11);
+
+          const listHeader11 = document.createElement('h4');
+          listHeader11.textContent = "Nr ID lekarza: ";
+          inputBox11.appendChild(listHeader11);
+
+          const doctorId = document.createElement('input');
+          doctorId.type = 'number';
+          doctorId.placeholder = 'doctorId';
+          doctorId.required = true;
+          doctorId.name = 'doctorId';
+          inputBox11.appendChild(doctorId);
+
+          //listofClinic
+           const inputBox12 = document.createElement('div');
+          inputBox12.classList.add("inputBox");
+          doctorClinicForm.appendChild(inputBox12);
+
+            const listHeader12 = document.createElement('h4');
+            listHeader12.textContent = "Przychodnie: ";
+          inputBox12.appendChild(listHeader12);
+
+          fetch(`/admin/allclinics?sessionKey=${sessionKey}`)
+                  .then(response => response.json())
+                  .then(data => {
+                    data.forEach(clinic => {
+                      const checkboxDiv = document.createElement('div');
+                      checkboxDiv.classList.add("clinicCheckbox");
+                      const clinicIds = document.createElement('input');
+                      clinicIds.type = 'checkbox';
+                      clinicIds.required = false;
+                      clinicIds.name = 'clinicIds';
+                      clinicIds.value = clinic.clinicId;
+                      const clinicLabel = document.createElement('label');
+                      clinicLabel.textContent = clinic.departmentName;
+                      checkboxDiv.appendChild(clinicIds);
+                      checkboxDiv.appendChild(clinicLabel);
+                      inputBox12.appendChild(checkboxDiv);
+                    });
+                  })
+                    .catch(error => console.error('Error fetching all clinics to form', error));
+          const buttonClinicDoctor = document.createElement('button');
+          buttonClinicDoctor.type = 'submit';
+          buttonClinicDoctor.textContent = 'Zapisz';
+          buttonClinicDoctor.id = 'buttonClinicDoctor';
+          doctorClinicForm.appendChild(buttonClinicDoctor);
+
+          buttonClinicDoctor.addEventListener('click', function (event) {
+            //event.preventDefault(); // Prevent the default form submission
+            submitClinicDoctor();
+          });
+          doctorsClinicContainer.appendChild(doctorClinicForm);
+        }
+
+        function submitClinicDoctor(){
+          const doctorId = document.getElementById('doctorId').value;
+
+          var f = document.getElementById('clinicIds').value;
+          var clinicIds = new Set();
+
+          for(var i = 0; i < f.length; i++) {
+            if (f[i].checked) {
+              clinicIds.add(f[i].value)
+            }
+          }
+          const formData = new FormData();
+          document.getElementById('adminData').appendChild(formData);
+
+          formData.append('doctorId',doctorId);
+          formData.append('clinicIds', clinicIds);
+          clearContainer();
+          fetch('/admin/admin/doctor-clinic', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.text())
+                  .then(info => {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.textContent = info;
+                    document.getElementById('adminData').appendChild(infoDiv);
+                  })
+                  .catch(error => console.error('Error fetching data', error))
+        }
 
         function displayDoctors(){
         const titleContainer = document.getElementById('title-container');
@@ -126,7 +226,7 @@
             clearContainer();
             const doctorsContainer = document.getElementById('adminData');
 
-            doctorsContainer.id ='doctorsContainer';
+            /*doctorsContainer.id ='doctorsContainer';*/
             doctorsContainer.style.cssText = "display: block; justify-content: center;text-align: center;margin-top: 1em;";
 
             fetch(`/admin/alldoctors?sessionKey=${sessionKey}`)
@@ -134,9 +234,9 @@
                 .then(data => {
                     data.forEach(doctors => {
                         const adminDiv = document.createElement('div');
-                        adminDiv.textContent = `dr. ${doctors.name} ${doctors.surname} specjalizacja: ${doctors.specialisation}`;
-                        document.getElementById('doctorsContainer').appendChild(adminDiv);
-                        //doctorsContainer.appendChild(adminDiv);
+                        adminDiv.textContent = `dr. ${doctors.name} ${doctors.surname} id: ${doctors.id} specjalizacja: ${doctors.specialisation}`;
+                        //document.getElementById('doctorsContainer').appendChild(adminDiv);
+                        doctorsContainer.appendChild(adminDiv);
                     })
                 })
                 .catch(error => console.error('Error fetching admin data', error))
@@ -149,7 +249,7 @@
             while(clinicsContainer.firstChild){
                 clinicsContainer.firstChild.remove();
             }
-            clinicsContainer.id ='clinicsContainer';
+           // clinicsContainer.id ='clinicsContainer';
 
             clinicsContainer.style.cssText = "display: block; justify-content: center;text-align: center;margin-top: 1em;";
 
@@ -159,7 +259,8 @@
                     data.forEach(clinics => {
                         const adminDiv = document.createElement('div');
                         adminDiv.textContent = `Przychodnia Lekarska:  ${clinics.departmentName}`;
-                        document.getElementById('clinicsContainer').appendChild(adminDiv);
+                        //document.getElementById('clinicsContainer').appendChild(adminDiv);
+                      clinicsContainer.appendChild(adminDiv);
                     })
                 })
                 .catch(error => console.error('Error fetching admin data', error))
@@ -168,8 +269,9 @@
         function formAddDoctor() {
           const titleContainer = document.getElementById('title-container');
           titleContainer.innerHTML = '<p>DODAJ NOWEGO LEKARZA</p>';
-          const targetContainer = document.getElementById('adminData');
           clearContainer();
+          const targetContainer = document.getElementById('adminData');
+          //clearContainer();
           targetContainer.id = 'targetContainer';
           targetContainer.style.cssText = "display: flex; justify-content:center";
 
@@ -281,36 +383,6 @@
           specialisation.name = 'specialisation';
           inputBox6.appendChild(specialisation);
 
-          //listofClinic
-          /* const inputBox7 = document.createElement('div');
-            inputBox7.classList.add("inputBox");
-            doctorForm.appendChild(inputBox7);
-
-            const listHeader = document.createElement('h4');
-            listHeader.textContent = "Przychodnie: ";
-            inputBox7.appendChild(listHeader);
-
-          fetch(`/admin/allclinics?sessionKey=${sessionKey}`)
-                  .then(response => response.json())
-                  .then(data => {
-                    data.forEach(clinic => {
-                      const checkboxDiv = document.createElement('div');
-                      checkboxDiv.classList.add("clinicCheckbox");
-                      const clinicIds = document.createElement('input');
-                      clinicIds.type = 'checkbox';
-                      clinicIds.required = false;
-                      clinicIds.name = 'clinicIds';
-                      clinicIds.value = clinic.clinicId;
-                      const clinicLabel = document.createElement('label');
-                      clinicLabel.textContent = clinic.departmentName;
-                      checkboxDiv.appendChild(clinicIds);
-                      checkboxDiv.appendChild(clinicLabel);
-                      inputBox7.appendChild(checkboxDiv);
-                    });
-                  })
-                    .catch(error => console.error('Error fetching all clinics to form', error));*/
-
-          //inputBox7.appendChild(listInput);
 
           const buttonAddDoctor = document.createElement('button');
           buttonAddDoctor.type = 'submit';

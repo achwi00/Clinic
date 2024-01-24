@@ -7,10 +7,7 @@ import com.project.clinic.Visit;
 import com.project.repository.AdminRepository;
 import com.project.repository.ClinicRepository;
 import com.project.repository.DoctorRepository;
-import com.project.service.AdminService;
-import com.project.service.ClinicService;
-import com.project.service.DoctorService;
-import com.project.service.VisitService;
+import com.project.service.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/admin")
@@ -37,6 +35,8 @@ public class AdminApiController {
     private DoctorService doctorService;
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private ClinicDoctorService clinicDoctorService;
 
     @Autowired
     private VisitService visitService;
@@ -90,8 +90,26 @@ public class AdminApiController {
         Doctor doctor = new Doctor(password,name,surname,specialisation,PWZnr,email);
         doctorRepository.save(doctor);
        return ResponseEntity.ok("You have successfully create a doctor account");
+    }
+    @Transactional
+    @PostMapping("/admin/doctor-clinic")
+    public ResponseEntity<String> createClinicDoctor(@RequestParam("doctorId") Long doctorId,
+                                                     @RequestParam("clinicIds") Set<Long> clinicIds) {
 
-
+        Set<Clinic> clinics = null;
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(doctorId);
+        Doctor doctor = optionalDoctor.orElse(new Doctor());
+        for (Long clinicId : clinicIds) {
+            System.out.println("ClinicId: " + clinicId);
+            Optional<Clinic> clinicOptional = clinicRepository.findById(clinicId);
+            if(clinicOptional.isPresent())
+                clinics.add(clinicOptional.get());
+            //clinicDoctorService.dodajClinicDoctor(clinicOptional,doctor);
+        }
+        for(Clinic clinic: clinics){
+            clinicDoctorService.dodajClinicDoctor(doctor,clinic);
+        }
+        return ResponseEntity.ok("You have successfully create a doctor ");
     }
 
     @GetMapping("/all")

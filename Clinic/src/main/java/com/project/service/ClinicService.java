@@ -21,6 +21,7 @@ import java.util.Optional;
         }
 
         public Optional<Clinic> geClinicById(Long clinicId){
+
             return  clinicRepository.findById(clinicId);
         }
 
