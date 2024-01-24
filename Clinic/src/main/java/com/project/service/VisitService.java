@@ -17,33 +17,39 @@ public class VisitService
     @Autowired
     private VisitRepository visitRepository;
 
-    public List<Visit> getAllVisits(){
+    public List<Visit> getAllVisits()
+    {
         List<Visit> visitList = visitRepository.findAll();
         return visitList;
     }
 
-    public List<Visit> getAllVisitsForPatient(Long patientId){
+    public List<Visit> getAllVisitsForPatient(Long patientId)
+    {
         List<Visit> visits = visitRepository.findBookedVisitsForPatient(patientId);
         return visits;
     }
 
-    public List<Visit> getAllVisitsIn(LocalDate start, LocalDate stop, String specialisation){
+    public List<Visit> getAllVisitsIn(LocalDate start, LocalDate stop, String specialisation)
+    {
 
         List<Visit> visits = visitRepository.findFreeVisitsBySpecialisationAndDate(specialisation, start, stop);
         return visits;
     }
 
-   public List<Visit> getAllVisitsByDateAndDoctor(LocalDate date, Long doctorId){
+    public List<Visit> getAllVisitsByDateAndDoctor(LocalDate date, Long doctorId)
+    {
 
         List<Visit> visits = visitRepository.findBookedAndCompletedForDoctorByDate(date, doctorId);
         return visits;
     }
 
-    public void bookVisitForPatient(Long patientId, Long visitId){
+    public void bookVisitForPatient(Long patientId, Long visitId)
+    {
         visitRepository.updateVisitStatusAndPatientId(visitId, patientId);
     }
 
-    public List<Visit> getCompletedVisitsForPatient(Long patientId){
+    public List<Visit> getCompletedVisitsForPatient(Long patientId)
+    {
         return visitRepository.findCompletedVisitsForPatient(patientId);
     }
 
@@ -53,7 +59,8 @@ public class VisitService
     }
 
     @Transactional
-    public void cancelVisit(Long visitId) {
+    public void cancelVisit(Long visitId)
+    {
         Optional<Visit> optionalVisit = visitRepository.findById(visitId);
 
         optionalVisit.ifPresent(visit -> {
@@ -61,6 +68,12 @@ public class VisitService
             visit.setPatient(null); // Set patient to null
             visitRepository.save(visit);
         });
+    }
+
+    public List<Visit> findVisitByDoctorId(Long doctorId)
+    {
+        List<Visit> visits = visitRepository.findVisitByDoctorId(doctorId);
+        return visits;
     }
 
 }

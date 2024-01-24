@@ -140,6 +140,12 @@ a {
 .inputBox input, .inputBox select{
     width: 14em;
 }
+#allInputsHolderForm{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 #findVisits_btn{
     font-size: 1rem;
     background-color: #BF4080;

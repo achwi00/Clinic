@@ -45,6 +45,8 @@ public interface VisitRepository extends JpaRepository<Visit, Long>
 
     List<Visit> findByPatientId(@Param("patientId") Long patientId);
 
+    @Query("SELECT v FROM Visit v WHERE v.doctor.id = :doctorId")
+    List<Visit> findVisitByDoctorId(Long doctorId);
 //    @Query("UPDATE Visit v SET v.status = 'FREE', v.patient.id = NULL WHERE v.visitId = ?1")
 //    void updateVisitStatusAndPatientIdToNull(Long visitId);
 }

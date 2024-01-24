@@ -32,4 +32,13 @@ public class DoctorService
     public Optional<Doctor> getPatientById(Long doctorId){
         return  doctorRepository.findById(doctorId);
     }
+
+    public List<Doctor> getAllDoctors(){
+        List<Doctor> allDoctors = doctorRepository.findAll();
+        return allDoctors;
+    }
+
+    public Optional<Doctor> getDoctorById(Long doctorId){
+        return  doctorRepository.findById(doctorId);
+    }
 }
