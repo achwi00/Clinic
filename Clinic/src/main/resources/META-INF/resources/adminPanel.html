@@ -251,13 +251,16 @@
                 }
                 // clinicsContainer.id ='clinicsContainer';
 
-                clinicsContainer.style.cssText = "display: block; justify-content: center;text-align: center;margin-top: 1em;";
+                //clinicsContainer.style.cssText = "display: block; justify-content: center;text-align: center;margin-top: 1em;";
+
+                clinicsContainer.style.cssText = "display: flex; flex-direction:row; align-items:center; justify-content: center;text-align: center;margin-top: 1em;";
 
                 fetch(`/admin/allclinics?sessionKey=${sessionKey}`)
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(clinics => {
                             const adminDiv = document.createElement('div');
+                            adminDiv.classList.add("visitsData");
                             adminDiv.textContent = `Przychodnia Lekarska:  ${clinics.departmentName}`;
                             //document.getElementById('clinicsContainer').appendChild(adminDiv);
                             clinicsContainer.appendChild(adminDiv);
@@ -472,6 +475,11 @@
                 personalInfoContainer.id = 'personalInfoContainer';
                 document.getElementById('patientData').appendChild(personalInfoContainer);
 
+                const patientIcon = document.createElement('div');
+                patientIcon.id = 'patientIcon';
+                patientIcon.innerHTML = '<i class=\"bi bi-person-fill\"></i>';
+                document.getElementById('personalInfoContainer').appendChild(patientIcon);
+
                 const adminData = document.getElementById('patientData');
                 adminData.style.cssText = "display: flex; justify-content: center;margin-top: 1em;";
 
@@ -479,7 +487,10 @@
                     .then(response => response.json())
                     .then(admin => {
                         const adminDiv = document.createElement('div');
-                        adminDiv.textContent = `Admin: ${admin.name} ${admin.surname}`;
+                        adminDiv.classList.add('infoBox');
+                        adminDiv.innerHTML = `${admin.name} ${admin.surname}`+ `<br>` +
+                            `${admin.email}` + `<br>` + `Administrator`;
+
                         document.getElementById('personalInfoContainer').appendChild(adminDiv);
                     })
                     .catch(error => console.error('Error fetching admin data', error))
