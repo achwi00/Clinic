@@ -1,0 +1,329 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background-color: #E8E8E8;
+
+}
+
+header {
+    height: 9%;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+#navbar {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    background-color: white;
+}
+
+.dropbtn,
+a {
+    background-color: white;
+    color: #BF4080;
+    padding: 2%;
+    font-size: 0.7rem;
+    border-color: white;
+    text-align: end;
+    text-decoration: none;
+    border-style: none;
+}
+
+.dropbtn:hover a, .dropbtn:hover {
+    text-decoration: underline;
+    font-size: 0.8rem;
+    transition: 0.4s;
+    color: #F3D8E5;
+}
+
+#logo_pm,
+#logo_pm a {
+    background-color: white;
+    color: black;
+    padding: 5px;
+}
+
+#logo_img {
+    height: 100%;
+    padding: unset;
+    border: none;
+}
+
+.all-container {
+    min-height: 45%;
+    display: flex;
+    justify-content: center;
+    background-color: #E8E8E8;
+}
+
+#main-wrapper {
+    width: 70%;
+    background-color: #E8E8E8;
+}
+#title-container, #title-container p
+{
+    margin-top: 1%;
+    width:100%;
+    min-height: 10%;
+    display: flex;
+    justify-content: center;
+    color: White;
+    font-size: 1rem;
+    font-family: sans-serif;
+    background-color: #edc5d8;
+}
+#patientData{
+    width: 100%;
+    margin-top: 1%;
+    min-height: 200px;
+    margin-bottom: 1%;
+    background-color: white;
+}
+#patientData > h3{
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+#personalInfoContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 60%;
+    flex-wrap: wrap;
+
+}
+.infoBox{
+    border: 1px solid gray;
+    padding: 9px;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+.infoBox::first-line{
+    font-weight: bold;
+}
+#patientIcon{
+    height: 15vh;
+    width: 15vh;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: #edc5d8;
+    color:white;
+    font-size: 15vh;
+    border-radius: 10px;
+}
+#formsContainer{
+    font-family: sans-serif;
+    width: 60%;
+}
+#formsContainer h1{
+    font-size: 1rem;
+    font-weight: normal;
+}
+#formsContainer h2{
+    font-size: 0.8rem;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+#allInputsHolder form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.inputBox input, .inputBox select{
+    width: 14em;
+}
+#allInputsHolderForm{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#findVisits_btn{
+    font-size: 1rem;
+    background-color: #BF4080;
+    color: white;
+    width: 12rem;
+    height: 1.5rem;
+    border: none;
+    border-radius: 6px;
+    margin-top: 1.4rem;
+}
+#findVisits_btn:hover{
+    background-color: #e858a1;
+}
+
+.visitsData{
+    color:black;
+    width: 80%;
+    background-color: #f7e7ef;
+    margin-bottom: 1%;
+    margin-top: 0.5%;
+    min-height: 50px;
+    font-family: sans-serif;
+    font-size: 0.7rem;
+}
+.newVisitDateTime{
+    border-bottom: 1px solid lightgray;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.newVisitDocClInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
+}
+.newVisitDoctor::first-line{
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 0.7rem;
+}
+.newVisitClinic{
+    font-size: 0.7rem;
+}
+.newVisitClinic::first-line{
+
+}
+.prescriptionDescription{
+    word-wrap: break-word;
+}
+.bookVisitButton{
+    font-size: 0.8rem;
+    background-color: #BF4080;
+    color: white;
+    width: 9rem;
+    height: 1.5rem;
+    border: none;
+    border-radius: 6px;
+}
+.bookVisitButton:hover{
+    background-color: #e858a1;
+}
+
+.formsBox{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-around;
+    align-items: center;
+}
+#inputBoxSmall{
+    width: 10rem;
+}
+#visit_button{
+    width: 10rem;
+}
+
+.newreffbox{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 100px;
+}
+.reffForms{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.dataReffForms{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.dataReffForms input, .dataReffForms textarea{
+    margin: 0 7px 7px 0;
+}
+.dataReffForms textarea{
+    height: 80%;
+}
+.reffpeselType{
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+#descriptionInputPlace{
+
+}
+.buttonHolder{
+    display: flex;
+    justify-content: center;
+}
+#prescription_forms{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+}
+#newPrescriptionData{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /*flex: 0 0 50%;*/
+    height: 80%;
+    align-content: space-between;
+    justify-content: space-around;
+    align-items: stretch;
+}
+#newPrescriptionData input, #newPrescriptionData textarea{
+    width: 100%;
+    box-sizing: border-box;
+}
+#newPrescriptionData h3{
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    margin: 0;
+    font-weight: normal;
+}
+
+#newPrescriptionData > div {
+    text-align: left;
+}
+#newPrescrButtonHolder{
+
+}
+.inputPlace{
+
+}
+#patientSearchContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: flex-end;
+}
+#peselContainer{
+}
+#peselContainer h3{
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: normal;
+    margin: 0;
+}
+
+#patientSearch_btn{
+
+}
+footer {
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    color: gray;
+    font-size: 0.5rem;
+    background-color: white;
+}

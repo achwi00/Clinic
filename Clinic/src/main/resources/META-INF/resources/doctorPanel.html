@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="patientPanel" content="width=device.width, initial-scale=1.0"/>
+  <link rel="stylesheet" type="text/css" href="panelStyles.css"/>
+
+
+  <title>loggingPanel</title>
+</head>
+<body>
+<header>
+  <div id="navbar">
+
+    <button class="dropbtn" id="logo_pm" name="logo_pm"><img src="logo_premiummed.png" id="logo_img" height="50pxSSSSSS"></a></button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="schedule" name="schedule">Grafik</button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="refferal" name="refferal">Skierowanie</button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="prescription" name="prescription">Recepta</button>
+    <div class="dropdown-content">
+    </div>
+
+    <button class="dropbtn" id="patient" name="patient">Pacjent</button>
+    <div class="dropdown-content">
+    </div>
+
+
+    <button class="dropbtn" id="log_out" name="log_out"><a href="/">Wyloguj</a></button>
+    <div class="dropdown-content">
+    </div>
+
+    <script>
+
+      document.getElementById('logo_pm').addEventListener('click', redirectToDoctor);
+      document.getElementById('schedule').addEventListener('click', displaySchedule);
+      document.getElementById('refferal').addEventListener('click',newRefferal);
+      document.getElementById('prescription').addEventListener('click',newPrescription);
+      document.getElementById('patient').addEventListener('click',displayPatient);
+
+      const urlParams1 = new URLSearchParams(window.location.search);
+      const sessionKey = urlParams1.get('sessionKey');
+
+
+      function redirectToDoctor() {
+
+        if (sessionKey) {
+          const redirectUrl = `/doctor?sessionKey=${sessionKey}`;
+          window.location.href = redirectUrl;
+        } else {
+          // Handle the case when patientId is not available
+          console.error('sessionKey: ', sessionKey);
+        }
+      }
+      function displaySchedule(){
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>NADCHODZĄCE WIZYTY</p>';
+        const visitsContainer = document.getElementById('patientData');
+        while(visitsContainer.firstChild){
+          visitsContainer.firstChild.remove();
+        }
+        document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+        //create formsContainer, inputBox type date, button of existing class
+        //create new FormData, add the stuff into it
+        //post with fetch, map it in the controller
+        const header1 = document.createElement('h3');
+        header1.textContent = "Sprawdź swoje wizyty na dany dzień";
+        document.getElementById('patientData').appendChild(header1);
+        const formsBox = document.createElement('div');
+        formsBox.classList.add("formsBox");
+
+        const dateInputBox = document.createElement('div');
+        dateInputBox.classList.add("inputBox");
+        dateInputBox.id = 'inputBoxSmall';
+        //create the input
+        const dateInput = document.createElement('input');
+        dateInput.type = 'date';
+        dateInput.required = true;
+        dateInput.name = 'dateInput';
+        //create the button
+        const visit_button =document.createElement('button');
+        visit_button.type = 'submit';
+        visit_button.textContent = 'Wyszukaj';
+        visit_button.id = 'visit_button';
+        visit_button.classList.add("bookVisitButton");
+        //append the input to the dateInputBox
+        dateInputBox.appendChild(dateInput);
+        formsBox.appendChild(dateInputBox);
+        //append the button to the formsBox
+        formsBox.appendChild(visit_button);
+        visit_button.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          searchForVisits();
+        });
+
+        //prevent default behavior, call a function
+        document.getElementById('patientData').appendChild(formsBox);
+        function searchForVisits()
+        {
+          const workingDate = dateInput.value.toString();
+          clearContainer();
+          const formData = new FormData();
+          formData.append('workingDate', workingDate);
+          formData.append('sessionKey', sessionKey);
+          document.getElementById('patientData').style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+          fetch('/doctor/doctor/submit-visit', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.json())
+                  .then(data => {
+                    data.forEach(visits => {
+                      const patientDiv = document.createElement('div');
+                      patientDiv.classList.add("visitsData");
+                      const newVisitDateTime = document.createElement('div');//d2
+                      const newVisitDoctor = document.createElement('div');
+                      const newVisitClinic = document.createElement('div');
+                      const newVisitDocClInfo = document.createElement('div');
+
+                      newVisitDocClInfo.classList.add("newVisitDocClInfo");
+                      newVisitDateTime.classList.add("newVisitDateTime");
+                      newVisitDoctor.classList.add("newVisitDoctor");
+                      newVisitClinic.classList.add("newVisitClinic");
+                      newVisitDateTime.textContent = `${visits.date} ${visits.time}`;
+                      newVisitDoctor.innerHTML = `Pacjent: ${visits.patient.name} ${visits.patient.surname}` + `<br>` +
+                              `Pesel: ${visits.patient.pesel}`;
+
+                      newVisitClinic.innerHTML = `${visits.clinic.departmentName}` + `<br>` + `${visits.clinic.location}`;
+                      patientDiv.appendChild(newVisitDateTime);
+                      newVisitDocClInfo.appendChild(newVisitDoctor);
+                      newVisitDocClInfo.appendChild(newVisitClinic);
+                      patientDiv.appendChild(newVisitDocClInfo);
+                      document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                  })
+                  .catch(error => console.error('Error fetching patient data', error))
+
+        }
+
+      }
+
+      function newRefferal()
+      {
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>NOWE SKIEROWANIE</p>';
+        const refferalContainer = document.getElementById('patientData');
+        clearContainer();
+        refferalContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+        const newreffbox = document.createElement('div');
+        newreffbox.classList.add("newreffbox");
+        const reffForms = document.createElement('div');
+        reffForms.classList.add("reffForms");
+        const dataReffForms = document.createElement('div');
+        dataReffForms.classList.add("dataReffForms");
+        const buttonHolder = document.createElement('div');
+        buttonHolder.classList.add("buttonHolder");
+
+        const peselInputPlace = document.createElement('input');
+        peselInputPlace.type = 'text';
+        peselInputPlace.required = true;
+        peselInputPlace.placeholder = 'PESEL';
+        peselInputPlace.name = 'peselInputPlace';
+        peselInputPlace.id = 'peselInputPlace';
+
+       // dataReffForms.appendChild(peselInputPlace);
+
+        const typeInputPlace = document.createElement('input');
+        typeInputPlace.type = 'text';
+        typeInputPlace.required = true;
+        typeInputPlace.placeholder = 'typ';
+        typeInputPlace.name = 'typeInputPlace';
+        typeInputPlace.id = 'typeInputPlace';
+
+        //dataReffForms.appendChild(typeInputPlace);
+
+        const reffpeselType = document.createElement('div');
+        reffpeselType.classList.add("reffpeselType");
+
+        const peselLabel = document.createElement('label');
+        peselLabel.for = 'peselInputPlace';
+        peselLabel.textContent = 'Pesel:';
+        reffpeselType.appendChild(peselLabel);
+        reffpeselType.appendChild(peselInputPlace);
+
+        const typeLabel = document.createElement('label');
+        typeLabel.for = 'typeInputPlace';
+        typeLabel.textContent = 'Typ:';
+        reffpeselType.appendChild(typeLabel);
+        reffpeselType.appendChild(typeInputPlace);
+
+        const descriptionInputPlace = document.createElement('textarea');
+        //descriptionInputPlace.type = 'text';
+        descriptionInputPlace.required = true;
+        descriptionInputPlace.placeholder = 'Opis...';
+        descriptionInputPlace.name = 'descriptionInputPlace';
+        descriptionInputPlace.id = 'descriptionInputPlace';
+
+        dataReffForms.appendChild(reffpeselType);
+
+        const descriptionLabel = document.createElement('label');
+        descriptionLabel.for = 'descriptionInputPlace';
+        descriptionLabel.textContent = 'Opis: ';
+        const descriptionContainer = document.createElement('div');
+        descriptionContainer.classList.add('reffpeselType');
+        dataReffForms.appendChild(descriptionContainer);
+        descriptionContainer.appendChild(descriptionLabel);
+        descriptionContainer.appendChild(descriptionInputPlace);
+
+        const newReff_btn = document.createElement('button');
+        newReff_btn.type = 'submit';
+        newReff_btn.textContent = 'Wystaw';
+        newReff_btn.id = 'newReff_btn';
+        newReff_btn.classList.add("bookVisitButton");
+        buttonHolder.appendChild(newReff_btn);
+
+        reffForms.appendChild(dataReffForms);
+        reffForms.appendChild(buttonHolder);
+        newreffbox.appendChild(reffForms);
+        refferalContainer.appendChild(newreffbox);
+
+        newReff_btn.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          submitRefferal();
+        });
+
+        function submitRefferal()
+        {
+          const pesel = peselInputPlace.value;
+          const type = typeInputPlace.value;
+          const description = descriptionInputPlace.value;
+
+          clearContainer();
+          const formData = new FormData();
+          formData.append('pesel', pesel);
+          formData.append('type',type);
+          formData.append('description',description);
+          formData.append('sessionKey', sessionKey);
+
+          fetch('/doctor/doctor/submit-refferal', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.text())
+                  .then(info => {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.textContent = info;
+                    document.getElementById('patientData').appendChild(infoDiv);
+                  })
+                  .catch(error => console.error('Error fetching data', error))
+        }
+
+      }
+      function newPrescription()
+      {
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>NOWA RECEPTA</p>';
+        clearContainer();
+        const prescriptionContainer = document.getElementById('patientData');
+        prescriptionContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center"
+
+
+        const forms = document.createElement('div');
+        forms.id = 'prescription_forms';
+
+        const dataContainer = document.createElement('div');
+        dataContainer.id = 'newPrescriptionData';
+        //here
+        const peselInputPlace = document.createElement('input');
+        peselInputPlace.type = 'text';
+        peselInputPlace.required = true;
+        peselInputPlace.placeholder = 'PESEL';
+        peselInputPlace.name = 'peselInputPrescription';
+        peselInputPlace.id = 'peselInputPrescription';
+        peselInputPlace.classList.add('inputPlace');
+
+        const peselLabel = document.createElement('h3');
+        peselLabel.textContent = 'Pesel';
+        const peselContainer = document.createElement('div');
+        peselContainer.appendChild(peselLabel);
+        peselContainer.appendChild(peselInputPlace);
+        dataContainer.appendChild(peselContainer);
+
+        const refundInputPlace = document.createElement('input');
+        refundInputPlace.type = 'number';
+        refundInputPlace.required = true;
+        refundInputPlace.placeholder = 'Refund';
+        refundInputPlace.id = 'refundInputPlace';
+        refundInputPlace.classList.add('inputPlace');
+
+        const refundLabel = document.createElement('h3');
+        refundLabel.textContent = 'Refundacja: ';
+        const refundContainer = document.createElement('div');
+        refundContainer.appendChild(refundLabel);
+        refundContainer.appendChild(refundInputPlace);
+        dataContainer.appendChild(refundContainer);
+
+        const codeInputPlace = document.createElement('input');
+        codeInputPlace.type = 'text';
+        codeInputPlace.required = true;
+        codeInputPlace.placeholder = 'Kod dostępu';
+        codeInputPlace.id = 'codeInputPlace';
+        codeInputPlace.classList.add('inputPlace');
+
+        const codeLabel = document.createElement('h3');
+        codeLabel.textContent = 'Kod dostępu:';
+        const codeContainer = document.createElement('div');
+        codeContainer.appendChild(codeLabel);
+        codeContainer.appendChild(codeInputPlace);
+        dataContainer.appendChild(codeContainer);
+
+        const expiryDateInputPlace = document.createElement('input');
+        expiryDateInputPlace.type = 'date';
+        expiryDateInputPlace.required = true;
+        expiryDateInputPlace.id = 'expiryDateInputPlace';
+        expiryDateInputPlace.classList.add('inputPlace');
+
+        const expiryDateLabel = document.createElement('h3');
+        expiryDateLabel.textContent = 'Data ważności:'
+        const expiryDateContainer = document.createElement('div');
+        expiryDateContainer.appendChild(expiryDateLabel);
+        expiryDateContainer.appendChild(expiryDateInputPlace);
+        dataContainer.appendChild(expiryDateContainer);
+
+        const descriptionInputPlace = document.createElement('textarea');
+        //descriptionInputPlace.type = 'text';
+        descriptionInputPlace.required = true;
+        descriptionInputPlace.placeholder = 'Opis...';
+        descriptionInputPlace.id = 'descriptionInputPl';
+        descriptionInputPlace.classList.add('inputPlace');
+
+
+        const descriptionLabel = document.createElement('h3');
+        descriptionLabel.textContent = 'Opis recepty:';
+        const descriptionContainer = document.createElement('div');
+        descriptionContainer.appendChild(descriptionLabel);
+        descriptionContainer.appendChild(descriptionInputPlace);
+        dataContainer.appendChild(descriptionContainer);
+
+        const newPrescrButtonHolder = document.createElement('div');
+        newPrescrButtonHolder.id = 'newPrescrButtonHolder';
+        const newPrescrButton = document.createElement('button');
+
+        newPrescrButton.type = 'submit';
+        newPrescrButton.textContent = 'Wystaw';
+        newPrescrButton.id = 'newPrescr_btn';
+        newPrescrButton.classList.add("bookVisitButton");
+
+        newPrescrButtonHolder.appendChild(newPrescrButton);
+
+        forms.appendChild(dataContainer);
+        forms.appendChild(newPrescrButtonHolder);
+        prescriptionContainer.appendChild(forms);
+
+        newPrescrButton.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          submitPrescription();
+        });
+
+        function submitPrescription()
+        {
+          const pesel = peselInputPlace.value;
+          const refund = refundInputPlace.value;
+          const accessCode = codeInputPlace.value;
+          const expiryDate = expiryDateInputPlace.value.toString();
+          const description = descriptionInputPlace.value;
+
+          clearContainer();
+          const formData = new FormData();
+          formData.append('pesel', pesel);
+          formData.append('refund',refund);
+          formData.append('accessCode',accessCode);
+          formData.append('expiryDate',expiryDate);
+          formData.append('description',description);
+          formData.append('sessionKey', sessionKey);
+
+          fetch('/doctor/doctor/submit-prescription', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.text())
+                  .then(info => {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.textContent = info;
+                    document.getElementById('patientData').appendChild(infoDiv);
+                  })
+                  .catch(error => console.error('Error fetching data', error))
+        }
+
+      }
+
+      function displayPatient()
+      {
+        const titleContainer = document.getElementById('title-container');
+        titleContainer.innerHTML = '<p>WYSZUKAJ PACJENTA</p>';
+        clearContainer();
+        const targetContainer = document.getElementById('patientData');
+        targetContainer.style.cssText = "display:flex; flex-direction: column;align-items:center; justify-content:center; align-content:center    /* place-content: center; */\n" +
+                "    /* justify-content: center; */\n" +
+                "    /* align-items: center;";
+
+        const patientSearchContainer = document.createElement('div');
+        patientSearchContainer.id = 'patientSearchContainer';
+
+        const peselContainer = document.createElement('div');
+        peselContainer.id = 'peselContainer';
+
+        const peselInputPlace = document.createElement('input');
+        peselInputPlace.type = 'input';
+        peselInputPlace.placeholder = 'PESEL';
+        peselInputPlace.id = 'patientSearchPesel';
+        peselInputPlace.classList.add('inputPlace');
+        peselInputPlace.required = true;
+
+        const peselLabel = document.createElement('h3');
+        peselLabel.textContent = 'Pesel pacjenta:';
+        peselContainer.appendChild(peselLabel);
+        peselContainer.appendChild(peselInputPlace);
+
+        const patientSearchButtonHolder = document.createElement('div');
+        patientSearchButtonHolder.id = 'patientSearchButtonHolder';
+        const patientSearchButton = document.createElement('button');
+        patientSearchButton.type = 'submit';
+        patientSearchButton.textContent = 'Szukaj';
+        patientSearchButton.id = 'patientSearch_btn';
+        patientSearchButton.classList.add("bookVisitButton");
+
+        patientSearchButtonHolder.appendChild(patientSearchButton);
+        patientSearchContainer.appendChild(peselContainer);
+        patientSearchContainer.appendChild(patientSearchButtonHolder);
+        targetContainer.appendChild(patientSearchContainer);
+
+        patientSearchButton.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          findPatient();
+        });
+
+        function findPatient()
+        {
+          const pesel = peselInputPlace.value;
+          clearContainer();
+          const formData = new FormData();
+          formData.append('pesel', pesel);
+
+
+          fetch('/doctor/doctor/search-patient', {
+            method: 'POST',
+            body: formData
+          })
+                  .then(response => response.json())
+                  .then(data => {
+                    data.forEach(visits => {
+                      const patientDiv = document.createElement('div');
+                      patientDiv.classList.add("visitsData");
+                      const newVisitDateTime = document.createElement('div');//d2
+                      const newVisitDoctor = document.createElement('div');
+                      const newVisitClinic = document.createElement('div');
+                      const newVisitDocClInfo = document.createElement('div');
+
+                      newVisitDocClInfo.classList.add("newVisitDocClInfo");
+                      newVisitDateTime.classList.add("newVisitDateTime");
+                      newVisitDoctor.classList.add("newVisitDoctor");
+                      newVisitClinic.classList.add("newVisitClinic");
+                      newVisitDateTime.textContent = `${visits.date} ${visits.time} ${visits.doctor.specialisation}`;
+                      newVisitDoctor.innerHTML = `Pacjent: ${visits.patient.name} ${visits.patient.surname}` + `<br>` +
+                              `Pesel: ${visits.patient.pesel}`;
+
+                      newVisitClinic.innerHTML = `${visits.clinic.departmentName}` + `<br>` + `${visits.clinic.location}`;
+                      patientDiv.appendChild(newVisitDateTime);
+                      newVisitDocClInfo.appendChild(newVisitDoctor);
+                      newVisitDocClInfo.appendChild(newVisitClinic);
+                      patientDiv.appendChild(newVisitDocClInfo);
+                      document.getElementById('patientData').appendChild(patientDiv);
+                    })
+                  })
+                  .catch(error => console.error('Error fetching patient data', error))
+        }
+
+      }
+
+
+      function clearContainer()
+      {
+        const targetContainer = document.getElementById('patientData');
+        while(targetContainer.firstChild){
+          targetContainer.firstChild.remove();
+        }
+      }
+    </script>
+
+
+  </div>
+
+</header>
+<div class="all-container">
+  <div id="main-wrapper">
+    <div id="title-container">
+      <p>TWOJE DANE</p>
+    </div>
+
+    <div id="patientData">
+
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionKey1 = urlParams.get('sessionKey');
+
+        const personalInfoContainer = document.createElement('div');
+        personalInfoContainer.id = 'personalInfoContainer';
+        document.getElementById('patientData').appendChild(personalInfoContainer);
+
+        const patientIcon = document.createElement('div');
+        patientIcon.id = 'patientIcon';
+        patientIcon.innerHTML = '<i class=\"bi bi-person-fill\"></i>';
+        document.getElementById('personalInfoContainer').appendChild(patientIcon);
+
+        const patientData = document.getElementById('patientData');
+        patientData.style.cssText = "display: flex; justify-content: center;";
+
+        fetch(`/doctor/all?sessionKey=${sessionKey1}`)
+                .then(response => response.json())
+                .then(doctor => {
+                  const patientDiv = document.createElement('div');
+                  patientDiv.classList.add('infoBox');
+                  patientDiv.innerHTML = `${doctor.name} ${doctor.surname}` + `<br>` +
+                          `${doctor.email}` + `<br>` + `Specjalizacja: ${doctor.specialisation}` + `<br>` +
+                            `Numer uprawnień: ${doctor.pwznr}`;
+                  document.getElementById('personalInfoContainer').appendChild(patientDiv);
+                })
+                .catch(error => console.error('Error fetching patient data', error))
+      </script>
+
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div id="copyrights"><p>Projekt wykonany przez studentki Politechniki Krakowskiej: Agnieszkę Biel i Aleksandrę Chwierut.</p></div>
+
+</footer>
+</body>
+
+</html>

@@ -1,15 +1,30 @@
 package com.project.clinic;
+
+import jakarta.persistence.*;
+
+@MappedSuperclass
 public abstract class User
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(length = 20, nullable = false)
     private String password;
+    @Column(length = 20, nullable = false)
     private String name;
+    @Column(length = 30, nullable = false)
     private String surname;
+
+    @Column(length = 40, nullable = false)
     private String email;
 
-    public User(int id, String password, String name, String surname,String email)
+    @Column(length = 20, nullable = true)
+    private String sessionKey;
+    public User(){};
+
+    public User(String password, String name, String surname,String email)
     {
-        this.id = id;
+        //this.id = id;
         this.password = password;
         this.name = name;
         this.surname = surname;
@@ -64,5 +79,15 @@ public abstract class User
     public void setSurname(String surname)
     {
         this.surname = surname;
+    }
+
+    public String getSessionKey()
+    {
+        return sessionKey;
+    }
+
+    public void setSessionKey(String sessionKey)
+    {
+        this.sessionKey = sessionKey;
     }
 }

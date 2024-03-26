@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="register" content="width=device.width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+
+    <title>register</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const formButtonElement = document.getElementById("reg_btn");
+            formButtonElement.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                copyFieldValue("email", "email_copy");
+                copyFieldValue("password", "password_copy");
+                copyFieldValue("pesel", "pesel_copy");
+                copyFieldValue("sex", "sex_copy");
+
+                console.log("Przepisano wartości. Nastąpi przesłanie formularza");
+
+                document.getElementById("reg_btn_copy").click();
+            });
+
+            function copyFieldValue(sourceId, targetId) {
+                const sourceElement = document.getElementById(sourceId);
+                const targetElement = document.getElementById(targetId);
+                targetElement.value = sourceElement.value;
+            }
+        });
+    </script>
+</head>
+
+<body>
+<section>
+    <div class="waves">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080 ">
+            <path fill="#fff" fill-opacity="1" d="M 0 0 C 1399 -3 494 1091 1920 1080 L 1920 0" />
+        </svg>
+    </div>
+
+    </div>
+    <div class="panel">
+        <div class="inner" id="left">
+            <div class="log_register" id="l">
+
+                <div id="choice">
+                    <a href="/" id="log_in"><i class="bi bi-person-fill"></i> Zaloguj</a>
+                    <a href="/register" id="register">Zarejestruj <i class="bi bi-clipboard"></i></a>
+                </div>
+
+                <div class="log">
+                    <form action="/submit" method="post">
+
+                        <div class="input_box">
+                            <h1>E-mail</h1>
+                            <input type="email" placeholder="Email" required id="email" name="email">
+                        </div>
+
+                        <div class="input_box">
+                            <h1>Hasło</h1>
+                            <input type="password" placeholder="Hasło" required id="password" name="password">
+                        </div>
+
+                        <div class="input_box">
+                            <h1>Pesel</h1>
+                            <input type="text" placeholder="PESEL" required id="pesel" name="pesel">
+                        </div>
+                        <div class="input_box">
+                            <h1>Płeć</h1>
+                            <input type="text" placeholder="Płeć" required id="sex" name="sex">
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="inner" id="right">
+            <div class="log_register">
+
+                <div class="log" id="log_right">
+                    <form action="/submit" method="post" id="target_form">
+
+                        <input type="hidden" placeholder="Email" required id="email_copy" name="email">
+                        <input type="hidden" placeholder="Password" required id="password_copy" name="password">
+                        <input type="hidden" placeholder="PESEL" required id="pesel_copy" name="pesel">
+                        <input type="hidden" placeholder="Płeć" required id="sex_copy" name="sex">
+
+                        <div class="input_box">
+                            <h1>Imię</h1>
+                            <input type="text" placeholder="Imię" required id="name" name="name">
+                        </div>
+
+                        <div class="input_box">
+                            <h1>Nazwisko</h1>
+                            <input type="text" placeholder="Nazwisko" required id="surname" name="surname">
+                        </div>
+                        <div class="input_box">
+                            <h1>Adres</h1>
+                            <input type="text" placeholder="Adres" required id="address" name="address">
+                        </div>
+
+                        <div class="input_box">
+                            <h1>Nr. telefonu</h1>
+                            <input type="text" placeholder="Nr. telefonu" required id="phonenumber"
+                                   name="phonenumber">
+                        </div>
+
+
+                        <button type="submit" class="btn" id="reg_btn">Zarejestruj się</button>
+                        <button type="submit" id="reg_btn_copy" style="display: none"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</body>
+
+</html>

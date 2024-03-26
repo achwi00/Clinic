@@ -1,13 +1,36 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Refferal
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reffId;
+
+    @ManyToOne
+    @JoinColumn(name = "patientId", referencedColumnName = "id")
     private Patient patient;
-    private String doctorName;
-    private String doctorSurname;
+
+    @ManyToOne
+    @JoinColumn(name = "doctorId", referencedColumnName = "id")
+    private Doctor doctor;
+    @Column(length =100, nullable = false)
     private String description;
-    private String type;
+
+    @Column(length =40, nullable = false)
+    private String type;//specialisation of the doctor
+
+    public Refferal(Patient patient, Doctor doctor, String description, String type)
+    {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.description = description;
+        this.type = type;
+    }
+
+    public Refferal(){};
 
     public int getReffId()
     {
@@ -17,6 +40,26 @@ public class Refferal
     public void setReffId(int reffId)
     {
         this.reffId = reffId;
+    }
+
+    public Patient getPatient()
+    {
+        return patient;
+    }
+
+    public void setPatient(Patient patient)
+    {
+        this.patient = patient;
+    }
+
+    public Doctor getDoctor()
+    {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor)
+    {
+        this.doctor = doctor;
     }
 
     public String getDescription()
@@ -33,42 +76,10 @@ public class Refferal
     {
         return type;
     }
-
     public void setType(String type)
     {
         this.type = type;
     }
 
-    public Patient getPatient() {
-        return patient;
-    }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public String getDoctorName() {
-        return doctorName;
-    }
-
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    public String getDoctorSurname() {
-        return doctorSurname;
-    }
-
-    public void setDoctorSurname(String doctorSurname) {
-        this.doctorSurname = doctorSurname;
-    }
-
-    public Refferal(int reffId, Patient patient, String doctorName, String doctorSurname, String description, String type) {
-        this.reffId = reffId;
-        this.patient = patient;
-        this.doctorName = doctorName;
-        this.doctorSurname = doctorSurname;
-        this.description = description;
-        this.type = type;
-    }
 }

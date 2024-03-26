@@ -1,0 +1,179 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
+body{
+    height: 100vw;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #F3D8E5;
+    align-items: center;
+
+}
+
+.curved {
+    display: block;
+    position: relative;
+    background: #F3D8E5;
+    color: #fff;
+}
+
+.curved svg {
+    min-height: 20vw;
+    display: block;
+}
+
+.waves svg {
+    display: block;
+    background: #F3D8E5;
+}
+
+.panel{
+
+    position:absolute;
+    display: inline-flex;
+    top: 20vh;
+    bottom: 20vh;
+    height: 60vh;
+    left: 25vw;
+    right: 25vw;
+    width: 50vw;
+    
+    border-radius: 10px;
+    background-image: linear-gradient(#BF4080, #D9D9D9);
+}
+.inner{
+    border-radius: 10px;
+    display: block;
+}
+#left{
+    background-color: #BF4080;
+    height: 100%;
+    margin-left: 0;
+    width: 50%;
+}
+#right{
+    background-color: #D9D9D9;
+    height: 100%;
+    margin-right: 0;
+    width: 50%;
+}
+#login_logo{
+    height: 25vh;
+    display: flex;
+    margin-top: 30%;
+    margin-left: 22%;
+}
+.log_register{
+    display: inline-block;
+    height: 48vh;
+    width: 20vw;
+    margin-left: 5vh;
+    margin-top: 3vh;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#choice {
+    display: flex;
+    justify-content: space-between;
+    background-color: #D9D9D9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 10%;
+    width: 100%;
+}
+#choice a{
+    margin: 3%;
+    font-size: 2vh;
+    text-decoration: none;
+    color: black;
+}
+#choice a:hover{
+    text-decoration: underline;
+    color: #e858a1;
+}
+
+.log{
+    height: 90%;
+    width: 100%;
+    margin-top: 0vh;
+    background-color: #E8E8E8;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.log h1{
+    font-size: 0.4rem;
+    font-family: sans-serif;
+}
+#log_right{
+    background-color: #BF4080;
+    height: 100%;
+}
+
+.input_box{
+    width: 100%;
+    margin-top: 5%;
+    background-color: inherit;
+    text-indent: 7%;
+}
+
+.input_box input{
+    height: 90%;
+    width: 80%;
+    margin-left: 7%;
+    padding: 3%;
+    border:none;
+    background-color: white;
+    font-size: xx-small
+
+}
+
+.remember_forgot{
+    display: inline-block;
+    width: 100%;
+    margin-top: 5%;
+    font-size: 0.4rem;
+    font-family: sans-serif;
+    text-align: right;
+    background-color: #E8E8E8;
+}
+.remember_forgot a{
+    margin-right: 1.5vw;
+    color: black;
+    text-decoration: none;
+}
+.remember_forgot a:hover{
+    text-decoration: underline;
+    color: #e858a1;
+}
+
+.btn{
+    
+    margin-left: 15%;
+    margin-top: 9%;
+    width: 70%;
+    height: 80%;
+    padding: 2%;
+    border: none;
+    border-radius: 6px;
+    font-size: x-small;
+    
+}
+#log_btn{
+    background-color: #BF4080;
+}
+#log_btn:hover{
+    background-color: #e858a1;
+}
+@media only screen and (max-height: 500px){
+    #reg_btn{
+        margin-top: 1vh;
+        background-color: #D9D9D9;
+    }
+}
+
+#reg_btn:hover{
+    background-color: #E8E8E8;
+}

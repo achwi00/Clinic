@@ -1,10 +1,17 @@
 package com.project.clinic;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Moderator extends User
 {
     //private int clinicId;
-    private Clinic clinic;
 
+    @ManyToOne
+    @JoinColumn(name = "clinicId")
+    private Clinic clinic;
     public Clinic getClinic() {
         return clinic;
     }
@@ -13,8 +20,13 @@ public class Moderator extends User
         this.clinic = clinic;
     }
 
-    public Moderator(int id, String password, String name, String surname, Clinic clinic,String email) {
-        super(id, password, name, surname, email);
+    public Moderator(){};
+//    public Moderator(int id, String password, String name, String surname, Clinic clinic,String email) {
+//        super(id, password, name, surname, email);
+//        this.clinic = clinic;
+//    }
+    public Moderator(String password, String name, String surname, Clinic clinic,String email) {
+        super(password, name, surname, email);
         this.clinic = clinic;
     }
     public void addDoctor(Doctor doctor){

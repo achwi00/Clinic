@@ -1,14 +1,23 @@
 package com.project.clinic;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity(name="Clinic")
 public class Clinic
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int clinicId;
+    @Column(length = 50, nullable = false)
     private String departmentName;
+    @Column(length = 50, nullable = false)
     private String location;
+    @Transient
     private ArrayList<Doctor> listOfDoctors = new ArrayList<>();
+    @Transient
     private List<Room> listOfRooms = new ArrayList<>();
     public int getClinicId()
     {
@@ -40,8 +49,10 @@ public class Clinic
         this.location = location;
     }
 
-    public Clinic(int clinicId, String departmentName, String location) {
-        this.clinicId = clinicId;
+    public Clinic(){};
+
+    public Clinic( String departmentName, String location) {
+        //this.clinicId = clinicId;
         this.departmentName = departmentName;
         this.location = location;
     }
