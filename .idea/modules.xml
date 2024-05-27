@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/Clinic/Clinic.iml" filepath="$PROJECT_DIR$/Clinic/Clinic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Clinic/src/test/java/com/project/clinic/clinic.iml" filepath="$PROJECT_DIR$/Clinic/src/test/java/com/project/clinic/clinic.iml" />
-    </modules>
-  </component>
-</project>
