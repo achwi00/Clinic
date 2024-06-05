@@ -33,12 +33,33 @@
     </div>
 
 
-    <button class="dropbtn" id="log_out" name="log_out"><a href="/">Wyloguj</a></button>
+    <button class="dropbtn" id="log_out" name="log_out" type="submit">Wyloguj</button>
     <div class="dropdown-content">
     </div>
 
     <script>
 
+      document.getElementById("log_out").addEventListener('click', function(event) {
+        event.preventDefault();
+        logout();
+      });
+
+      function logout(){
+
+        fetch(`/doctor/doctor/logout?sessionKey=${sessionKey}`,{
+          method:'POST'
+        }).then(response => {
+          if (response.ok) {
+            // Redirect to the main page after successful logout
+            window.location.href = '/';
+          } else {
+            alert('Błąd wylogowania.');
+          }
+        }).catch(error => {
+          console.error('Błąd wylogowania:', error);
+        });
+
+      }
       document.getElementById('logo_pm').addEventListener('click', redirectToDoctor);
       document.getElementById('schedule').addEventListener('click', displaySchedule);
       document.getElementById('refferal').addEventListener('click',newRefferal);

@@ -145,4 +145,12 @@ public class DoctorApiController
 
         return visitService.getByPatientId(patientId);
     }
+    @PostMapping("/doctor/logout")
+    public ResponseEntity<Void> logout(@RequestParam String sessionKey){
+        Long doctorId = doctorRepository.findIdBySessionKey(sessionKey);
+        //change the sessionKey to null
+        doctorRepository.updateSessionKey(doctorId);
+        //return ok
+        return ResponseEntity.ok().build();
+    }
 }

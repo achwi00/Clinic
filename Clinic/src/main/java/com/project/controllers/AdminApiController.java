@@ -129,4 +129,12 @@ public class AdminApiController {
         return admin;
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestParam String sessionKey){
+        Long patientId = adminRepository.findIdBySessionKey(sessionKey);
+        //change the sessionKey to null
+        adminRepository.updateSessionKey(patientId);
+        //return ok
+        return ResponseEntity.ok().build();
+    }
 }
