@@ -1,7 +1,9 @@
 package com.project.repository;
 
 import com.project.clinic.Doctor;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,4 +26,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long>
     @Query("SELECT DISTINCT d.specialisation FROM Doctor d")
     List<String> findDistinctSpecializations();
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Doctor SET sessionKey = null WHERE id = :doctorId")
+    void updateSessionKey(@Param("doctorId") Long doctorId);
 }

@@ -1,7 +1,9 @@
 package com.project.repository;
 
 import com.project.clinic.Patient;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,4 +27,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long>
 
     @Query("SELECT id FROM Patient WHERE pesel = :pesel")
     Long findIdByPesel(@Param("pesel") String pesel);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Patient SET sessionKey = null WHERE id = :patientId")
+    void updateSessionKey(@Param("patientId") Long patientId);
 }

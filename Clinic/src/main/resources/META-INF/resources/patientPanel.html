@@ -36,7 +36,7 @@
     <div class="dropdown-content">
     </div>
 
-    <button class="dropbtn" id="log_out" name="log_out"><a href="/">Wyloguj</a></button>
+    <button class="dropbtn" id="log_out" name="log_out" type="submit">Wyloguj</button>
     <div class="dropdown-content">
     </div>
 
@@ -52,6 +52,27 @@
         const urlParams1 = new URLSearchParams(window.location.search);
         const sessionKey = urlParams1.get('sessionKey');
 
+        document.getElementById("log_out").addEventListener('click', function(event) {
+            event.preventDefault();
+            logout();
+        });
+
+        function logout(){
+
+                fetch(`/patient/patient/logout?sessionKey=${sessionKey}`,{
+                    method:'POST'
+                }).then(response => {
+                    if (response.ok) {
+                        // Redirect to the main page after successful logout
+                        window.location.href = '/';
+                    } else {
+                        alert('Błąd wylogowania.');
+                    }
+                }).catch(error => {
+                    console.error('Błąd wylogowania:', error);
+                });
+
+        }
 
         function redirectToPatient() {
 

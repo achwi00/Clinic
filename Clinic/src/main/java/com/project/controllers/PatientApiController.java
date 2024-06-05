@@ -143,6 +143,14 @@ public class PatientApiController
         return ResponseEntity.ok("Odwołano wizytę");
     }
 
+    @PostMapping("/patient/logout")
+    public ResponseEntity<Void> logout(@RequestParam String sessionKey){
+        Long patientId = patientRepository.findIdBySessionKey(sessionKey);
+        //change the sessionKey to null
+        patientRepository.updateSessionKey(patientId);
+        //return ok
+        return ResponseEntity.ok().build();
+    }
 
 
 }
