@@ -123,6 +123,7 @@
                         cancelVisit_button.type = 'submit';
                         cancelVisit_button.textContent = 'Odwołaj';
 
+
                         //create forms
                         const patientSessionkey = sessionKey;
                         const visId = visits.visitId;
@@ -143,19 +144,53 @@
                         document.getElementById('patientData').appendChild(patientDiv);
 
                         function cancelVisit() {
-                            clearContainer();
-                            //fetch etc
-                            fetch('/patient/patient/submit-cancelVisit', {
-                                method: 'POST',
-                                body: visitCancelling
+
+                            newVisitDateTime.innerHTML = "Czy chcesz potwierdzić wizytę dnia " + `${visits.date} ${visits.time}` +"?";
+                            //newVisitDocClInfo
+                            while(newVisitDocClInfo.firstChild){
+                                newVisitDocClInfo.firstChild.remove();
+                            }
+
+                            const confirmCancelling = document.createElement('button');
+                            const abandonCancelling = document.createElement('button');
+                            confirmCancelling.classList.add("bookVisitButton");
+                            abandonCancelling.classList.add("bookVisitButton");
+                            abandonCancelling.id = "abandonCancelling";
+                            confirmCancelling.textContent = "Potwierdź";
+                            abandonCancelling.textContent = "Cofnij";
+
+
+                            confirmCancelling.addEventListener('click', function (event) {
+                                event.preventDefault();
+                                cancel();
+                            });
+
+                            abandonCancelling.addEventListener('click', function(event){
+                                event.preventDefault();
+                                displayVisits();
                             })
-                                .then(response => response.text())
-                                .then(info => {
-                                    const infoDiv = document.createElement('div');
-                                    infoDiv.textContent = info;
-                                    document.getElementById('patientData').appendChild(infoDiv);
+
+                            newVisitDocClInfo.appendChild(confirmCancelling);
+                            newVisitDocClInfo.appendChild(abandonCancelling);
+
+                            function cancel(){
+
+                                clearContainer();
+                                fetch('/patient/patient/submit-cancelVisit',
+                                    {
+                                    method: 'POST',
+                                    body: visitCancelling
                                 })
-                                .catch(error => console.error('Error fetching data', error))
+                                    .then(response => response.text())
+                                    .then(info => {
+                                        const infoDiv = document.createElement('div');
+                                        infoDiv.textContent = info;
+                                        document.getElementById('patientData').appendChild(infoDiv);
+                                    })
+                                    .catch(error => console.error('Error fetching data', error))
+                            }
+
+
                         }
 
                         //add it to newVisitDocClInfo

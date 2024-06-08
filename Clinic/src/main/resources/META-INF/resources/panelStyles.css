@@ -209,7 +209,12 @@ a {
 .bookVisitButton:hover{
     background-color: #e858a1;
 }
-
+#abandonCancelling{
+    background-color: #8b8b8b;
+}
+#abandonCancelling:hover{
+    background-color:#b2b2b2;
+}
 .formsBox{
     display: flex;
     flex-wrap: wrap;
