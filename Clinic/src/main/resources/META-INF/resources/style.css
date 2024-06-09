@@ -64,6 +64,9 @@ body{
     display: flex;
     margin-top: 30%;
 }
+#login_logo img{
+    width: 100%;
+}
 .log_register{
     display: inline-block;
     height: 48vh;
@@ -76,11 +79,12 @@ body{
 
 #choice {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     background-color: #D9D9D9;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    height: 10%;
+    /*height: 10%;*/
     width: 100%;
 }
 #choice a{
@@ -123,16 +127,17 @@ body{
 .maleFemaleContainer{
     display: flex;
     flex-direction: row;
-    width: 40%;
-    font-size: 0.7rem;
     align-items: flex-end;
+    width: 70px;
+    font-size: 0.7rem;
 }
 input[type="radio"]:checked {
     accent-color: #BF4080;
 }
 #radioInputs{
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 .input_box label{
     font-family: sans-serif;
@@ -153,7 +158,9 @@ input[type="radio"]:checked {
     background-color: white;
     font-size: xx-small
 }
-
+#male, #female{
+    width: unset;
+}
 .remember_forgot{
     display: inline-block;
     width: 100%;
