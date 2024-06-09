@@ -102,6 +102,8 @@ body{
     background-color: #E8E8E8;
     border-radius: 10px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 .log h1{
     font-size: 0.4rem;
@@ -111,7 +113,28 @@ body{
     background-color: #BF4080;
     height: 100%;
 }
+#regInfoContainer{
+    display: flex;
+    flex-direction: column;
+}
+.maleFemaleContainer{
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    font-size: 0.7rem;
+    /*margin-left: 6%;*/
+    align-items: flex-end;
+}
+input[type="radio"]:checked {
+    accent-color: #BF4080;
+}
+input[type="radio"]{
 
+}
+#radioInputs{
+    display: flex;
+    justify-content: flex-start;
+}
 .input_box{
     width: 100%;
     margin-top: 5%;
@@ -154,7 +177,7 @@ body{
     margin-left: 15%;
     margin-top: 9%;
     width: 70%;
-    height: 80%;
+    /*height: 80%;*/
     padding: 2%;
     border: none;
     border-radius: 6px;

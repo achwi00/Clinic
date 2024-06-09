@@ -17,7 +17,7 @@
                 copyFieldValue("email", "email_copy");
                 copyFieldValue("password", "password_copy");
                 copyFieldValue("pesel", "pesel_copy");
-                copyFieldValue("sex", "sex_copy");
+                copyRadioValue("sex", "sex_copy");
 
                 console.log("Przepisano wartości. Nastąpi przesłanie formularza");
 
@@ -28,6 +28,14 @@
                 const sourceElement = document.getElementById(sourceId);
                 const targetElement = document.getElementById(targetId);
                 targetElement.value = sourceElement.value;
+            }
+
+            function copyRadioValue(name, targetId) {
+                const targetElement = document.getElementById(targetId);
+                const selectedRadio = document.querySelector(`input[name="${name}"]:checked`);
+                if (selectedRadio && targetElement) {
+                    targetElement.value = selectedRadio.value;
+                }
             }
         });
     </script>
@@ -69,8 +77,20 @@
                             <input type="text" placeholder="PESEL" required id="pesel" name="pesel">
                         </div>
                         <div class="input_box">
-                            <h1>Płeć</h1>
-                            <input type="text" placeholder="Płeć" required id="sex" name="sex">
+                            <div id="regInfoContainer">
+                                <h1>Płeć</h1>
+                                <div id="radioInputs">
+                                    <div class="maleFemaleContainer">
+                                        <input type="radio" id="male" name="sex" value="MALE">
+                                        <label for="male">Męska</label>
+                                    </div>
+                                    <div class="maleFemaleContainer">
+                                        <input type="radio" id="female" name="sex" value="FEMALE">
+                                        <label for="female">Żeńska</label>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
                     </form>
