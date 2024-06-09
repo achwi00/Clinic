@@ -29,7 +29,6 @@ body{
 }
 
 .panel{
-
     position:absolute;
     display: inline-flex;
     top: 20vh;
@@ -38,7 +37,6 @@ body{
     left: 25vw;
     right: 25vw;
     width: 50vw;
-    
     border-radius: 10px;
     background-image: linear-gradient(#BF4080, #D9D9D9);
 }
@@ -47,12 +45,15 @@ body{
     display: block;
 }
 #left{
+    display: flex;
+    justify-content: space-around;
     background-color: #BF4080;
     height: 100%;
-    margin-left: 0;
     width: 50%;
 }
 #right{
+    display: flex;
+    justify-content: center;
     background-color: #D9D9D9;
     height: 100%;
     margin-right: 0;
@@ -62,13 +63,11 @@ body{
     height: 25vh;
     display: flex;
     margin-top: 30%;
-    margin-left: 22%;
 }
 .log_register{
     display: inline-block;
     height: 48vh;
     width: 20vw;
-    margin-left: 5vh;
     margin-top: 3vh;
     background-color: #D9D9D9;
     border-radius: 10px;
@@ -86,9 +85,12 @@ body{
 }
 #choice a{
     margin: 3%;
-    font-size: 2vh;
+    font-size: 0.8rem;
     text-decoration: none;
     color: black;
+    font-family: sans-serif;
+    /*display: flex;*/
+    /*flex-wrap: nowrap;*/
 }
 #choice a:hover{
     text-decoration: underline;
@@ -106,8 +108,9 @@ body{
     flex-direction: column;
 }
 .log h1{
-    font-size: 0.4rem;
+    font-size: 0.6rem;
     font-family: sans-serif;
+    margin-bottom: 3px;
 }
 #log_right{
     background-color: #BF4080;
@@ -122,18 +125,17 @@ body{
     flex-direction: row;
     width: 40%;
     font-size: 0.7rem;
-    /*margin-left: 6%;*/
     align-items: flex-end;
 }
 input[type="radio"]:checked {
     accent-color: #BF4080;
 }
-input[type="radio"]{
-
-}
 #radioInputs{
     display: flex;
     justify-content: flex-start;
+}
+.input_box label{
+    font-family: sans-serif;
 }
 .input_box{
     width: 100%;
@@ -150,14 +152,13 @@ input[type="radio"]{
     border:none;
     background-color: white;
     font-size: xx-small
-
 }
 
 .remember_forgot{
     display: inline-block;
     width: 100%;
     margin-top: 5%;
-    font-size: 0.4rem;
+    font-size: 0.5rem;
     font-family: sans-serif;
     text-align: right;
     background-color: #E8E8E8;
