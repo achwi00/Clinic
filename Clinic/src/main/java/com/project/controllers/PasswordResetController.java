@@ -22,6 +22,13 @@ public class PasswordResetController {
     public String showForm() {
         return "reset.html";
     }
-
+    @RequestMapping("/token")
+    public String showTokenForm() {
+        return "token.html";
+    }
+    @RequestMapping("/changePassword")
+    public String showChangePasswordForm() {
+        return "changePassword.html";
+    }
 }
 

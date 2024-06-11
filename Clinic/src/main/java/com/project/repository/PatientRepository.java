@@ -25,4 +25,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long>
 
     @Query("SELECT id FROM Patient WHERE pesel = :pesel")
     Long findIdByPesel(@Param("pesel") String pesel);
+
+    Patient findByEmail(String email);
 }

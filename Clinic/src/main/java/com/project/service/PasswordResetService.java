@@ -53,25 +53,25 @@ public class PasswordResetService {
     private void sendPasswordResetEmail(String email, String verificationCode) {
         System.out.println("code sending activated");
 
-        final String senderEmail = "clinicinfo@gmail.com";
-        final String password = "fodu gdje zisb inak";
+        final String senderEmail = "afwork@wp.pl";
+        final String password = "Abpf.123456";
 
-        String host = "smtp.gmail.com";
-        int port = 587;
+        String host = "smtp.wp.pl";
+        int port = 465;
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", port);
-
+        properties.put("mail.smtp.ssl.enable", "true"); // Enable SSL
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(senderEmail, password);
             }
         });
-        //session.setDebug(true);
+        session.setDebug(true);
 
         try {
             Message message = new MimeMessage(session);

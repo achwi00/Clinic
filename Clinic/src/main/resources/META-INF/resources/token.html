@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Token</title>
+</head>
+<body>
+<form action="/password/verify" method="post">
+    <label for="token">Enter your verification code:</label>
+    <input type="text" id="token" name="token" required>
+    <button type="submit">Verify</button>
+</form>
+<div th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+</body>
+</html>

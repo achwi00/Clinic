@@ -36,7 +36,13 @@ public class PatientService
         });
     }
 
-
+    public void updatePassword(String email, String newPassword) {
+        Patient patient = patientRepository.findByEmail(email);
+        if (patient != null) {
+            patient.setPassword(newPassword);
+            patientRepository.save(patient);
+        }
+    }
     public Long findIdByPesel(String pesel)
     {
         return patientRepository.findIdByPesel(pesel);
