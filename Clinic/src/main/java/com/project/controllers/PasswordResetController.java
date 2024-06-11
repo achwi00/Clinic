@@ -1,6 +1,42 @@
 package com.project.controllers;
 
+
+import com.project.clinic.PasswordResetToken;
+import com.project.service.PasswordResetService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+@Controller
+@RequestMapping("/reset")
 public class PasswordResetController {
+
+    @Autowired
+    private PasswordResetService passwordResetService;
+
+    @GetMapping("/form")
+    public String showForm() {
+        return "reset";
+    }
+    @PostMapping("/reset")
+    public void addToken(String email) {
+        passwordResetService.initiatePasswordReset(email);
+    }
+
+    @GetMapping("/code")
+    public Optional<PasswordResetToken> getCode(String email) {
+        return passwordResetService.getTokenByEmail(email);
+    }
+
+    /*@GetMapping("/form")
+    public void getForm(String email, String imie, String phone, String text){
+        passwordResetService.sendEmail(email, imie, phone, text);
+    }*/
 }
 /*mport org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
