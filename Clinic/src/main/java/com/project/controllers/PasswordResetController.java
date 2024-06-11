@@ -13,17 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/reset")
 public class PasswordResetController {
 
     @Autowired
-    private PasswordResetService passwordResetService;
+    private PasswordResetApiController passwordResetApiController;
 
-    @GetMapping("/form")
+    @RequestMapping("password")
     public String showForm() {
-        return "reset";
+        return "reset.html";
     }
-    @PostMapping("/reset")
+   /* @PostMapping("/reset")
     public void addToken(String email) {
         passwordResetService.initiatePasswordReset(email);
     }
